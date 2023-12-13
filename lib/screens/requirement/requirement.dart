@@ -1,9 +1,10 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:drawing_on_demand_web_admin/app_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/data.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement_model.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
-import 'package:drawing_on_demand_web_admin/screens/widgets/search_box.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -47,7 +48,32 @@ class _RequirementState extends State<Requirement>{
                       Visibility(visible: MediaQuery.of(context).size.width >= 450, child:  Spacer(flex: MediaQuery.of(context).size.width >= 1100 ? 2 : 1,)),
                       Container(
                         width: 160,
-                        child: const Search(),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: kWhite,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            const Expanded(
+                              flex: 3,
+                              child: TextField(
+                                decoration: InputDecoration(hintText: 'Search'),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                  onPressed: () {},
+                                  icon: Image.asset(
+                                    searchIcon,
+                                    fit: BoxFit.cover,
+                                  )),
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Container(
@@ -85,7 +111,7 @@ class _RequirementState extends State<Requirement>{
                                   value: role,
                                   icon: Image.asset(dropdownIcon, width: 15, height: 15,),
                                   style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
-                                  hint: const Text('Role'),
+                                  hint: const Text('Category'),
                                   onChanged: (value){
                                     setState(() {       
                                       role = value;
@@ -121,7 +147,7 @@ class _RequirementState extends State<Requirement>{
                         color: kWhite,
                       borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
-                      child: DataTable(
+                      child: PaginatedDataTable(
                         columnSpacing: 10,
                         columns: const [
                           DataColumn(label: Text("Title", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
@@ -130,7 +156,8 @@ class _RequirementState extends State<Requirement>{
                           DataColumn(label: Text("Budget", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
                           DataColumn(label: Text("Status", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
                         ],
-                        rows: List.generate(requirementDemo.length, (index) => listRequirementsDataRow(requirementDemo[index], context))
+                        source: RequirementData(context: context),
+                        rowsPerPage: 10,
                       ),
                     )
                   ),
@@ -143,14 +170,49 @@ class _RequirementState extends State<Requirement>{
   }
 }
 
-DataRow listRequirementsDataRow(RequirementModel requirementModel, BuildContext context){
-      return DataRow(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(context, AppRoute.orderDetail, (route) => false, arguments: {requirementModel}),
+class RequirementData extends DataTableSource{
+  final BuildContext context;
+  RequirementData({required this.context});
+  final List<Map<String, dynamic>> _data = List.generate(
+      requirementDemo.length,
+      (index) => {
+            "title": requirementDemo[index].title,
+            "owner": requirementDemo[index].createdBy,
+            "category": requirementDemo[index].category,
+            "budget": requirementDemo[index].budget,
+            "status": requirementDemo[index].status
+          });
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
+            context, AppRoute.orderDetail, (route) => false,
+            arguments: {_data[index]}),
         cells: [
-        DataCell(Text("${requirementModel.tilte}", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
-        DataCell(Text("${requirementModel.createdBy}", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
-        DataCell(Text("${requirementModel.category}", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
-        DataCell(Text("${requirementModel.budget}", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
-        DataCell(Text("${requirementModel.status}", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
-      ]);
+          DataCell(Text("${_data[index]['title']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['owner']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['category']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['budget']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['status']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
+        ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => _data.length;
+
+  @override
+  int get selectedRowCount => 0;
 }

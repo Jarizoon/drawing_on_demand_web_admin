@@ -58,7 +58,7 @@ class _ArtistRegisterState extends State<ArtistRegister>{
                         color: kWhite,
                       borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
-                      child: DataTable(
+                      child: PaginatedDataTable(
                         columnSpacing: 10,
                         columns: const [
                           DataColumn(label: Text("Email", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
@@ -67,7 +67,8 @@ class _ArtistRegisterState extends State<ArtistRegister>{
                           DataColumn(label: Text("Gender", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
                           DataColumn(label: Text("Address", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
                         ],
-                        rows: List.generate(registerDemo.length, (index) => listRegistersDataRow(registerDemo[index], context))
+                        source: ArtistRegisterData(context: context),
+                        rowsPerPage: 10,
                       ),
                     )
                   ),
@@ -80,14 +81,49 @@ class _ArtistRegisterState extends State<ArtistRegister>{
   }
 }
 
-DataRow listRegistersDataRow(RegisterModel register, BuildContext context){
-      return DataRow(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(context, AppRoute.artistRegisterDetail, (route) => false, arguments: {register}),
+class ArtistRegisterData extends DataTableSource{
+  final BuildContext context;
+  ArtistRegisterData({required this.context});
+  final List<Map<String, dynamic>> _data = List.generate(
+      registerDemo.length,
+      (index) => {
+            "email": registerDemo[index].email,
+            "name": registerDemo[index].name,
+            "phone": registerDemo[index].phone,
+            "gender": registerDemo[index].gender,
+            "address": registerDemo[index].address
+          });
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
+            context, AppRoute.orderDetail, (route) => false,
+            arguments: {_data[index]}),
         cells: [
-        DataCell(Text("${register.email}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${register.name}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${register.phone}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${register.gender}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${register.address}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-      ]);
+          DataCell(Text("${_data[index]['email']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['name']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['phone']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['gender']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['address']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
+        ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => _data.length;
+
+  @override
+  int get selectedRowCount => 0;
 }

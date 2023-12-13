@@ -1,8 +1,8 @@
 class RequirementModel {
-  final String? tilte, budget, createdBy, category, status;
+  final String? title, budget, createdBy, category, status;
 
   RequirementModel({
-     this.tilte,
+     this.title,
      this.createdBy,
      this.budget,
      this.category,

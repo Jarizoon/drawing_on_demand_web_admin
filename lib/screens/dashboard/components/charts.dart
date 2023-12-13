@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:drawing_on_demand_web_admin/screens/dashboard/components/bar_chart.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';

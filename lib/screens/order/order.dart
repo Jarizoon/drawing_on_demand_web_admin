@@ -59,7 +59,7 @@ class _OrderState extends State<Order>{
                         color: kWhite,
                       borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
-                      child: DataTable(
+                      child: PaginatedDataTable(
                         columnSpacing: 10,
                         columns: const [
                           DataColumn(label: Text("Order Date", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
@@ -67,7 +67,8 @@ class _OrderState extends State<Order>{
                           DataColumn(label: Text("Price", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
                           DataColumn(label: Text("Status", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
                         ],
-                        rows: List.generate(orderDemo.length, (index) => listOrdersDataRow(orderDemo[index], context))
+                        source: OrderData(context: context),
+                        rowsPerPage: 10,
                       ),
                     )
                   ),
@@ -80,16 +81,49 @@ class _OrderState extends State<Order>{
   }
 }
 
-DataRow listOrdersDataRow(OrderModel order, BuildContext context){
-      return DataRow(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(context, AppRoute.orderDetail, (route) => false, arguments: {order}),
+class OrderData extends DataTableSource{
+  final BuildContext context;
+  OrderData({required this.context});
+  final List<Map<String, dynamic>> _data = List.generate(
+      orderDemo.length,
+      (index) => {
+            "dateTime": orderDemo[index].dateTime,
+            "orderBy": orderDemo[index].orderBy,
+            "total": orderDemo[index].total,
+            "status": orderDemo[index].status
+          });
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
+            context, AppRoute.orderDetail, (route) => false,
+            arguments: {_data[index]}),
         cells: [
-        DataCell(Text("${order.dateTime}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${order.orderBy}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${order.total} VND", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-        DataCell(Text("${order.status}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-      ]);
+          DataCell(Text("${_data[index]['dateTime']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['orderBy']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['total']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+          DataCell(Text("${_data[index]['status']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
+        ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => _data.length;
+
+  @override
+  int get selectedRowCount => 0;
 }
+
 
 
 

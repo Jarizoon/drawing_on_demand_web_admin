@@ -70,7 +70,7 @@ class _DashboardState extends State<Dashboard>{
                   ),
                   child: const Column(
                     children: [
-                      Text("Customers order recently",
+                      Text("Most pending customers",
                         style: TextStyle(
                           color: kWhite,
                           fontSize: 18,

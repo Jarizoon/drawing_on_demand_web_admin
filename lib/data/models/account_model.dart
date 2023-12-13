@@ -1,5 +1,5 @@
 class AccountModel {
-  final String? imageSrc, email, name, phone, gender, address, bio, createdDate, lastModifiedDate, status, rank, role, spending, numberReq, earning;
+  String? imageSrc, email, name, phone, gender, address, bio, createdDate, lastModifiedDate, status, rank, role, spending, orders, earning;
 
   AccountModel({
     this.imageSrc,
@@ -15,7 +15,7 @@ class AccountModel {
     this.rank,
     this.role,
     this.spending,
-    this.numberReq,
+    this.orders,
     this.earning
   });
 }
