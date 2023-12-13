@@ -21,9 +21,9 @@ class AppRoute {
   static const String artist = '/artist';
   static const String artwork = '/artwork';
   static const String artistRegister = '/artist_register';
-    static const String artistRegisterDetail = '/artist_register_detail';
+  static const String artistRegisterDetail = '/artist_register_detail';
   static const String account = '/account';
-  
+
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const Login(),
     dashboard: (context) => const Dashboard(),

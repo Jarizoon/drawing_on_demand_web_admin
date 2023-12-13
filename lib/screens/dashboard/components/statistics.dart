@@ -3,21 +3,25 @@ import 'package:drawing_on_demand_web_admin/screens/dashboard/components/statist
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 
-class Statistics extends StatelessWidget{
+class Statistics extends StatelessWidget {
   const Statistics({Key? key}) : super(key: key);
   @override
-  Widget build (BuildContext context){
-    return  Expanded(
+  Widget build(BuildContext context) {
+    return Expanded(
       child: Row(
         children: [
           Expanded(
             flex: 4,
             child: Container(
               decoration: BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.circular(20),
+                color: kWhite,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Statistic(sta: StatisticModel(name: "Users", number: getNumberUser(), imageSrc: userIcon)),
+              child: Statistic(
+                  sta: StatisticModel(
+                      name: "Users",
+                      number: getNumberUser(),
+                      imageSrc: userIcon)),
             ),
           ),
           const SizedBox(width: 12),
@@ -25,10 +29,14 @@ class Statistics extends StatelessWidget{
             flex: 4,
             child: Container(
               decoration: BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.circular(20),
+                color: kWhite,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Statistic(sta: StatisticModel(name: "Orders", number: getNumberOrder(), imageSrc: orderIcon)),
+              child: Statistic(
+                  sta: StatisticModel(
+                      name: "Orders",
+                      number: getNumberOrder(),
+                      imageSrc: orderIcon)),
             ),
           ),
           const SizedBox(width: 12),
@@ -36,10 +44,14 @@ class Statistics extends StatelessWidget{
             flex: 6,
             child: Container(
               decoration: BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.circular(20),
+                color: kWhite,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Statistic(sta: StatisticModel(name: "Profit", number: getProfit(), imageSrc: profitIcon)),
+              child: Statistic(
+                  sta: StatisticModel(
+                      name: "Profit",
+                      number: getProfit(),
+                      imageSrc: profitIcon)),
             ),
           ),
           const SizedBox(width: 12),
@@ -47,10 +59,14 @@ class Statistics extends StatelessWidget{
             flex: 6,
             child: Container(
               decoration: BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.circular(20),
+                color: kWhite,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Statistic(sta: StatisticModel(name: "Done Req", number: getNumberDoneReq(), imageSrc: requirementIcon)),
+              child: Statistic(
+                  sta: StatisticModel(
+                      name: "Done Req",
+                      number: getNumberDoneReq(),
+                      imageSrc: requirementIcon)),
             ),
           ),
         ],

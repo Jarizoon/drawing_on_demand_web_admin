@@ -1,4 +1,3 @@
-
 class StatisticModel {
   final String? imageSrc, name;
   final int? number;
@@ -7,6 +6,5 @@ class StatisticModel {
     this.name,
     this.number,
     this.imageSrc,
-    
   });
 }

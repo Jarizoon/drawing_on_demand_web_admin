@@ -10,7 +10,7 @@ class SimpleBarChart extends StatelessWidget {
 
   /// Creates a [BarChart] with sample data and no transition.
   factory SimpleBarChart.withSampleData() {
-    return  SimpleBarChart(
+    return SimpleBarChart(
       _createSampleData(),
       // Disable animations for image tests.
       animate: false,
@@ -18,13 +18,12 @@ class SimpleBarChart extends StatelessWidget {
   }
 
   factory SimpleBarChart.withSecondleData() {
-    return  SimpleBarChart(
+    return SimpleBarChart(
       _createSecondleData(),
       // Disable animations for image tests.
       animate: false,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class SimpleBarChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final data = [
       OrdinalSales('Sep 2023', 25),
       OrdinalSales('Oct 2023', 79),
@@ -44,7 +43,7 @@ static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     ];
 
     return [
-       charts.Series<OrdinalSales, String>(
+      charts.Series<OrdinalSales, String>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (OrdinalSales sales, _) => sales.year,
@@ -56,24 +55,23 @@ static List<charts.Series<OrdinalSales, String>> _createSampleData() {
 }
 
 List<charts.Series<OrdinalSales, String>> _createSecondleData() {
-    final data = [
-      OrdinalSales('Sep 2023', 14),
-      OrdinalSales('Oct 2023', 36),
-      OrdinalSales('Nov 2023', 23),
-      OrdinalSales('Dec 2023', 53),
-    ];
+  final data = [
+    OrdinalSales('Sep 2023', 14),
+    OrdinalSales('Oct 2023', 36),
+    OrdinalSales('Nov 2023', 23),
+    OrdinalSales('Dec 2023', 53),
+  ];
 
-    return [
-       charts.Series<OrdinalSales, String>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
- }
-
+  return [
+    charts.Series<OrdinalSales, String>(
+      id: 'Sales',
+      colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+      domainFn: (OrdinalSales sales, _) => sales.year,
+      measureFn: (OrdinalSales sales, _) => sales.sales,
+      data: data,
+    )
+  ];
+}
 
 /// Sample ordinal data type.
 class OrdinalSales {

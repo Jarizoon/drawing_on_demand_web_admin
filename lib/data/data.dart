@@ -1,56 +1,46 @@
-
 import 'package:drawing_on_demand_web_admin/data/models/account_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/artwork_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/register_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement_model.dart';
 
-
-
-
 List artworkDemo = [
   ArtworkModel(
-    image: "images/img1.jpg",
-    title: "Tranh thủy mặc",
-    price: 98765.toString(),
-    category: "Tranh thủy mặc",
-    status: "Active"
-  ),
+      image: "images/img1.jpg",
+      title: "Tranh thủy mặc",
+      price: 98765.toString(),
+      category: "Tranh thủy mặc",
+      status: "Active"),
   ArtworkModel(
-    image: "images/img2.jpg",
-    title: "Tác phẩm trù tượng kinh điển",
-    price: 98765.toString(),
-    category: "Tranh trù tượng",
-    status: "Active"
-  ),
+      image: "images/img2.jpg",
+      title: "Tác phẩm trù tượng kinh điển",
+      price: 98765.toString(),
+      category: "Tranh trù tượng",
+      status: "Active"),
   ArtworkModel(
-    image: "images/img3.jpg",
-    title: "Sao chép tranh nghệ thuật nổi tiếng",
-    price: 98765.toString(),
-    category: "Tranh nghệ thuật",
-    status: "Active"
-  ),
+      image: "images/img3.jpg",
+      title: "Sao chép tranh nghệ thuật nổi tiếng",
+      price: 98765.toString(),
+      category: "Tranh nghệ thuật",
+      status: "Active"),
   ArtworkModel(
-    image: "images/img4.jpg",
-    title: "Thiếu nữ bên hoa huệ",
-    price: 98765.toString(),
-    category: "Tranh chân dung",
-    status: "Active"
-  ),
+      image: "images/img4.jpg",
+      title: "Thiếu nữ bên hoa huệ",
+      price: 98765.toString(),
+      category: "Tranh chân dung",
+      status: "Active"),
   ArtworkModel(
-    image: "images/img5.jpg",
-    title: "Adman rời thiên đàn ",
-    price: 98765.toString(),
-    category: "Tranh tôn giáo",
-    status: "Active"
-  ),
+      image: "images/img5.jpg",
+      title: "Adman rời thiên đàn ",
+      price: 98765.toString(),
+      category: "Tranh tôn giáo",
+      status: "Active"),
   ArtworkModel(
-    image: "images/img6.jpg",
-    title: "Tranh Van Gogh",
-    price: 98765.toString(),
-    category: "Tranh chân dung",
-    status: "Active"
-  ),
+      image: "images/img6.jpg",
+      title: "Tranh Van Gogh",
+      price: 98765.toString(),
+      category: "Tranh chân dung",
+      status: "Active"),
 ];
 List requirementDemo = [
   RequirementModel(
@@ -95,44 +85,38 @@ List requirementDemo = [
     budget: 999999.toString(),
     status: "Pending",
   ),
-  
 ];
 List registerDemo = [
   RegisterModel(
-    email: "tranthien13112001@gmail.com",
-    name: "Tran Le Phuc Thien",
-    phone: "0706778454",
-    gender: "Male",
-    address: "HCM city"
-  ),
+      email: "tranthien13112001@gmail.com",
+      name: "Tran Le Phuc Thien",
+      phone: "0706778454",
+      gender: "Male",
+      address: "HCM city"),
   RegisterModel(
-    email: "manhdh.bmt@gmail.com",
-    name: "Doan Huu Manh",
-    phone: "0908334092",
-    gender: "Male",
-    address: "HCM city"
-  ),
+      email: "manhdh.bmt@gmail.com",
+      name: "Doan Huu Manh",
+      phone: "0908334092",
+      gender: "Male",
+      address: "HCM city"),
   RegisterModel(
-    email: "locnqse150338@fpt.edu.vn",
-    name: "Nguyen Quoc Loc",
-    phone: "077304212",
-    gender: "Male",
-    address: "Tay Ninh"
-  ),
+      email: "locnqse150338@fpt.edu.vn",
+      name: "Nguyen Quoc Loc",
+      phone: "077304212",
+      gender: "Male",
+      address: "Tay Ninh"),
   RegisterModel(
-    email: "thientlpse150336@fpt.edu.vn",
-    name: "Tran Le Phuc Thien",
-    phone: "077304212",
-    gender: "Male",
-    address: "Can Tho City"
-  ),
+      email: "thientlpse150336@fpt.edu.vn",
+      name: "Tran Le Phuc Thien",
+      phone: "077304212",
+      gender: "Male",
+      address: "Can Tho City"),
   RegisterModel(
-    email: "nhuhttse150229@fpt.edu.vn",
-    name: "Huynh Thi Truc Nhu",
-    phone: "077304212",
-    gender: "Female",
-    address: "Ha Noi City"
-  ),
+      email: "nhuhttse150229@fpt.edu.vn",
+      name: "Huynh Thi Truc Nhu",
+      phone: "077304212",
+      gender: "Female",
+      address: "Ha Noi City"),
 ];
 List orderDemo = [
   OrderModel(
@@ -207,7 +191,6 @@ List orderDemo = [
     total: 2950000.toString(),
     status: "Finished",
   ),
-  
 ];
 List accountDemo = [
   AccountModel(

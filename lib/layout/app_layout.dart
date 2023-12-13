@@ -11,7 +11,7 @@ class AppLayout extends StatelessWidget {
   const AppLayout({Key? key, required this.content}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if(MediaQuery.of(context).size.width <= 1100){
+    if (MediaQuery.of(context).size.width <= 1100) {
       return Scaffold(
         drawer: const NavigationPanel(),
         body: Builder(
@@ -19,42 +19,42 @@ class AppLayout extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
-          children: [
-            Container(
-              color: secondaryColor,
-              height: 75,
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [                
-                  Container(
-                    width: 40,
-                    child: Center(
-                      child: IconButton(
-                        onPressed: (){
-                          Scaffold.of(context).openDrawer();
-                        },
-                        icon: Image.asset(menuIcon),
+              children: [
+                Container(
+                  color: secondaryColor,
+                  height: 75,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 40,
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                            icon: Image.asset(menuIcon),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),                 
-                  const TopAppBar(),
-                ],
-              ),
+                      const TopAppBar(),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: content,
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: content,
-              ),
-            ),
-          ],
-        ),
-          ), 
           ),
+        ),
       );
-    }else{
+    } else {
       return Row(
         children: [
           const Expanded(
@@ -63,13 +63,16 @@ class AppLayout extends StatelessWidget {
           ),
           Expanded(
             flex: 5,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(height: 75,color: secondaryColor,child: const TopAppBar()),
-                  Expanded(child: content)
-                ],
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                    height: 75,
+                    color: secondaryColor,
+                    child: const TopAppBar()),
+                Expanded(child: content)
+              ],
+            ),
           ),
         ],
       );
