@@ -92,12 +92,15 @@ class _NavigationPanelState extends State<NavigationPanel> {
         const Divider(
           color: Colors.white70,
         ),
-        DrawerListTile(
-          press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.account, (route) => false);
-          },
-          title: 'Account',
+        Visibility(
+          visible: true,
+          child: DrawerListTile(
+            press: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppRoute.account, (route) => false);
+            },
+            title: 'Account',
+          ),
         ),
       ]),
     );

@@ -1,13 +1,16 @@
 import 'package:drawing_on_demand_web_admin/screens/account/account.dart';
+import 'package:drawing_on_demand_web_admin/screens/account/create_staff.dart';
 import 'package:drawing_on_demand_web_admin/screens/artist/artist.dart';
 import 'package:drawing_on_demand_web_admin/screens/artist_register/artist_register.dart';
 import 'package:drawing_on_demand_web_admin/screens/artist_register/artist_register_detail.dart';
 import 'package:drawing_on_demand_web_admin/screens/artwork/artwork.dart';
+import 'package:drawing_on_demand_web_admin/screens/artwork/artwork_detail.dart';
 import 'package:drawing_on_demand_web_admin/screens/customer/customer.dart';
 import 'package:drawing_on_demand_web_admin/screens/dashboard/dashboard.dart';
 import 'package:drawing_on_demand_web_admin/screens/login/login.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/order.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/order_detail.dart';
+import 'package:drawing_on_demand_web_admin/screens/profile_user/profile_user.dart';
 import 'package:drawing_on_demand_web_admin/screens/requirement/requirement.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +26,9 @@ class AppRoute {
   static const String artistRegister = '/artist_register';
   static const String artistRegisterDetail = '/artist_register_detail';
   static const String account = '/account';
+  static const String createStaff = '/create_staff';
+  static const String profileUser = '/profile_user';
+  static const String artworkDetail = '/artwork_detail';
 
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const Login(),
@@ -33,8 +39,11 @@ class AppRoute {
     requirement: (context) => const Requirement(),
     artist: (context) => const Artist(),
     artwork: (context) => const Artwork(),
+    artworkDetail: (context) => const ArtworkDetail(),
     artistRegister: (context) => const ArtistRegister(),
     artistRegisterDetail: (context) => const ArtistRegisterDetail(),
     account: (context) => const Account(),
+    createStaff: (context) => const CreateStaff(),
+    profileUser: (context) => const ProfileUser(),
   };
 }

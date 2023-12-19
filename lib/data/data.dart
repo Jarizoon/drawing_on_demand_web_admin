@@ -1,42 +1,89 @@
 import 'package:drawing_on_demand_web_admin/data/models/account_model.dart';
+import 'package:drawing_on_demand_web_admin/data/models/artwork_comment_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/artwork_model.dart';
+import 'package:drawing_on_demand_web_admin/data/models/certificate_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order_model.dart';
-import 'package:drawing_on_demand_web_admin/data/models/register_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement_model.dart';
 
+List artworkCommentsDemo = [
+  ArtworkCommentModel(
+    id: "dasjkgh",
+    comment: "dlsaj",
+    createdDate: "dsa",
+    createdBy: "dsakhj",
+    artworkId: "dkajsh",
+    star: 3
+  ),
+  ArtworkCommentModel(
+    id: "dasjkgh",
+    comment: "dlsaj",
+    createdDate: "dsa",
+    createdBy: "dsakhj",
+    artworkId: "dkajsh"
+  ),
+  ArtworkCommentModel(
+    id: "dasjkgh",
+    comment: "dlsaj",
+    createdDate: "dsa",
+    createdBy: "dsakhj",
+    artworkId: "dkajsh"
+  ),
+  ArtworkCommentModel(
+    id: "dasjkgh",
+    comment: "dlsaj",
+    createdDate: "dsa",
+    createdBy: "dsakhj",
+    artworkId: "dkajsh"
+  ),
+  ArtworkCommentModel(
+    id: "dasjkgh",
+    comment: "dlsaj",
+    createdDate: "dsa",
+    createdBy: "dsakhj",
+    artworkId: "dkajsh"
+  ),
+  ArtworkCommentModel(
+    id: "dasjkgh",
+    comment: "dlsaj",
+    createdDate: "dsa",
+    createdBy: "dsakhj",
+    artworkId: "dkajsh"
+  ),
+  
+];
 List artworkDemo = [
   ArtworkModel(
-      image: "images/img1.jpg",
+      image: ["images/img1.jpg","images/img1.jpg","images/img1.jpg"],
       title: "Tranh thủy mặc",
       price: 98765.toString(),
       category: "Tranh thủy mặc",
       status: "Active"),
   ArtworkModel(
-      image: "images/img2.jpg",
+      image: ["images/img2.jpg"],
       title: "Tác phẩm trù tượng kinh điển",
       price: 98765.toString(),
       category: "Tranh trù tượng",
       status: "Active"),
   ArtworkModel(
-      image: "images/img3.jpg",
+      image: ["images/img3.jpg"],
       title: "Sao chép tranh nghệ thuật nổi tiếng",
       price: 98765.toString(),
       category: "Tranh nghệ thuật",
       status: "Active"),
   ArtworkModel(
-      image: "images/img4.jpg",
+      image: ["images/img4.jpg"],
       title: "Thiếu nữ bên hoa huệ",
       price: 98765.toString(),
       category: "Tranh chân dung",
       status: "Active"),
   ArtworkModel(
-      image: "images/img5.jpg",
+      image: ["images/img5.jpg"],
       title: "Adman rời thiên đàn ",
       price: 98765.toString(),
       category: "Tranh tôn giáo",
       status: "Active"),
   ArtworkModel(
-      image: "images/img6.jpg",
+      image: ["images/img6.jpg"],
       title: "Tranh Van Gogh",
       price: 98765.toString(),
       category: "Tranh chân dung",
@@ -86,106 +133,86 @@ List requirementDemo = [
     status: "Pending",
   ),
 ];
-List registerDemo = [
-  RegisterModel(
-      email: "tranthien13112001@gmail.com",
-      name: "Tran Le Phuc Thien",
-      phone: "0706778454",
-      gender: "Male",
-      address: "HCM city"),
-  RegisterModel(
-      email: "manhdh.bmt@gmail.com",
-      name: "Doan Huu Manh",
-      phone: "0908334092",
-      gender: "Male",
-      address: "HCM city"),
-  RegisterModel(
-      email: "locnqse150338@fpt.edu.vn",
-      name: "Nguyen Quoc Loc",
-      phone: "077304212",
-      gender: "Male",
-      address: "Tay Ninh"),
-  RegisterModel(
-      email: "thientlpse150336@fpt.edu.vn",
-      name: "Tran Le Phuc Thien",
-      phone: "077304212",
-      gender: "Male",
-      address: "Can Tho City"),
-  RegisterModel(
-      email: "nhuhttse150229@fpt.edu.vn",
-      name: "Huynh Thi Truc Nhu",
-      phone: "077304212",
-      gender: "Female",
-      address: "Ha Noi City"),
-];
 List orderDemo = [
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
     status: "Finished",
   ),
   OrderModel(
+    id: "2cb6f075-f354-4bb4-b90f-70b070d363bf",
     dateTime: "2023-10-10",
     orderBy: "Lutfhi Chan",
     total: 2950000.toString(),
@@ -204,6 +231,7 @@ List accountDemo = [
     spending: 280000.toString(),
     earning: 960000.toString(),
     rank: "Gold",
+    listCer: certificateDemo
   ),
   AccountModel(
     email: "thientlpse150336@fpt.edu.vn",
@@ -312,5 +340,49 @@ List accountDemo = [
     spending: 0.toString(),
     earning: 0.toString(),
     rank: "Diamond",
+  ),
+];
+List<CertificateModel> certificateDemo = [
+  CertificateModel(
+    id: "ba4cbd2f-9c40-4ee3-8868-5b06e559823d",
+    image: "",
+    name: "abcd",
+    achievedDate: "abcd",
+    description: "abcd"
+  ),
+  CertificateModel(
+    id: "ba4cbd2f-9c40-4ee3-8868-5b06e559823d",
+    image: "",
+    name: "abcd",
+    achievedDate: "abcd",
+    description: "abcd"
+  ),
+  CertificateModel(
+    id: "ba4cbd2f-9c40-4ee3-8868-5b06e559823d",
+    image: "",
+    name: "abcd",
+    achievedDate: "abcd",
+    description: "abcd"
+  ),
+  CertificateModel(
+    id: "ba4cbd2f-9c40-4ee3-8868-5b06e559823d",
+    image: "",
+    name: "abcd",
+    achievedDate: "abcd",
+    description: "abcd"
+  ),
+  CertificateModel(
+    id: "ba4cbd2f-9c40-4ee3-8868-5b06e559823d",
+    image: "",
+    name: "abcd",
+    achievedDate: "abcd",
+    description: "abcd"
+  ),
+  CertificateModel(
+    id: "ba4cbd2f-9c40-4ee3-8868-5b06e559823d",
+    image: "",
+    name: "abcd",
+    achievedDate: "abcd",
+    description: "abcd"
   ),
 ];

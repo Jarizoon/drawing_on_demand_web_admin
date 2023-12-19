@@ -54,6 +54,31 @@ class _AccountState extends State<Account> {
                                 ? 2
                                 : 1,
                           )),
+                      Visibility(
+                        visible: MediaQuery.of(context).size.width >= 850,
+                        child: InkWell(
+                          onTap: () => Navigator.pushNamedAndRemoveUntil(
+                              context, AppRoute.createStaff, (route) => false),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 15),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: kWhite,
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Row(
+                              children: [
+                                const Text("Create Staff",
+                                    style: TextStyle(fontSize: 16)),
+                                const SizedBox(width: 4),
+                                Container(
+                                  child: const Icon(Icons.add),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       Container(
                         width: 160,
                         margin: const EdgeInsets.symmetric(vertical: 10),
@@ -83,7 +108,7 @@ class _AccountState extends State<Account> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 8),
                       Container(
                         width: 240,
                         child: Expanded(
@@ -213,7 +238,7 @@ class _AccountState extends State<Account> {
                                       fontWeight: FontWeight.w700))),
                         ],
                         source: AccountData(context: context),
-                        rowsPerPage: 10,                   
+                        rowsPerPage: 10,
                       ),
                     )),
               ],
@@ -225,7 +250,7 @@ class _AccountState extends State<Account> {
   }
 }
 
-class AccountData extends DataTableSource{
+class AccountData extends DataTableSource {
   final BuildContext context;
   AccountData({required this.context});
   final List<Map<String, dynamic>> _data = List.generate(

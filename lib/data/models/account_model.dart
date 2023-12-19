@@ -1,6 +1,8 @@
+import 'package:drawing_on_demand_web_admin/data/models/certificate_model.dart';
+
 class AccountModel {
   String? imageSrc, email, name, phone, gender, address, bio, createdDate, lastModifiedDate, status, rank, role, spending, orders, earning;
-
+  List<CertificateModel>? listCer;
   AccountModel({
     this.imageSrc,
     this.email,
@@ -16,6 +18,7 @@ class AccountModel {
     this.role,
     this.spending,
     this.orders,
-    this.earning
+    this.earning,
+    this.listCer
   });
 }

@@ -232,7 +232,7 @@ class ArtworkData extends DataTableSource {
   final List<Map<String, dynamic>> _data = List.generate(
       artworkDemo.length,
       (index) => {
-            "image": artworkDemo[index].image,
+            "image": artworkDemo[index].image[0],
             "title": artworkDemo[index].title,
             "price": artworkDemo[index].price,
             "category": artworkDemo[index].category,
@@ -242,7 +242,7 @@ class ArtworkData extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(
         onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.orderDetail, (route) => false,
+            context, AppRoute.artworkDetail, (route) => false,
             arguments: {_data[index]}),
         cells: [
           DataCell(Container(

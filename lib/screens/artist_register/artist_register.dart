@@ -104,19 +104,19 @@ class ArtistRegisterData extends DataTableSource {
   final BuildContext context;
   ArtistRegisterData({required this.context});
   final List<Map<String, dynamic>> _data = List.generate(
-      registerDemo.length,
+      accountDemo.length,
       (index) => {
-            "email": registerDemo[index].email,
-            "name": registerDemo[index].name,
-            "phone": registerDemo[index].phone,
-            "gender": registerDemo[index].gender,
-            "address": registerDemo[index].address
+            "email": accountDemo[index].email,
+            "name": accountDemo[index].name,
+            "phone": accountDemo[index].phone,
+            "gender": accountDemo[index].gender,
+            "address": accountDemo[index].address
           });
   @override
   DataRow? getRow(int index) {
     return DataRow(
         onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.orderDetail, (route) => false,
+            context, AppRoute.artistRegisterDetail, (route) => false,
             arguments: {_data[index]}),
         cells: [
           DataCell(Text("${_data[index]['email']}",

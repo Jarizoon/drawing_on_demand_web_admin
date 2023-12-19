@@ -63,6 +63,11 @@ class _OrderState extends State<Order> {
                         columnSpacing: 10,
                         columns: const [
                           DataColumn(
+                              label: Text("Order ID",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700))),
+                          DataColumn(
                               label: Text("Order Date",
                                   style: TextStyle(
                                       fontSize: 20,
@@ -102,6 +107,7 @@ class OrderData extends DataTableSource {
   final List<Map<String, dynamic>> _data = List.generate(
       orderDemo.length,
       (index) => {
+            "id": orderDemo[index].id,
             "dateTime": orderDemo[index].dateTime,
             "orderBy": orderDemo[index].orderBy,
             "total": orderDemo[index].total,
@@ -114,6 +120,9 @@ class OrderData extends DataTableSource {
             context, AppRoute.orderDetail, (route) => false,
             arguments: {_data[index]}),
         cells: [
+          DataCell(Text("${_data[index]['id']}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
           DataCell(Text("${_data[index]['dateTime']}",
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),

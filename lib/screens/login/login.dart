@@ -1,7 +1,7 @@
-import 'package:drawing_on_demand_web_admin/screens/dashboard/dashboard.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
+import 'package:drawing_on_demand_web_admin/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:flutter/services.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(16.0),
                               color: kWhite,
                             ),
-                            child: TextField(
+                            child: TextFormField(
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w400,
                                 color: kNeutralColor,
@@ -160,7 +160,7 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(16.0),
                               color: kWhite,
                             ),
-                            child: TextField(
+                            child: TextFormField(
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w400,
                                 color: kNeutralColor,
@@ -186,27 +186,13 @@ class _LoginState extends State<Login> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: GestureDetector(
-                              onTap: () => showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('Submit'),
-                                    ),
-                                  ],
-                                  title: const Text(
-                                      'Enter your email and we will send you your old password!!'),
-                                  contentPadding: const EdgeInsets.all(20.0),
-                                  content: const TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Enter email',
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      openAlertDialogSendOTP(context),
+                                );
+                              },
                               child: Text(
                                 'Forgot Password?',
                                 style: kTextStyle.copyWith(
@@ -226,7 +212,7 @@ class _LoginState extends State<Login> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => const Dashboard().launch(context),
+                          onTap: () => login(context),
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: EdgeInsets.symmetric(
@@ -255,6 +241,127 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
+    );
+  }
+
+  void login(BuildContext context) {
+    Navigator.pushNamedAndRemoveUntil(
+        context, AppRoute.dashboard, (route) => false);
+  }
+
+  AlertDialog openAlertDialogSendOTP(BuildContext context) {
+    return AlertDialog(
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            showDialog(
+              context: context,
+              builder: (context) => openAlertDialogInputOTP(context),
+            );
+          },
+          child: const Text('Submit'),
+        ),
+      ],
+      title: const Text('Enter your email and we will send you OTP!!'),
+      contentPadding: const EdgeInsets.all(20.0),
+      content: const TextField(
+        decoration: InputDecoration(
+          hintText: 'Enter email',
+        ),
+      ),
+    );
+  }
+
+  AlertDialog openAlertDialogInputOTP(BuildContext context) {
+    return AlertDialog(
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Submit'),
+        ),
+      ],
+      title: const Text('Please input OTP!!'),
+      contentPadding: const EdgeInsets.all(20.0),
+      content: Form(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            height: 68,
+            width: 64,
+            child: TextFormField(
+              onChanged: (value) {
+                if (value.length == 1) {
+                  FocusScope.of(context).nextFocus();
+                }
+              },
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(1),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          SizedBox(
+            height: 68,
+            width: 64,
+            child: TextFormField(
+              onChanged: (value) {
+                if (value.length == 1) {
+                  FocusScope.of(context).nextFocus();
+                }
+              },
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(1),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          SizedBox(
+            height: 68,
+            width: 64,
+            child: TextFormField(
+              onChanged: (value) {
+                if (value.length == 1) {
+                  FocusScope.of(context).nextFocus();
+                }
+              },
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(1),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          SizedBox(
+            height: 68,
+            width: 64,
+            child: TextFormField(
+              onChanged: (value) {
+                if (value.length == 1) {
+                  FocusScope.of(context).nextFocus();
+                }
+              },
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(1),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+            ),
+          ),
+        ],
+      )),
     );
   }
 }
