@@ -10,7 +10,7 @@ import 'package:drawing_on_demand_web_admin/screens/dashboard/dashboard.dart';
 import 'package:drawing_on_demand_web_admin/screens/login/login.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/order.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/order_detail.dart';
-import 'package:drawing_on_demand_web_admin/screens/profile_user/profile_user.dart';
+import 'package:drawing_on_demand_web_admin/screens/account/profile_user.dart';
 import 'package:drawing_on_demand_web_admin/screens/requirement/requirement.dart';
 import 'package:drawing_on_demand_web_admin/screens/requirement/requirement_detail.dart';
 import 'package:flutter/material.dart';
