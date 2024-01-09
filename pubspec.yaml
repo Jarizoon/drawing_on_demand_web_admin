@@ -18,6 +18,12 @@ dependencies:
   image_picker_web: ^2.1.1
   carousel_slider: ^4.2.1
   flutter_rating_bar: ^4.0.1
+  flutter_guid: ^0.3.1
+  intl: ^0.17.0
+  firebase_core: ^2.22.0
+  firebase_auth: ^4.14.0
+  firebase_storage: ^11.5.2
+  http: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

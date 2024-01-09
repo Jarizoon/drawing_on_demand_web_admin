@@ -1,4 +1,4 @@
-import 'package:drawing_on_demand_web_admin/data/models/account_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/account_model.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';

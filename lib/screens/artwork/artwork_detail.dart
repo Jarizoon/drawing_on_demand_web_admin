@@ -3,10 +3,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drawing_on_demand_web_admin/app_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/data.dart';
-import 'package:drawing_on_demand_web_admin/data/models/artwork_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/artwork_model.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/artwork/conponents/artwork_comments.dart';
-import 'package:drawing_on_demand_web_admin/screens/widgets/certificates.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +16,14 @@ class ArtworkDetail extends StatefulWidget {
 }
 
 class _ArtworkDetailState extends State<ArtworkDetail> {
+  bool isDeactive = false;
   @override
   Widget build(BuildContext context) {
     final ScrollController controller = ScrollController();
+    String isDeactiveString = "Activate";
+    if (isDeactive) {
+      isDeactiveString = "Deactivate";
+    }
     ArtworkModel artwork = artworkDemo[0];
     // List<AssetImage> list = [];
     // artwork.image!.forEach((e){
@@ -70,35 +74,56 @@ class _ArtworkDetailState extends State<ArtworkDetail> {
                                   padding: const EdgeInsets.all(15),
                                   child: Row(
                                     children: [
-                                      Container(
-                                        height: 150,
-                                        width: 150,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade500,
-                                                offset: const Offset(4, 4),
-                                                blurRadius: 15,
-                                                spreadRadius: 1,
-                                              )
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 150,
+                                            width: 150,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.shade500,
+                                                    offset: const Offset(4, 4),
+                                                    blurRadius: 15,
+                                                    spreadRadius: 1,
+                                                  )
+                                                ],
+                                                color: kWhite,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: CarouselSlider(
+                                                items: artwork.image!.map((e) {
+                                                  return Container(
+                                                    margin:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    width: 140,
+                                                    height: 140,
+                                                    child: Image(
+                                                        image: AssetImage(e)),
+                                                  );
+                                                }).toList(),
+                                                options: CarouselOptions(
+                                                  height: 140,
+                                                )),
+                                          ),
+                                          Row(
+                                            children: [
+                                              const SizedBox(width: 15),
+                                              Text("$isDeactiveString:"),
+                                              const SizedBox(width: 10),
+                                              Switch(
+                                                  value: isDeactive,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      isDeactive = !isDeactive;
+                                                    });
+                                                  })
                                             ],
-                                            color: kWhite,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: CarouselSlider(
-                                            items: artwork.image!.map((e) {
-                                              return Container(
-                                                margin:
-                                                    const EdgeInsets.all(10),
-                                                width: 140,
-                                                height: 140,
-                                                child:
-                                                    Image(image: AssetImage(e)),
-                                              );
-                                            }).toList(),
-                                            options: CarouselOptions(
-                                              height: 140,
-                                            )),
+                                          )
+                                        ],
                                       ),
                                       const SizedBox(width: 30),
                                       Container(
@@ -187,14 +212,28 @@ class _ArtworkDetailState extends State<ArtworkDetail> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                    width: 220,
-                                                    child: Text(
-                                                        "Rating: ${artwork.rating}",
-                                                        style: const TextStyle(
+                                                    width: 200,
+                                                    child: const Text(
+                                                        "Size: height x width cm",
+                                                        style: TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500))),
+                                                const SizedBox(width: 20),
+                                                Text(
+                                                    "Rating: ${artwork.rating}",
+                                                    style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
                                                 const Text("Artist: ",
                                                     style: TextStyle(
                                                         fontSize: 18,
@@ -232,8 +271,8 @@ class _ArtworkDetailState extends State<ArtworkDetail> {
                                   ),
                                 ),
                                 Container(
-                                  width: 1200,
-                                  height: 500,
+                                    width: 1200,
+                                    height: 500,
                                     padding: const EdgeInsets.all(10),
                                     margin: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -248,8 +287,8 @@ class _ArtworkDetailState extends State<ArtworkDetail> {
                                         color: kWhite,
                                         borderRadius:
                                             BorderRadius.circular(10)),
-                                    child: const ArtworkComments(artworkId: "acbd")
-                                    )
+                                    child: const ArtworkComments(
+                                        artworkId: "acbd"))
                               ],
                             )),
                       ),

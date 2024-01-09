@@ -1,5 +1,5 @@
 import 'package:drawing_on_demand_web_admin/data/data.dart';
-import 'package:drawing_on_demand_web_admin/data/models/account_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/account_model.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/certificates.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';

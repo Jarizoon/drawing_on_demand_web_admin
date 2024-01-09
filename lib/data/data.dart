@@ -1,9 +1,9 @@
-import 'package:drawing_on_demand_web_admin/data/models/account_model.dart';
-import 'package:drawing_on_demand_web_admin/data/models/artwork_comment_model.dart';
-import 'package:drawing_on_demand_web_admin/data/models/artwork_model.dart';
-import 'package:drawing_on_demand_web_admin/data/models/certificate_model.dart';
-import 'package:drawing_on_demand_web_admin/data/models/order_model.dart';
-import 'package:drawing_on_demand_web_admin/data/models/requirement_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/account_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/artwork_comment_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/artwork_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/certificate_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/order_model.dart';
+import 'package:drawing_on_demand_web_admin/data/model/requirement_model.dart';
 
 List artworkCommentsDemo = [
   ArtworkCommentModel(

@@ -1,7 +1,11 @@
+import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
+import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -244,9 +248,18 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void login(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(
-        context, AppRoute.dashboard, (route) => false);
+ login(BuildContext context) async {
+  int a;
+  var account = await AccountApi().gets(
+        0, expand: 'accountRoles(expand=role)'
+      );
+      a = account.value.length;
+    // try{
+      
+    // }catch(e){
+    //   Fluttertoast.showToast(msg: 'Invalid email or password');
+    // }
+    Fluttertoast.showToast(msg: account.value.first.accountRoles!.last.role!.name.toString());
   }
 
   AlertDialog openAlertDialogSendOTP(BuildContext context) {
