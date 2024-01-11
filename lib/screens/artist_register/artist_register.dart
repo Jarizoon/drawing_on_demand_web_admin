@@ -1,25 +1,26 @@
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class ArtistRegisterList extends StatefulWidget {
+class ArtistRegisterPage extends StatefulWidget {
   static dynamic state;
-  const ArtistRegisterList({Key? key}) : super(key: key);
+  const ArtistRegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<ArtistRegisterList> createState() => _ArtistRegisterListState();
+  State<ArtistRegisterPage> createState() => _ArtistRegisterPageState();
 }
 
-class _ArtistRegisterListState extends State<ArtistRegisterList> {
+class _ArtistRegisterPageState extends State<ArtistRegisterPage> {
   late Future<Accounts?> accounts;
   @override
   void initState() {
     super.initState();
-    ArtistRegisterList.state = this;
+    ArtistRegisterPage.state = this;
     accounts = getData();
   }
 
@@ -33,7 +34,7 @@ class _ArtistRegisterListState extends State<ArtistRegisterList> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     List<Account> list = snapshot.data!.value
-                    .where((account) => account.accountRoles!.last.role!.name == "Artist" && account.accountRoles!.last.status == "Pending")
+                    .where((account) => account.accountRoles!.first.role!.name == "Artist" && account.accountRoles!.first.status == "Pending")
                     .toList();
                     return SingleChildScrollView(
                       child: Column(
@@ -141,9 +142,7 @@ class ArtistRegisterData extends DataTableSource {
     }
     final account = list[index];
     return DataRow(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.artistRegisterDetail, (route) => false,
-            arguments: {account}),
+        onLongPress: () => context.goNamed(ArtistRegisterDetailRoute.name, pathParameters: {'id': account.id.toString()}),
         cells: [
           DataCell(Text("${account.email}",
               style:

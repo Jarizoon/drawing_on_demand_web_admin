@@ -1,20 +1,19 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
-import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -36,10 +35,11 @@ class _LoginState extends State<Login> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // ignore: sized_box_for_whitespace
                     Container(
                       height: height * 0.3,
                       child: Center(
+                          child: Visibility(
+                        visible: MediaQuery.of(context).size.width >= 850,
                         child: RichText(
                           text: const TextSpan(
                             style: TextStyle(
@@ -51,10 +51,9 @@ class _LoginState extends State<Login> {
                             text: "Welcome to DonD Management",
                           ),
                         ),
-                      ),
+                      )),
                     ),
                     const SizedBox(width: 5.0),
-                    // ignore: sized_box_for_whitespace
                     Container(
                       height: height * 0.6,
                       child: const Center(
@@ -76,7 +75,6 @@ class _LoginState extends State<Login> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  // ignore: sized_box_for_whitespace
                   Container(
                     height: height * 0.3,
                     width: width * 0.2,
@@ -101,114 +99,101 @@ class _LoginState extends State<Login> {
                     ),
                   ),
 
-                  // ignore: sized_box_for_whitespace
                   Container(
                     height: height * 0.4,
                     width: width * 0.4,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Email',
-                            style: ralewayStyle.copyWith(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Text(
+                        'Email',
+                        style: ralewayStyle.copyWith(
+                          fontSize: 18.0,
+                          color: kNeutralColor,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Container(
+                        height: 50.0,
+                        width: width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: kWhite,
+                        ),
+                        child: TextFormField(
+                          style: ralewayStyle.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: kNeutralColor,
+                            fontSize: 18.0,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.only(top: 16.0),
+                            prefixIcon: IconButton(onPressed: () {}, icon: Image.asset(emailIcon)),
+                            hintText: 'Enter Email',
+                            hintStyle: ralewayStyle.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: kNeutralColor.withOpacity(0.3),
                               fontSize: 18.0,
-                              color: kNeutralColor,
-                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 5.0),
-                          Container(
-                            height: 50.0,
-                            width: width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.0),
-                              color: kWhite,
-                            ),
-                            child: TextFormField(
-                              style: ralewayStyle.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: kNeutralColor,
-                                fontSize: 18.0,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding:
-                                    const EdgeInsets.only(top: 16.0),
-                                prefixIcon: IconButton(
-                                    onPressed: () {},
-                                    icon: Image.asset(emailIcon)),
-                                hintText: 'Enter Email',
-                                hintStyle: ralewayStyle.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: kNeutralColor.withOpacity(0.3),
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Text(
+                        'Password',
+                        style: ralewayStyle.copyWith(
+                          fontSize: 18.0,
+                          color: kNeutralColor,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 5.0),
+                      Container(
+                        height: 50.0,
+                        width: width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: kWhite,
+                        ),
+                        child: TextFormField(
+                          style: ralewayStyle.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: kNeutralColor,
+                            fontSize: 18.0,
                           ),
-                          const SizedBox(height: 10.0),
-                          Text(
-                            'Password',
-                            style: ralewayStyle.copyWith(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: const EdgeInsets.only(top: 16.0),
+                            prefixIcon: IconButton(onPressed: () {}, icon: Image.asset(lockIcon)),
+                            hintText: 'Enter Password',
+                            hintStyle: ralewayStyle.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: kNeutralColor.withOpacity(0.3),
                               fontSize: 18.0,
-                              color: kNeutralColor,
-                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                          const SizedBox(height: 5.0),
-                          Container(
-                            height: 50.0,
-                            width: width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.0),
-                              color: kWhite,
-                            ),
-                            child: TextFormField(
-                              style: ralewayStyle.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: kNeutralColor,
-                                fontSize: 18.0,
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding:
-                                    const EdgeInsets.only(top: 16.0),
-                                prefixIcon: IconButton(
-                                    onPressed: () {},
-                                    icon: Image.asset(lockIcon)),
-                                hintText: 'Enter Password',
-                                hintStyle: ralewayStyle.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: kNeutralColor.withOpacity(0.3),
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => openAlertDialogSendOTP(context),
+                            );
+                          },
+                          child: Text(
+                            'Forgot Password?',
+                            style: kTextStyle.copyWith(color: kLightNeutralColor),
+                            textAlign: TextAlign.end,
                           ),
-                          const SizedBox(height: 10.0),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      openAlertDialogSendOTP(context),
-                                );
-                              },
-                              child: Text(
-                                'Forgot Password?',
-                                style: kTextStyle.copyWith(
-                                    color: kLightNeutralColor),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                          ),
-                        ]),
+                        ),
+                      ),
+                    ]),
                   ),
 
-                  // ignore: sized_box_for_whitespace
                   Container(
                     height: height * 0.1,
                     width: width * 0.25,
@@ -219,9 +204,7 @@ class _LoginState extends State<Login> {
                           onTap: () => login(context),
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.022,
-                                vertical: width * 0.015),
+                            padding: EdgeInsets.symmetric(horizontal: width * 0.022, vertical: width * 0.015),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.0),
                               color: kPrimaryColor,
@@ -248,14 +231,10 @@ class _LoginState extends State<Login> {
     );
   }
 
- login(BuildContext context) async {
-  int a;
-  var account = await AccountApi().gets(
-        0, expand: 'accountRoles(expand=role)'
-      );
-      a = account.value.length;
+  login(BuildContext context) async {
+    var account = await AccountApi().gets(0, expand: 'accountRoles(expand=role)');
     // try{
-      
+
     // }catch(e){
     //   Fluttertoast.showToast(msg: 'Invalid email or password');
     // }

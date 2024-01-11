@@ -1,8 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace
-
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationPanel extends StatefulWidget {
   const NavigationPanel({Key? key}) : super(key: key);
@@ -24,8 +24,7 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         DrawerListTile(
           press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.dashboard, (route) => false);
+            context.goNamed(DashboardRoute.name);
           },
           title: 'Dashboard',
         ),
@@ -34,8 +33,7 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         DrawerListTile(
           press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.order, (route) => false);
+            context.goNamed(OrderRoute.name);
           },
           title: 'Order',
         ),
@@ -44,18 +42,7 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         DrawerListTile(
           press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.customer, (route) => false);
-          },
-          title: 'Customer',
-        ),
-        const Divider(
-          color: Colors.white70,
-        ),
-        DrawerListTile(
-          press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.requirement, (route) => false);
+            context.goNamed(RequirementRoute.name);
           },
           title: 'Requirement',
         ),
@@ -64,8 +51,16 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         DrawerListTile(
           press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.artist, (route) => false);
+            context.goNamed(CustomerRoute.name);
+          },
+          title: 'Customer',
+        ),
+        const Divider(
+          color: Colors.white70,
+        ),
+        DrawerListTile(
+          press: () {
+            context.goNamed(ArtistRoute.name);
           },
           title: 'Artist',
         ),
@@ -74,8 +69,7 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         DrawerListTile(
           press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.artwork, (route) => false);
+            context.goNamed(ArtworkRoute.name);
           },
           title: 'Artwork',
         ),
@@ -84,8 +78,7 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         DrawerListTile(
           press: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoute.artistRegister, (route) => false);
+            context.goNamed(ArtistRegisterRoute.name);
           },
           title: 'Artist Register',
         ),
@@ -96,8 +89,7 @@ class _NavigationPanelState extends State<NavigationPanel> {
           visible: true,
           child: DrawerListTile(
             press: () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, AppRoute.account, (route) => false);
+              context.goNamed(AccountRoute.name);
             },
             title: 'Account',
           ),

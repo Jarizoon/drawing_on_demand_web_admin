@@ -22,7 +22,7 @@ class Handovers extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(20),
           child: ListView.builder(
-            itemCount: 2,
+            itemCount: lenght,
             shrinkWrap: true,
             itemBuilder: (context, index) => HandoverInfo(
                 handover: list[index]),

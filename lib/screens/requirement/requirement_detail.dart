@@ -1,19 +1,18 @@
 // ignore_for_file: sized_box_for_whitespace
-
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/data.dart';
 import 'package:drawing_on_demand_web_admin/data/model/requirement_model.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 
-class RequirementDetail extends StatefulWidget {
-  const RequirementDetail({Key? key}) : super(key: key);
+class RequirementDetailPage extends StatefulWidget {
+  final String? id;
+  const RequirementDetailPage({Key? key, this.id}) : super(key: key);
   @override
-  State<RequirementDetail> createState() => _RequirementDetail();
+  State<RequirementDetailPage> createState() => _RequirementDetailPage();
 }
 
-class _RequirementDetail extends State<RequirementDetail> {
+class _RequirementDetailPage extends State<RequirementDetailPage> {
   bool isDeactive = false;
   final ScrollController controller = ScrollController();
   @override
@@ -204,24 +203,12 @@ class _RequirementDetail extends State<RequirementDetail> {
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500)),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        Navigator
-                                                            .pushNamedAndRemoveUntil(
-                                                                context,
-                                                                AppRoute
-                                                                    .artworkDetail,
-                                                                (route) =>
-                                                                    false);
-                                                      },
-                                                      child: Text(
-                                                          "${req.createdBy}",
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
-                                                    ),
+                                                    Text("${req.createdBy}",
+                                                        style: const TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500)),
                                                   ],
                                                 ),
                                                 const SizedBox(height: 10),

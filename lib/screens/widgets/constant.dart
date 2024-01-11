@@ -28,6 +28,7 @@ const String searchIcon = 'icons/search_icon.png';
 const String filterIcon = 'icons/filter_icon.png';
 const String dropdownIcon = 'icons/dropdown_icon.png';
 const String emptyImage = 'images/empty_image.jpg';
+const String calendarIcon = 'icons/calendar_icon.png';
 
 TextStyle ralewayStyle = GoogleFonts.raleway();
 

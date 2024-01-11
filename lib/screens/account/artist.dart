@@ -1,21 +1,22 @@
 // ignore_for_file: sized_box_for_whitespace
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/data/models/artwork.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class ArtistList extends StatefulWidget {
+class ArtistPage extends StatefulWidget {
   static dynamic state;
-  const ArtistList({Key? key}) : super(key: key);
+  const ArtistPage({Key? key}) : super(key: key);
   @override
-  State<ArtistList> createState() => _ArtistListState();
+  State<ArtistPage> createState() => _ArtistPageState();
 }
 
-class _ArtistListState extends State<ArtistList> {
+class _ArtistPageState extends State<ArtistPage> {
   TextEditingController searchController = TextEditingController();
   late Future<Accounts?> accounts;
   String? search = "", statusToFilter = "", rankToFilter = "", status, rank;
@@ -23,7 +24,7 @@ class _ArtistListState extends State<ArtistList> {
   @override
   void initState() {
     super.initState();
-    ArtistList.state = this;
+    ArtistPage.state = this;
     accounts = getData();
   }
 
@@ -302,9 +303,7 @@ class AccountData extends DataTableSource {
       earning = getEarning(account.artworks!);
     }
     return DataRow.byIndex(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.profileUser, (route) => false,
-            arguments: {account}),
+        onLongPress: () => context.goNamed(ProfileUserRouter.name, pathParameters: {'id': account.id.toString()}),
         index: index,
         cells: [
           DataCell(Text("${account.email}",
@@ -316,7 +315,7 @@ class AccountData extends DataTableSource {
           DataCell(Text("${account.rank!.name}",
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${earning.toString()}",
+          DataCell(Text(earning.toString(),
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
           DataCell(Text("${account.status}",

@@ -1,32 +1,45 @@
 // ignore_for_file: sized_box_for_whitespace
-
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/order_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class OrderList extends StatefulWidget {
+class OrderPage extends StatefulWidget {
   static dynamic state;
-  const OrderList({Key? key}) : super(key: key);
+  const OrderPage({Key? key}) : super(key: key);
 
   @override
-  State<OrderList> createState() => _OrderListState();
+  State<OrderPage> createState() => _OrderPageState();
 }
 
-class _OrderListState extends State<OrderList> {
+class _OrderPageState extends State<OrderPage> {
   late Future<Orders?> orders;
+  DateTime? fromToFilter, toToFilter;
+  final f = DateFormat('yyyy-MM-dd');
+  DateTime? from, to;
   @override
   void initState() {
     super.initState();
-    OrderList.state = this;
+    OrderPage.state = this;
     orders = getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    if(from == null){
+      from = DateTime.tryParse("0001-01-01");
+      fromToFilter = DateTime.tryParse("0001-01-01");
+    }
+    if(to == null){
+      to = DateTime.tryParse("0001-01-01");
+      toToFilter = DateTime.tryParse("3000-01-01");
+    }
+    
     return Scaffold(
       body: SafeArea(
         child: AppLayout(
@@ -34,7 +47,9 @@ class _OrderListState extends State<OrderList> {
               future: orders,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<Order> list = snapshot.data!.value;
+                  List<Order> list = snapshot.data!.value
+                  .where((order) => order.orderDate!.compareTo(fromToFilter!) == 1 && order.orderDate!.compareTo(toToFilter!) == -1 )
+                  .toList();
                   return SingleChildScrollView(
                     padding: const EdgeInsets.all(12),
                     child: Column(
@@ -60,6 +75,80 @@ class _OrderListState extends State<OrderList> {
                                           color: kWhite)),
                                 ),
                               ),
+                              Visibility(
+                                  visible:
+                                      MediaQuery.of(context).size.width >= 450,
+                                  child: const Spacer(
+                                    flex: 1,
+                                  )),
+                              Container(
+                                  width: 150,
+                                  child: Center(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text("From: ${f.format(from!)}",
+                                            style: const TextStyle(
+                                                color: kWhite,
+                                                fontWeight: FontWeight.w500)),
+                                        IconButton(
+                                            onPressed: () async {
+                                              final DateTime? dateTime =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate: DateTime.now(),
+                                                      firstDate: DateTime(
+                                                          2023, 01, 01),
+                                                      lastDate: DateTime(2050));
+                                              if(dateTime != null){
+                                                setState(() {
+                                                  from = dateTime;
+                                                  fromToFilter = dateTime;
+                                                });
+                                              }
+                                            },
+                                            icon: Image.asset(
+                                              calendarIcon,
+                                              fit: BoxFit.cover,
+                                            )),
+                                      ],
+                                    ),
+                                  )),
+                              Container(
+                                  width: 150,
+                                  child: Center(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text("To: ${f.format(to!)}",
+                                            style: const TextStyle(
+                                                color: kWhite,
+                                                fontWeight: FontWeight.w500)),
+                                        IconButton(
+                                            onPressed: () async {
+                                              final DateTime? dateTime =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate: DateTime.now(),
+                                                      firstDate: DateTime(
+                                                          2023, 01, 01),
+                                                      lastDate: DateTime(2050));
+                                              if(dateTime != null){
+                                                setState(() {
+                                                  to = dateTime;
+                                                  toToFilter = dateTime;
+                                                });
+                                              }
+                                            },
+                                            icon: Image.asset(
+                                              calendarIcon,
+                                              fit: BoxFit.cover,
+                                            )),
+                                      ],
+                                    ),
+                                  ))
                             ],
                           ),
                         ),
@@ -136,15 +225,14 @@ class OrderData extends DataTableSource {
       return null;
     }
     final order = list[index];
+    final f = DateFormat('yyyy-MM-dd  hh:mm');
     return DataRow(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.orderDetail, (route) => false,
-            arguments: {order}),
+        onLongPress: () => context.goNamed(OrderDetailRoute.name, pathParameters: {'id': order.id.toString()}),
         cells: [
           DataCell(Text(order.id.toString(),
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text(order.orderDate.toString(),
+          DataCell(Text(f.format(order.orderDate!).toString(),
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
           DataCell(Text("${order.orderedByNavigation!.name}",

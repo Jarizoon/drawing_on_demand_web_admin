@@ -6,13 +6,14 @@ import 'package:drawing_on_demand_web_admin/screens/order/components/handovers.d
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 
-class OrderDetail extends StatefulWidget {
-  const OrderDetail({Key? key}) : super(key: key);
+class OrderDetailPage extends StatefulWidget {
+  final String? id;
+  const OrderDetailPage({Key? key, this.id}) : super(key: key);
   @override
-  State<OrderDetail> createState() => _OrderDetailState();
+  State<OrderDetailPage> createState() => _OrderDetailPageState();
 }
 
-class _OrderDetailState extends State<OrderDetail> {
+class _OrderDetailPageState extends State<OrderDetailPage> {
   @override
   Widget build(BuildContext context) {
     final ScrollController controller = ScrollController();

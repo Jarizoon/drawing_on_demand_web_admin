@@ -1,21 +1,22 @@
 // ignore_for_file: sized_box_for_whitespace
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class CustomerList extends StatefulWidget {
+class CustomerPage extends StatefulWidget {
   static dynamic state;
-  const CustomerList({Key? key}) : super(key: key);
+  const CustomerPage({Key? key}) : super(key: key);
   @override
-  State<CustomerList> createState() => _CustomerListState();
+  State<CustomerPage> createState() => _CustomerPageState();
 }
 
-class _CustomerListState extends State<CustomerList> {
+class _CustomerPageState extends State<CustomerPage> {
   TextEditingController searchController = TextEditingController();
   late Future<Accounts?> accounts;
   String? search = "", statusToFilter = "", status;
@@ -23,7 +24,7 @@ class _CustomerListState extends State<CustomerList> {
   @override
   void initState() {
     super.initState();
-    CustomerList.state = this;
+    CustomerPage.state = this;
     accounts = getData();
   }
 
@@ -40,7 +41,7 @@ class _CustomerListState extends State<CustomerList> {
                   .where((account) =>
                       account.name!.contains(search.toString()) ||
                       account.email!.contains(search.toString()))
-                  .where((account) => account.accountRoles!.last.role!.name!
+                  .where((account) => account.accountRoles!.first.role!.name!
                       .contains("Customer"))
                   .where((account) =>
                       account.status!.contains(statusToFilter.toString()))
@@ -259,9 +260,7 @@ class AccountData extends DataTableSource {
       spending = getSpending(account.orders!);
     }
     return DataRow.byIndex(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.profileUser, (route) => false,
-            arguments: {account}),
+        onLongPress: () => context.goNamed(ProfileUserRouter.name, pathParameters: {'id': account.id.toString()}),
         index: index,
         cells: [
           DataCell(Text("${account.email}",

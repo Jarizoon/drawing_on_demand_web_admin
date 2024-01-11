@@ -1,23 +1,23 @@
 // ignore_for_file: sized_box_for_whitespace
-
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/category_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/requirement_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class RequirementList extends StatefulWidget {
+class RequirementPage extends StatefulWidget {
   static dynamic state;
-  const RequirementList({Key? key}) : super(key: key);
+  const RequirementPage({Key? key}) : super(key: key);
 
   @override
-  State<RequirementList> createState() => _RequirementListState();
+  State<RequirementPage> createState() => _RequirementPageState();
 }
 
-class _RequirementListState extends State<RequirementList> {
+class _RequirementPageState extends State<RequirementPage> {
   TextEditingController searchController = TextEditingController();
   late Future<Requirements?> requirements;
   String? search = "",
@@ -28,7 +28,7 @@ class _RequirementListState extends State<RequirementList> {
   @override
   void initState() {
     super.initState();
-    RequirementList.state = this;
+    RequirementPage.state = this;
     requirements = getData();
   }
 
@@ -163,11 +163,6 @@ class _RequirementListState extends State<RequirementList> {
                                                 "Pending",
                                                 "Private",
                                                 "Public",
-                                                "Not Available",
-                                                "Accepted",
-                                                "Meeted",
-                                                "Processing",
-                                                "Finished",
                                                 "None"
                                               ]
                                                   .map<
@@ -220,7 +215,20 @@ class _RequirementListState extends State<RequirementList> {
                                         Expanded(
                                           flex: 1,
                                           child: IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (category != null) {
+                                                  categoryToFilter = category;
+                                                }
+                                                if (status != null) {
+                                                  if (status != "None") {
+                                                    statusToFilter = status;
+                                                  } else {
+                                                    statusToFilter = "";
+                                                  }
+                                                }
+                                                });
+                                              },
                                               icon: Image.asset(
                                                 filterIcon,
                                                 fit: BoxFit.cover,
@@ -308,9 +316,7 @@ class RequirementData extends DataTableSource {
     }
     final requirement = list[index];
     return DataRow(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.requirementDetail, (route) => false,
-            arguments: {requirement}),
+        onLongPress: () => context.goNamed(RequirementDetailRoute.name, pathParameters: {'id': requirement.id.toString()}),
         cells: [
           DataCell(Text("${requirement.title}",
               style:

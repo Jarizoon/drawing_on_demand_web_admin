@@ -1,23 +1,21 @@
-// ignore_for_file: sized_box_for_whitespace
-
-import 'dart:ui';
-
-import 'package:drawing_on_demand_web_admin/app_routes.dart';
+// ignore_for_file: sized_box_for_whitespace, avoid_unnecessary_containers
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class AccountList extends StatefulWidget {
+class AccountPage extends StatefulWidget {
   static dynamic state;
-  const AccountList({Key? key}) : super(key: key);
+  const AccountPage({Key? key}) : super(key: key);
   @override
-  State<AccountList> createState() => _AccountListState();
+  State<AccountPage> createState() => _AccountPageState();
 }
 
-class _AccountListState extends State<AccountList> {
+class _AccountPageState extends State<AccountPage> {
   TextEditingController searchController = TextEditingController();
   late Future<Accounts?> accounts;
   String? search = "", statusToFilter = "", roleToFilter = "", status, role;
@@ -25,7 +23,7 @@ class _AccountListState extends State<AccountList> {
   @override
   void initState() {
     super.initState();
-    AccountList.state = this;
+    AccountPage.state = this;
     accounts = getData();
   }
 
@@ -42,7 +40,7 @@ class _AccountListState extends State<AccountList> {
                   .where((account) =>
                       account.name!.contains(search.toString()) ||
                       account.email!.contains(search.toString()))
-                  .where((account) => account.accountRoles!.last.role!.name!
+                  .where((account) => account.accountRoles!.first.role!.name!
                       .contains(roleToFilter.toString()))
                   .where((account) => account.status!.contains(statusToFilter.toString()))
                   .toList();
@@ -83,10 +81,7 @@ class _AccountListState extends State<AccountList> {
                           Visibility(
                             visible: MediaQuery.of(context).size.width >= 850,
                             child: InkWell(
-                              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  AppRoute.createStaff,
-                                  (route) => false),
+                              onTap: () => context.goNamed(CreateStaffRoute.name),
                               child: Container(
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 15),
@@ -323,9 +318,7 @@ class AccountData extends DataTableSource {
     }
     final account = list[index];
     return DataRow.byIndex(
-        onLongPress: () => Navigator.pushNamedAndRemoveUntil(
-            context, AppRoute.profileUser, (route) => false,
-            arguments: {account}),
+        onLongPress: () => context.goNamed(ProfileUserRouter.name, pathParameters: {'id': account.id.toString()}),
         index: index,
         cells: [
           DataCell(Text("${account.email}",
@@ -337,7 +330,7 @@ class AccountData extends DataTableSource {
           DataCell(Text("${account.phone}",
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.accountRoles!.last.role!.name}",
+          DataCell(Text("${account.accountRoles!.first.role!.name}",
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
           DataCell(Text("${account.status}",

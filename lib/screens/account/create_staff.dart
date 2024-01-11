@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class CreateStaff extends StatefulWidget {
-  const CreateStaff({Key? key}) : super(key: key);
+class CreateStaffPage extends StatefulWidget {
+  const CreateStaffPage({Key? key}) : super(key: key);
   @override
-  State<CreateStaff> createState() => _CreateStaffState();
+  State<CreateStaffPage> createState() => _CreateStaffPageState();
 }
 
-class _CreateStaffState extends State<CreateStaff> {
+class _CreateStaffPageState extends State<CreateStaffPage> {
   late bool imageAvailable = false;
   late Uint8List imageFile;
   String gender = "Female";

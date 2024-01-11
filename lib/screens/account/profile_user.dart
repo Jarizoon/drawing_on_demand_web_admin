@@ -4,13 +4,14 @@ import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 
-class ProfileUser extends StatefulWidget {
-  const ProfileUser({Key? key}) : super(key: key);
+class ProfileUserPage extends StatefulWidget {
+  final String? id;
+  const ProfileUserPage({Key? key, this.id}) : super(key: key);
   @override
-  State<ProfileUser> createState() => _ProfileUserState();
+  State<ProfileUserPage> createState() => _ProfileUserPageState();
 }
 
-class _ProfileUserState extends State<ProfileUser> {
+class _ProfileUserPageState extends State<ProfileUserPage> {
   bool isDeactive = false;
   final ScrollController controller = ScrollController();
   @override
@@ -194,14 +195,11 @@ class _ProfileUserState extends State<ProfileUser> {
                                                   ],
                                                 ),
                                                 const SizedBox(height: 10),
-                                                Text(
-                                                          "Bio: $isDeactiveString",
-                                                          style: const TextStyle(
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
-                                                
+                                                Text("Bio: $isDeactiveString",
+                                                    style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
                                               ],
                                             )),
                                       ],
