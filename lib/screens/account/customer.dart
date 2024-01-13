@@ -38,13 +38,9 @@ class _CustomerPageState extends State<CustomerPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Account> list = snapshot.data!.value
-                  .where((account) =>
-                      account.name!.contains(search.toString()) ||
-                      account.email!.contains(search.toString()))
-                  .where((account) => account.accountRoles!.first.role!.name!
-                      .contains("Customer"))
-                  .where((account) =>
-                      account.status!.contains(statusToFilter.toString()))
+                  .where((account) => account.name!.contains(search.toString()) || account.email!.contains(search.toString()))
+                  .where((account) => account.accountRoles!.where((ar) => ar.role!.name == "Artist").isEmpty || account.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").isNotEmpty)
+                  .where((account) => account.status!.contains(statusToFilter.toString()))
                   .toList();
               return SingleChildScrollView(
                 child: Column(
@@ -53,9 +49,7 @@ class _CustomerPageState extends State<CustomerPage> {
                     Container(
                       margin: const EdgeInsets.all(10),
                       height: 70,
-                      decoration: BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius: BorderRadius.circular(40)),
+                      decoration: BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.circular(40)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -65,37 +59,28 @@ class _CustomerPageState extends State<CustomerPage> {
                               padding: const EdgeInsets.all(12),
                               width: 170,
                               child: const Center(
-                                child: Text('Customers',
-                                    style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w600,
-                                        color: kWhite)),
+                                child: Text('Customers', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: kWhite)),
                               ),
                             ),
                           ),
                           Visibility(
                               visible: MediaQuery.of(context).size.width >= 450,
                               child: Spacer(
-                                flex: MediaQuery.of(context).size.width >= 1100
-                                    ? 2
-                                    : 1,
+                                flex: MediaQuery.of(context).size.width >= 1100 ? 2 : 1,
                               )),
                           const SizedBox(width: 8),
                           Container(
                             width: 160,
                             margin: const EdgeInsets.symmetric(vertical: 10),
                             padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: kWhite,
-                                borderRadius: BorderRadius.circular(30)),
+                            decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
                             child: Row(
                               children: [
                                 const SizedBox(width: 10),
                                 Expanded(
                                   flex: 3,
                                   child: TextFormField(
-                                    decoration: const InputDecoration(
-                                        hintText: 'Search'),
+                                    decoration: const InputDecoration(hintText: 'Search'),
                                     controller: searchController,
                                   ),
                                 ),
@@ -123,9 +108,7 @@ class _CustomerPageState extends State<CustomerPage> {
                                 child: Container(
                               margin: const EdgeInsets.symmetric(vertical: 10),
                               padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: kWhite,
-                                  borderRadius: BorderRadius.circular(30)),
+                              decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
                               child: Row(
                                 children: [
                                   const SizedBox(width: 10),
@@ -138,22 +121,14 @@ class _CustomerPageState extends State<CustomerPage> {
                                           width: 15,
                                           height: 15,
                                         ),
-                                        style: const TextStyle(
-                                            color: blackColor,
-                                            backgroundColor: kWhite,
-                                            fontSize: 12),
+                                        style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
                                         hint: const Text('Status'),
                                         onChanged: (value) {
                                           setState(() {
                                             status = value;
                                           });
                                         },
-                                        items: ["Active", "Deactive", "None"]
-                                            .map<DropdownMenuItem<String?>>(
-                                                (e) => DropdownMenuItem(
-                                                    value: e,
-                                                    child: Text(e.toString())))
-                                            .toList()),
+                                        items: ["Active", "Deactive", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
                                   ),
                                   const SizedBox(width: 20),
                                   Expanded(
@@ -187,43 +162,17 @@ class _CustomerPageState extends State<CustomerPage> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: const BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                        decoration: const BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.all(Radius.circular(10))),
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: kWhite,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                          decoration: const BoxDecoration(color: kWhite, borderRadius: BorderRadius.all(Radius.circular(10))),
                           child: PaginatedDataTable(
                             columnSpacing: 10,
                             columns: const [
-                              DataColumn(
-                                  label: Text("Email",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Name",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Orders",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Spending",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Status",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Email", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Name", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Orders", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Spending", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Status", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
                             ],
                             source: AccountData(context: context, list: list),
                             rowsPerPage: 10,
@@ -259,26 +208,13 @@ class AccountData extends DataTableSource {
     if (account.orders != null) {
       spending = getSpending(account.orders!);
     }
-    return DataRow.byIndex(
-        onLongPress: () => context.goNamed(ProfileUserRouter.name, pathParameters: {'id': account.id.toString()}),
-        index: index,
-        cells: [
-          DataCell(Text("${account.email}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.name}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.orders!.length}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text(spending.toString(),
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.status}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
-        ]);
+    return DataRow.byIndex(onLongPress: () => context.goNamed(AccountDetailRoute.name, pathParameters: {'account_id': account.id.toString()}), index: index, cells: [
+      DataCell(Text("${account.email}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text("${account.name}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text("${account.orders!.length}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text(spending.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text("${account.status}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
+    ]);
   }
 
   double getSpending(List<Order> orders) {
@@ -301,8 +237,7 @@ class AccountData extends DataTableSource {
 
 Future<Accounts?> getData() async {
   try {
-    return await AccountApi()
-        .gets(0, expand: 'accountRoles(expand=role),orders');
+    return await AccountApi().gets(0, expand: 'accountRoles(expand=role),orders');
   } catch (e) {
     Fluttertoast.showToast(msg: 'Get accounts failed');
   }

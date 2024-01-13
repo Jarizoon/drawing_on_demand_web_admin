@@ -227,7 +227,7 @@ class OrderData extends DataTableSource {
     final order = list[index];
     final f = DateFormat('yyyy-MM-dd  hh:mm');
     return DataRow(
-        onLongPress: () => context.goNamed(OrderDetailRoute.name, pathParameters: {'id': order.id.toString()}),
+        onLongPress: () => context.goNamed(OrderDetailRoute.name, pathParameters: {'order_id': order.id.toString()}),
         cells: [
           DataCell(Text(order.id.toString(),
               style:

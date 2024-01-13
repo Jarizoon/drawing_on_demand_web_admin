@@ -80,7 +80,8 @@ class _AccountPageState extends State<AccountPage> {
                               )),
                           Visibility(
                             visible: MediaQuery.of(context).size.width >= 850,
-                            child: InkWell(
+                            child: 
+                            InkWell(
                               onTap: () => context.goNamed(CreateStaffRoute.name),
                               child: Container(
                                 margin:
@@ -318,7 +319,7 @@ class AccountData extends DataTableSource {
     }
     final account = list[index];
     return DataRow.byIndex(
-        onLongPress: () => context.goNamed(ProfileUserRouter.name, pathParameters: {'id': account.id.toString()}),
+        onLongPress: () => context.goNamed(AccountDetailRoute.name, pathParameters: {'account_id': account.id.toString()}),
         index: index,
         cells: [
           DataCell(Text("${account.email}",

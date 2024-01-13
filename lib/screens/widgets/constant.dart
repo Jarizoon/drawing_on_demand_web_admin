@@ -27,7 +27,7 @@ const String orderIcon = 'icons/order_icon.png';
 const String searchIcon = 'icons/search_icon.png';
 const String filterIcon = 'icons/filter_icon.png';
 const String dropdownIcon = 'icons/dropdown_icon.png';
-const String emptyImage = 'images/empty_image.jpg';
+const String emptyImage = 'https://firebasestorage.googleapis.com/v0/b/drawing-on-demand.appspot.com/o/images%2Fempty_image.jpg?alt=media&token=746b3181-404b-4914-b9b1-c0820ef190fb';
 const String calendarIcon = 'icons/calendar_icon.png';
 
 TextStyle ralewayStyle = GoogleFonts.raleway();

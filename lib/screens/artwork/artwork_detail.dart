@@ -9,7 +9,6 @@ import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-// import 'package:universal_html/html.dart' as html;
 class ArtworkDetailPage extends StatefulWidget {
   static dynamic state;
   final String? id;
@@ -131,7 +130,7 @@ class _ArtworkDetailPageState extends State<ArtworkDetailPage> {
                                                           },
                                                         ),
                                                       )),
-                                                  Visibility(
+                                                  Visibility( 
                                                       visible: status == "Not Available",
                                                       child: Center(
                                                         child: TextButton(

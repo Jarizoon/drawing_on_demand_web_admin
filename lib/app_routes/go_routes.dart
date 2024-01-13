@@ -1,5 +1,6 @@
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/account.dart';
+import 'package:drawing_on_demand_web_admin/screens/account/account_detail.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/artist.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/create_staff.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/customer.dart';
@@ -44,17 +45,25 @@ class AppRoutes {
           },
         ),
         GoRoute(
-          path: AccountRoute.tag,
-          name: AccountRoute.name,
-          builder: (context, state) {
-            return const AccountPage();
-          },
-        ),
+            path: AccountRoute.tag,
+            name: AccountRoute.name,
+            builder: (context, state) {
+              return const AccountPage();
+            },
+            routes: [
+              GoRoute(
+                path: AccountDetailRoute.tag,
+                name: AccountDetailRoute.name,
+                builder: (context, state) {
+                  return AccountDetailPage(id: state.pathParameters['account_id']);
+                },
+              )
+            ]),
         GoRoute(
             path: ProfileUserRouter.tag,
             name: ProfileUserRouter.name,
             builder: (context, state) {
-              return ProfileUserPage(id: state.pathParameters['id']);
+              return ProfileUserPage(id: state.pathParameters['user_id']);
             }),
         GoRoute(
           path: ArtistRoute.tag,
@@ -82,13 +91,15 @@ class AppRoutes {
             name: ArtistRegisterRoute.name,
             builder: (context, state) {
               return const ArtistRegisterPage();
-            }),
-        GoRoute(
-            path: ArtistRegisterDetailRoute.tag,
-            name: ArtistRegisterDetailRoute.name,
-            builder: (context, state) {
-              return ArtistRegisterDetailPage(id: state.pathParameters['id']);
-            }),
+            },
+            routes: [
+              GoRoute(
+                  path: ArtistRegisterDetailRoute.tag,
+                  name: ArtistRegisterDetailRoute.name,
+                  builder: (context, state) {
+                    return ArtistRegisterDetailPage(id: state.pathParameters['artistRegister_id']);
+                  }),
+            ]),
         GoRoute(
             path: ArtworkRoute.tag,
             name: ArtworkRoute.name,
@@ -108,25 +119,29 @@ class AppRoutes {
             name: OrderRoute.name,
             builder: (context, state) {
               return const OrderPage();
-            }),
-        GoRoute(
-            path: OrderDetailRoute.tag,
-            name: OrderDetailRoute.name,
-            builder: (context, state) {
-              return OrderDetailPage(id: state.pathParameters['id']);
-            }),
+            },
+            routes: [
+              GoRoute(
+                  path: OrderDetailRoute.tag,
+                  name: OrderDetailRoute.name,
+                  builder: (context, state) {
+                    return OrderDetailPage(id: state.pathParameters['order_id']);
+                  })
+            ]),
         GoRoute(
             path: RequirementRoute.tag,
             name: RequirementRoute.name,
             builder: (context, state) {
               return const RequirementPage();
-            }),
-        GoRoute(
-            path: RequirementDetailRoute.tag,
-            name: RequirementDetailRoute.name,
-            builder: (context, state) {
-              return RequirementDetailPage(id: state.pathParameters['id']);
-            }),
+            },
+            routes: [
+              GoRoute(
+                  path: RequirementDetailRoute.tag,
+                  name: RequirementDetailRoute.name,
+                  builder: (context, state) {
+                    return RequirementDetailPage(id: state.pathParameters['requirement_id']);
+                  })
+            ]),
       ],
       onException: (context, state, router) {
         router.go(LoginRoute.tag);

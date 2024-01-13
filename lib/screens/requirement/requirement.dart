@@ -316,7 +316,7 @@ class RequirementData extends DataTableSource {
     }
     final requirement = list[index];
     return DataRow(
-        onLongPress: () => context.goNamed(RequirementDetailRoute.name, pathParameters: {'id': requirement.id.toString()}),
+        onLongPress: () => context.goNamed(RequirementDetailRoute.name, pathParameters: {'requirement_id': requirement.id.toString()}),
         cells: [
           DataCell(Text("${requirement.title}",
               style:

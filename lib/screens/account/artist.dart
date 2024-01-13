@@ -38,15 +38,10 @@ class _ArtistPageState extends State<ArtistPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Account> list = snapshot.data!.value
-                  .where((account) =>
-                      account.name!.contains(search.toString()) ||
-                      account.email!.contains(search.toString()))
-                  .where((account) =>
-                      account.accountRoles!.last.role!.name!.contains("Artist"))
-                  .where((account) =>
-                      account.status!.contains(statusToFilter.toString()))
-                  .where((account) =>
-                      account.rank!.name!.contains(rankToFilter.toString()))
+                  .where((account) => account.accountRoles!.first.role!.name == "Artist" && account.accountRoles!.first.status == "Active")
+                  .where((account) => account.name!.contains(search.toString()) || account.email!.contains(search.toString()))
+                  .where((account) => account.status!.contains(statusToFilter.toString()))
+                  .where((account) => account.rank!.name!.contains(rankToFilter.toString()))
                   .toList();
               return SingleChildScrollView(
                 child: Column(
@@ -55,9 +50,7 @@ class _ArtistPageState extends State<ArtistPage> {
                     Container(
                       margin: const EdgeInsets.all(10),
                       height: 70,
-                      decoration: BoxDecoration(
-                          color: secondaryColor,
-                          borderRadius: BorderRadius.circular(40)),
+                      decoration: BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.circular(40)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -67,37 +60,28 @@ class _ArtistPageState extends State<ArtistPage> {
                               padding: const EdgeInsets.all(12),
                               width: 150,
                               child: const Center(
-                                child: Text('Artists',
-                                    style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w600,
-                                        color: kWhite)),
+                                child: Text('Artists', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: kWhite)),
                               ),
                             ),
                           ),
                           Visibility(
                               visible: MediaQuery.of(context).size.width >= 450,
                               child: Spacer(
-                                flex: MediaQuery.of(context).size.width >= 1100
-                                    ? 2
-                                    : 1,
+                                flex: MediaQuery.of(context).size.width >= 1100 ? 2 : 1,
                               )),
                           const SizedBox(width: 8),
                           Container(
                             width: 160,
                             margin: const EdgeInsets.symmetric(vertical: 10),
                             padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: kWhite,
-                                borderRadius: BorderRadius.circular(30)),
+                            decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
                             child: Row(
                               children: [
                                 const SizedBox(width: 10),
                                 Expanded(
                                   flex: 3,
                                   child: TextFormField(
-                                    decoration: const InputDecoration(
-                                        hintText: 'Search'),
+                                    decoration: const InputDecoration(hintText: 'Search'),
                                     controller: searchController,
                                   ),
                                 ),
@@ -125,9 +109,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                 child: Container(
                               margin: const EdgeInsets.symmetric(vertical: 10),
                               padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  color: kWhite,
-                                  borderRadius: BorderRadius.circular(30)),
+                              decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
                               child: Row(
                                 children: [
                                   const SizedBox(width: 10),
@@ -140,22 +122,14 @@ class _ArtistPageState extends State<ArtistPage> {
                                           width: 15,
                                           height: 15,
                                         ),
-                                        style: const TextStyle(
-                                            color: blackColor,
-                                            backgroundColor: kWhite,
-                                            fontSize: 12),
+                                        style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
                                         hint: const Text('Status'),
                                         onChanged: (value) {
                                           setState(() {
                                             status = value;
                                           });
                                         },
-                                        items: ["Active", "Deactive", "None"]
-                                            .map<DropdownMenuItem<String?>>(
-                                                (e) => DropdownMenuItem(
-                                                    value: e,
-                                                    child: Text(e.toString())))
-                                            .toList()),
+                                        items: ["Active", "Deactive", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
                                   ),
                                   const SizedBox(width: 20),
                                   Expanded(
@@ -167,29 +141,14 @@ class _ArtistPageState extends State<ArtistPage> {
                                           width: 15,
                                           height: 15,
                                         ),
-                                        style: const TextStyle(
-                                            color: blackColor,
-                                            backgroundColor: kWhite,
-                                            fontSize: 12),
+                                        style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
                                         hint: const Text('Rank'),
                                         onChanged: (value) {
                                           setState(() {
                                             rank = value;
                                           });
                                         },
-                                        items: [
-                                          "Đồng",
-                                          "Bạc",
-                                          "Vàng",
-                                          "Bạch Kim",
-                                          "Kim Cương",
-                                          "None"
-                                        ]
-                                            .map<DropdownMenuItem<String?>>(
-                                                (e) => DropdownMenuItem(
-                                                    value: e,
-                                                    child: Text(e.toString())))
-                                            .toList()),
+                                        items: ["Đồng", "Bạc", "Vàng", "Bạch Kim", "Kim Cương", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
@@ -230,43 +189,17 @@ class _ArtistPageState extends State<ArtistPage> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: const BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                        decoration: const BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.all(Radius.circular(10))),
                         child: Container(
-                          decoration: const BoxDecoration(
-                              color: kWhite,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                          decoration: const BoxDecoration(color: kWhite, borderRadius: BorderRadius.all(Radius.circular(10))),
                           child: PaginatedDataTable(
                             columnSpacing: 10,
                             columns: const [
-                              DataColumn(
-                                  label: Text("Email",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Name",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Rank",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Earning",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
-                              DataColumn(
-                                  label: Text("Status",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Email", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Name", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Rank", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Earning", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                              DataColumn(label: Text("Status", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
                             ],
                             source: AccountData(context: context, list: list),
                             rowsPerPage: 10,
@@ -299,29 +232,20 @@ class AccountData extends DataTableSource {
     }
     final account = list[index];
     double earning = 0;
+    String rank = "";
+    if(account.rank != null){
+      rank = account.rank!.name.toString();
+    }
     if (account.artworks != null) {
       earning = getEarning(account.artworks!);
     }
-    return DataRow.byIndex(
-        onLongPress: () => context.goNamed(ProfileUserRouter.name, pathParameters: {'id': account.id.toString()}),
-        index: index,
-        cells: [
-          DataCell(Text("${account.email}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.name}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.rank!.name}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text(earning.toString(),
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
-          DataCell(Text("${account.status}",
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
-        ]);
+    return DataRow.byIndex(onLongPress: () => context.goNamed(AccountDetailRoute.name, pathParameters: {'account_id': account.id.toString()}), index: index, cells: [
+      DataCell(Text("${account.email}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text("${account.name}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text(rank, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text(earning.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+      DataCell(Text("${account.status}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)))
+    ]);
   }
 
   @override
@@ -338,12 +262,7 @@ class AccountData extends DataTableSource {
     for (var i = 0; i < artworks.length; i++) {
       if (artworks[i].orderDetails!.isNotEmpty) {
         for (var j = 0; j < artworks[i].orderDetails!.length; j++) {
-          earning = earning +
-              artworks[i].orderDetails![j].price! *
-                  artworks[i].orderDetails![j].quantity! -
-              artworks[i].orderDetails![j].price! *
-                  artworks[i].orderDetails![j].quantity! *
-                  artworks[i].orderDetails![j].fee!;
+          earning = earning + artworks[i].orderDetails![j].price! * artworks[i].orderDetails![j].quantity! - artworks[i].orderDetails![j].price! * artworks[i].orderDetails![j].quantity! * artworks[i].orderDetails![j].fee!;
         }
       }
     }
@@ -353,8 +272,7 @@ class AccountData extends DataTableSource {
 
 Future<Accounts?> getData() async {
   try {
-    return await AccountApi().gets(0,
-        expand: 'accountRoles(expand=role),rank,artworks(expand=orderDetails)');
+    return await AccountApi().gets(0, expand: 'accountRoles(expand=role),rank,artworks(expand=orderDetails)');
   } catch (e) {
     Fluttertoast.showToast(msg: 'Get accounts failed');
   }

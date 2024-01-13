@@ -1,5 +1,7 @@
 import 'package:drawing_on_demand_web_admin/data/models/artwork.dart';
+import 'package:drawing_on_demand_web_admin/data/models/certificate.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order.dart';
+import 'package:drawing_on_demand_web_admin/data/models/requirement.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:intl/intl.dart';
 
@@ -44,28 +46,10 @@ class Account {
   Rank? rank;
   List<AccountReview>? accountReviewAccounts;
   List<Artwork>? artworks;
+  List<Certificate>? certificates;
+  List<Requirement>? requirements;
 
-  Account({
-    this.id,
-    this.email,
-    this.phone,
-    this.name,
-    this.gender,
-    this.avatar,
-    this.address,
-    this.bio,
-    this.availableConnect,
-    this.createdDate,
-    this.lastModifiedDate,
-    this.status,
-    this.rankId,
-    this.accountRoles,
-    this.orders,
-    this.rank,
-    this.accountReviewAccounts,
-    this.artworks
-  });
-
+  Account({this.id, this.email, this.phone, this.name, this.gender, this.avatar, this.address, this.bio, this.availableConnect, this.createdDate, this.lastModifiedDate, this.status, this.rankId, this.accountRoles, this.orders, this.rank, this.accountReviewAccounts, this.artworks, this.certificates, this.requirements});
 
   Account.fromJson(Map<String, dynamic> json) {
     id = Guid(json['Id']);
@@ -78,9 +62,7 @@ class Account {
     bio = json['Bio'];
     availableConnect = json['AvailableConnect'];
     createdDate = DateTime.parse(json['CreatedDate']);
-    lastModifiedDate = json['LastModifiedDate'] != null
-        ? DateTime.parse(json['LastModifiedDate'])
-        : null;
+    lastModifiedDate = json['LastModifiedDate'] != null ? DateTime.parse(json['LastModifiedDate']) : null;
     status = json['Status'];
     rankId = Guid(json['RankId']);
     accountRoles = json['AccountRoles'] != null
@@ -112,6 +94,20 @@ class Account {
             ),
           )
         : null;
+    certificates = json['Certificates'] != null
+        ? List<Certificate>.from(
+            json['Certificates'].map(
+              (x) => Certificate.fromJson(x),
+            ),
+          )
+        : null;
+        requirements = json['Requirements'] != null
+        ? List<Requirement>.from(
+            json['Requirements'].map(
+              (x) => Requirement.fromJson(x),
+            ),
+          )
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -125,11 +121,8 @@ class Account {
       'Address': address,
       'Bio': bio,
       'AvailableConnect': availableConnect,
-      'CreatedDate':
-          DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(createdDate!),
-      'LastModifiedDate': lastModifiedDate != null
-          ? DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(lastModifiedDate!)
-          : null,
+      'CreatedDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(createdDate!),
+      'LastModifiedDate': lastModifiedDate != null ? DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(lastModifiedDate!) : null,
       'Status': status,
       'RankId': rankId.toString(),
     };

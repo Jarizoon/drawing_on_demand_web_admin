@@ -29,33 +29,23 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                   width: double.infinity,
                   margin: const EdgeInsets.all(10),
                   height: 70,
-                  decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(40)),
+                  decoration: BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.circular(40)),
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     width: 180,
                     child: const Center(
-                      child: Text('Create Staff',
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600,
-                              color: kWhite)),
+                      child: Text('Create Staff', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: kWhite)),
                     ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: const BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  decoration: const BoxDecoration(color: secondaryColor, borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: Container(
                     height: 550,
                     padding: const EdgeInsets.only(left: 5),
-                    decoration: const BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    decoration: const BoxDecoration(color: kWhite, borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -70,11 +60,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Email',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your email',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                  hintText: 'Enter email',
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -85,11 +73,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Fullname',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your fullname',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                  hintText: 'Enter fullname',
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -100,11 +86,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Phone',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your phone number',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                  hintText: 'Enter phone number',
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -115,9 +99,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 height: 50,
                                 child: Row(
                                   children: [
-                                    const Text("Choose your gender:",
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black)),
+                                    const Text("Choose gender:", style: TextStyle(fontSize: 16, color: Colors.black)),
                                     const SizedBox(width: 20),
                                     Radio(
                                         value: "Female",
@@ -127,9 +109,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                             gender = value!;
                                           });
                                         }),
-                                    const Text("Female",
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.black)),
+                                    const Text("Female", style: TextStyle(fontSize: 12, color: Colors.black)),
                                     const SizedBox(width: 30),
                                     Radio(
                                         value: "Male",
@@ -139,9 +119,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                             gender = value!;
                                           });
                                         }),
-                                    const Text("Male",
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.black)),
+                                    const Text("Male", style: TextStyle(fontSize: 12, color: Colors.black)),
                                     const SizedBox(width: 30),
                                     Radio(
                                         value: "Other",
@@ -151,9 +129,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                             gender = value!;
                                           });
                                         }),
-                                    const Text("Other",
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.black)),
+                                    const Text("Other", style: TextStyle(fontSize: 12, color: Colors.black)),
                                   ],
                                 ),
                               ),
@@ -163,11 +139,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Address',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
                                   hintText: 'Enter your address',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -178,11 +152,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Bio',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
                                   hintText: 'Enter your introduction',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -193,11 +165,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Password',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
                                   hintText: 'Enter your password',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -208,11 +178,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 cursorColor: kNeutralColor,
                                 decoration: kInputDecoration.copyWith(
                                   labelText: 'Confirm password',
-                                  labelStyle:
-                                      kTextStyle.copyWith(color: kNeutralColor),
+                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
                                   hintText: 'Enter your password again',
-                                  hintStyle: kTextStyle.copyWith(
-                                      color: kLightNeutralColor),
+                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                   focusColor: kNeutralColor,
                                   border: const OutlineInputBorder(),
                                 ),
@@ -229,66 +197,41 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(height: 12),
-                                const Text("Avatar",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600)),
+                                const Text("Avatar", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
                                 Container(
                                   width: 200,
                                   height: 200,
                                   margin: const EdgeInsets.only(top: 10),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(120),
                                     color: kWhite,
                                   ),
-                                  child: imageAvailable
-                                      ? Image.memory(imageFile)
-                                      : Image.asset(emptyImage),
+                                  child: imageAvailable ? Image.memory(imageFile) : const Image(image: NetworkImage(emptyImage), fit: BoxFit.contain,),
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    final image =
-                                        await ImagePickerWeb.getImageAsBytes();
+                                    final image = await ImagePickerWeb.getImageAsBytes();
                                     setState(() {
                                       imageFile = image!;
                                       imageAvailable = true;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 15),
+                                    margin: const EdgeInsets.symmetric(vertical: 15),
                                     padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        color: kWhite,
-                                        border: Border.all(
-                                            width: 1.0, color: blackColor),
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: const Text("Choose image",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
+                                    decoration: BoxDecoration(color: kWhite, border: Border.all(width: 1.0, color: blackColor), borderRadius: BorderRadius.circular(30)),
+                                    child: const Text("Choose image", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                                   ),
                                 ),
                                 const SizedBox(height: 100),
                                 InkWell(
                                   onTap: () {},
                                   child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 15),
+                                    margin: const EdgeInsets.symmetric(vertical: 15),
                                     padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        color: kPrimaryColor,
-                                        border: Border.all(
-                                            width: 1.0, color: blackColor),
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: const Text("Submit",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600)),
+                                    decoration: BoxDecoration(color: kPrimaryColor, border: Border.all(width: 1.0, color: blackColor), borderRadius: BorderRadius.circular(30)),
+                                    child: const Text("Submit", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                                   ),
                                 ),
                               ],

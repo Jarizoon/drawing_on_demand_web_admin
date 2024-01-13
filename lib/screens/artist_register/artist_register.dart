@@ -13,6 +13,9 @@ class ArtistRegisterPage extends StatefulWidget {
 
   @override
   State<ArtistRegisterPage> createState() => _ArtistRegisterPageState();
+  static void refresh() {
+    state.refresh();
+  }
 }
 
 class _ArtistRegisterPageState extends State<ArtistRegisterPage> {
@@ -128,6 +131,19 @@ class _ArtistRegisterPageState extends State<ArtistRegisterPage> {
       ),
     );
   }
+  Future<Accounts?> getData() async {
+  try {
+    return await AccountApi().gets(0, expand: 'accountRoles(expand=role)');
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Get accounts failed');
+  }
+  return null;
+}
+void refresh() {
+    setState(() {
+      accounts = getData();
+    });
+  }
 }
 
 class ArtistRegisterData extends DataTableSource {
@@ -142,7 +158,7 @@ class ArtistRegisterData extends DataTableSource {
     }
     final account = list[index];
     return DataRow(
-        onLongPress: () => context.goNamed(ArtistRegisterDetailRoute.name, pathParameters: {'id': account.id.toString()}),
+        onLongPress: () => context.goNamed(ArtistRegisterDetailRoute.name, pathParameters: {'artistRegister_id': account.id.toString()}),
         cells: [
           DataCell(Text("${account.email}",
               style:
@@ -172,11 +188,4 @@ class ArtistRegisterData extends DataTableSource {
   int get selectedRowCount => 0;
 }
 
-Future<Accounts?> getData() async {
-  try {
-    return await AccountApi().gets(0, expand: 'accountRoles(expand=role)');
-  } catch (e) {
-    Fluttertoast.showToast(msg: 'Get accounts failed');
-  }
-  return null;
-}
+
