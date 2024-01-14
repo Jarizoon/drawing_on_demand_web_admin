@@ -104,83 +104,81 @@ class _ArtistPageState extends State<ArtistPage> {
                           ),
                           const SizedBox(width: 8),
                           Container(
-                            width: 250,
-                            child: Expanded(
-                                child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    flex: 2,
-                                    child: DropdownButton<String?>(
-                                        value: status,
-                                        icon: Image.asset(
-                                          dropdownIcon,
-                                          width: 15,
-                                          height: 15,
-                                        ),
-                                        style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
-                                        hint: const Text('Status'),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            status = value;
-                                          });
-                                        },
-                                        items: ["Active", "Deactive", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  Expanded(
-                                    flex: 2,
-                                    child: DropdownButton<String?>(
-                                        value: rank,
-                                        icon: Image.asset(
-                                          dropdownIcon,
-                                          width: 15,
-                                          height: 15,
-                                        ),
-                                        style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
-                                        hint: const Text('Rank'),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            rank = value;
-                                          });
-                                        },
-                                        items: ["Đồng", "Bạc", "Vàng", "Bạch Kim", "Kim Cương", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    flex: 1,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            if (rank != null) {
-                                              if (rank != "None") {
-                                                rankToFilter = rank;
-                                              } else {
-                                                rankToFilter = "";
+                              width: 250,
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
+                                child: Row(
+                                  children: [
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      flex: 2,
+                                      child: DropdownButton<String?>(
+                                          value: status,
+                                          icon: Image.asset(
+                                            dropdownIcon,
+                                            width: 15,
+                                            height: 15,
+                                          ),
+                                          style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
+                                          hint: const Text('Status'),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              status = value;
+                                            });
+                                          },
+                                          items: ["Active", "Deactive", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Expanded(
+                                      flex: 2,
+                                      child: DropdownButton<String?>(
+                                          value: rank,
+                                          icon: Image.asset(
+                                            dropdownIcon,
+                                            width: 15,
+                                            height: 15,
+                                          ),
+                                          style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
+                                          hint: const Text('Rank'),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              rank = value;
+                                            });
+                                          },
+                                          items: ["Đồng", "Bạc", "Vàng", "Bạch Kim", "Kim Cương", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      flex: 1,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (rank != null) {
+                                                if (rank != "None") {
+                                                  rankToFilter = rank;
+                                                } else {
+                                                  rankToFilter = "";
+                                                }
                                               }
-                                            }
-                                            if (status != null) {
-                                              if (status != "None") {
-                                                statusToFilter = status;
-                                              } else {
-                                                statusToFilter = "";
+                                              if (status != null) {
+                                                if (status != "None") {
+                                                  statusToFilter = status;
+                                                } else {
+                                                  statusToFilter = "";
+                                                }
                                               }
-                                            }
-                                          });
-                                        },
-                                        icon: Image.asset(
-                                          filterIcon,
-                                          fit: BoxFit.cover,
-                                        )),
-                                  )
-                                ],
-                              ),
-                            )),
-                          ),
+                                            });
+                                          },
+                                          icon: Image.asset(
+                                            filterIcon,
+                                            fit: BoxFit.cover,
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              )),
                           const SizedBox(width: 10),
                         ],
                       ),
@@ -233,7 +231,7 @@ class AccountData extends DataTableSource {
     final account = list[index];
     double earning = 0;
     String rank = "";
-    if(account.rank != null){
+    if (account.rank != null) {
       rank = account.rank!.name.toString();
     }
     if (account.artworks != null) {

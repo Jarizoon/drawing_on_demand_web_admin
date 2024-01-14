@@ -7,7 +7,8 @@ class TopAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      height: 70,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -28,7 +29,7 @@ class TopAppBar extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
+          const Spacer(flex: 1),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             margin: const EdgeInsets.all(10),

@@ -35,7 +35,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             color: secondaryColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          child: Padding(
+                          child: Container(
                             padding: const EdgeInsets.all(10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,27 +59,28 @@ class _DashboardPageState extends State<DashboardPage> {
                       child: Expanded(
                         flex: 2,
                         child: Container(
-                          padding: const EdgeInsets.all(18),
-                          height: 650,
-                          decoration: const BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: const Column(
-                            children: [
-                              Text(
-                                "Most spending customers",
-                                style: TextStyle(
-                                  color: kWhite,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            padding: const EdgeInsets.all(18),
+                            height: 650,
+                            decoration: const BoxDecoration(
+                              color: secondaryColor,
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: const SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Most spending customers",
+                                    style: TextStyle(
+                                      color: kWhite,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  CustomersOrderRecently(),
+                                ],
                               ),
-                              SizedBox(height: 12),
-                              CustomersOrderRecently(),
-                            ],
-                          ),
-                        ),
+                            )),
                       ),
                     ),
                   ],

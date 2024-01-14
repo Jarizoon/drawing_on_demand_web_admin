@@ -102,90 +102,88 @@ class _ArtworkPageState extends State<ArtworkPage> {
                               ),
                               const SizedBox(width: 12),
                               Container(
-                                width: 340,
-                                child: Expanded(
-                                    child: Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 10),
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        flex: 3,
-                                        child: DropdownButton<String?>(
-                                            value: status,
-                                            icon: Image.asset(
-                                              dropdownIcon,
-                                              width: 15,
-                                              height: 15,
-                                            ),
-                                            style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
-                                            hint: const Text('Status'),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                status = value;
-                                              });
-                                            },
-                                            items: ["Available", "Not Available", "Paused", "Proposed", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
-                                      ),
-                                      const SizedBox(width: 20),
-                                      Expanded(
-                                          flex: 4,
-                                          child: FutureBuilder(
-                                              future: getCategoryNames(),
-                                              builder: ((context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  List<String> categoryNames = snapshot.data!.toList();
-                                                  return DropdownButton<String?>(
-                                                      value: category,
-                                                      icon: Image.asset(
-                                                        dropdownIcon,
-                                                        width: 15,
-                                                        height: 15,
-                                                      ),
-                                                      style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
-                                                      hint: const Text('Category'),
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          category = value;
-                                                        });
-                                                      },
-                                                      items: categoryNames.map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList());
-                                                }
-                                                return Container(color: kWhite, width: 70);
-                                              }))),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        flex: 1,
-                                        child: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                if (category != null) {
-                                                  if (category != "None") {
-                                                    categoryToFilter = category;
-                                                  } else {
-                                                    categoryToFilter = "";
+                                  width: 340,
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          flex: 3,
+                                          child: DropdownButton<String?>(
+                                              value: status,
+                                              icon: Image.asset(
+                                                dropdownIcon,
+                                                width: 15,
+                                                height: 15,
+                                              ),
+                                              style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
+                                              hint: const Text('Status'),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  status = value;
+                                                });
+                                              },
+                                              items: ["Available", "Not Available", "Paused", "Proposed", "None"].map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList()),
+                                        ),
+                                        const SizedBox(width: 20),
+                                        Expanded(
+                                            flex: 4,
+                                            child: FutureBuilder(
+                                                future: getCategoryNames(),
+                                                builder: ((context, snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    List<String> categoryNames = snapshot.data!.toList();
+                                                    return DropdownButton<String?>(
+                                                        value: category,
+                                                        icon: Image.asset(
+                                                          dropdownIcon,
+                                                          width: 15,
+                                                          height: 15,
+                                                        ),
+                                                        style: const TextStyle(color: blackColor, backgroundColor: kWhite, fontSize: 12),
+                                                        hint: const Text('Category'),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            category = value;
+                                                          });
+                                                        },
+                                                        items: categoryNames.map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(value: e, child: Text(e.toString()))).toList());
                                                   }
-                                                }
-                                                if (status != null) {
-                                                  if (status != "None") {
-                                                    statusToFilter = status;
-                                                  } else {
-                                                    statusToFilter = "";
+                                                  return Container(color: kWhite, width: 70);
+                                                }))),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          flex: 1,
+                                          child: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (category != null) {
+                                                    if (category != "None") {
+                                                      categoryToFilter = category;
+                                                    } else {
+                                                      categoryToFilter = "";
+                                                    }
                                                   }
-                                                }
-                                              });
-                                            },
-                                            icon: Image.asset(
-                                              filterIcon,
-                                              fit: BoxFit.cover,
-                                            )),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                              ),
+                                                  if (status != null) {
+                                                    if (status != "None") {
+                                                      statusToFilter = status;
+                                                    } else {
+                                                      statusToFilter = "";
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                              icon: Image.asset(
+                                                filterIcon,
+                                                fit: BoxFit.cover,
+                                              )),
+                                        )
+                                      ],
+                                    ),
+                                  )),
                               const SizedBox(width: 10),
                             ],
                           ),

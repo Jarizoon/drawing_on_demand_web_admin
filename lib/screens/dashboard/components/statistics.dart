@@ -111,23 +111,6 @@ class Statistics extends StatelessWidget {
     );
   }
 }
-
-getNumberUser() {
-  return 526;
-}
-
-getNumberOrder() {
-  return 125;
-}
-
-getProfit() {
-  return 2980000;
-}
-
-getNumberDoneReq() {
-  return 35;
-}
-
 Future<Accounts?> getUserNumber() async {
   try {
     return await AccountApi().gets(0);

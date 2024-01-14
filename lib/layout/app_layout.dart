@@ -15,36 +15,53 @@ class AppLayout extends StatelessWidget {
       return Scaffold(
         drawer: const NavigationPanel(),
         body: Builder(
-          builder: (context) => SizedBox(
+          builder: (context) => Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
-                      color: secondaryColor,
-                      height: 75,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 40,
-                            child: Center(
-                              child: IconButton(
-                                onPressed: () {
-                                  Scaffold.of(context).openDrawer();
-                                },
-                                icon: Image.asset(menuIcon),
+                        color: secondaryColor,
+                        height: 75,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                             Container(
+                              width: 40,
+                              child: Center(
+                                child: IconButton(
+                                  onPressed: () {
+                                    Scaffold.of(context).openDrawer();
+                                  },
+                                  icon: Image.asset(menuIcon),
+                                ),
                               ),
                             ),
-                          ),
-                          const TopAppBar(),
-                        ],
-                      ),
-                    ),
-                    Padding(
+                            const TopAppBar(),
+                          ],
+                        )
+                        // child: Row(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     Container(
+                        //       width: 40,
+                        //       child: Center(
+                        //         child: IconButton(
+                        //           onPressed: () {
+                        //             Scaffold.of(context).openDrawer();
+                        //           },
+                        //           icon: Image.asset(menuIcon),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     const TopAppBar(),
+                        //   ],
+                        // ),
+                        ),
+                    Container(
                       padding: const EdgeInsets.all(10.0),
                       child: content,
                     ),
@@ -58,12 +75,13 @@ class AppLayout extends StatelessWidget {
         children: [
           const Expanded(flex: 1, child: NavigationPanel()),
           Expanded(
-            flex: 5,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [Container(height: 75, color: secondaryColor, child: const TopAppBar()), Expanded(child: content)],
-            ),
-          ),
+              flex: 5,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [Container(height: 75, color: secondaryColor, child: const TopAppBar()), Container(child: content)],
+                ),
+              )),
         ],
       );
     }
