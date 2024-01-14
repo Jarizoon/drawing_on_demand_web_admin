@@ -77,3 +77,8 @@ class RequirementDetailRoute {
   static const String tag = ':requirement_id';
   static const String name = 'Requirement Detail';
 }
+
+class ManagementRoute {
+  static const String tag = '/management';
+  static const String name = 'Management Page';
+}

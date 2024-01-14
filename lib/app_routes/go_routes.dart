@@ -11,6 +11,7 @@ import 'package:drawing_on_demand_web_admin/screens/artwork/artwork.dart';
 import 'package:drawing_on_demand_web_admin/screens/artwork/artwork_detail.dart';
 import 'package:drawing_on_demand_web_admin/screens/dashboard/dashboard.dart';
 import 'package:drawing_on_demand_web_admin/screens/login/login.dart';
+import 'package:drawing_on_demand_web_admin/screens/management/management.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/order.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/order_detail.dart';
 import 'package:drawing_on_demand_web_admin/screens/requirement/requirement.dart';
@@ -142,6 +143,13 @@ class AppRoutes {
                     return RequirementDetailPage(id: state.pathParameters['requirement_id']);
                   })
             ]),
+            GoRoute(
+          path: ManagementRoute.tag,
+          name: ManagementRoute.name,
+          builder: (context, state) {
+            return const ManagementPage();
+          },
+        ),
       ],
       onException: (context, state, router) {
         router.go(LoginRoute.tag);

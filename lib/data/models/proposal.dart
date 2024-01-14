@@ -31,24 +31,33 @@ class Proposal {
   Guid? requirementId;
   Guid? createdBy;
   Guid? artworkId;
+  Account? createdByNavigation;
   Artwork? artwork;
   Requirement? requirement;
-  Account? createdByNavigation;
 
-  Proposal({this.id, this.introduction, this.createdDate, this.lastModifiedDate, this.status, this.requirementId, this.createdBy, this.artworkId, this.artwork, this.requirement, this.createdByNavigation});
+  Proposal({
+    this.id,
+    this.introduction,
+    this.createdDate,
+    this.lastModifiedDate,
+    this.status,
+    this.requirementId,
+    this.createdBy,
+    this.artworkId,
+  });
 
   Proposal.fromJson(Map<String, dynamic> json) {
     id = Guid(json['Id']);
     introduction = json['Introduction'];
     createdDate = DateTime.parse(json['CreatedDate']);
-    lastModifiedDate = DateTime.parse(json['LastModifiedDate']);
+    lastModifiedDate = json['LastModifiedDate'] != null ? DateTime.parse(json['LastModifiedDate']) : null;
     status = json['Status'];
-    artworkId = Guid(json['ArtworkId']);
     requirementId = Guid(json['RequirementId']);
     createdBy = Guid(json['CreatedBy']);
+    artworkId = Guid(json['ArtworkId']);
+    createdByNavigation = json['CreatedByNavigation'] != null ? Account.fromJson(json['CreatedByNavigation']) : null;
     artwork = json['Artwork'] != null ? Artwork.fromJson(json['Artwork']) : null;
     requirement = json['Requirement'] != null ? Requirement.fromJson(json['Requirement']) : null;
-    createdByNavigation = json['CreatedByNavigation'] != null ? Account.fromJson(json['CreatedByNavigation']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -56,11 +65,11 @@ class Proposal {
       'Id': id.toString(),
       'Introduction': introduction,
       'CreatedDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(createdDate!),
-      'LastModifiedDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(lastModifiedDate!),
+      'LastModifiedDate': lastModifiedDate != null ? DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(lastModifiedDate!) : null,
       'Status': status,
-      'ArtworkId': artworkId.toString(),
       'RequirementId': requirementId.toString(),
-      'CreateBy': createdBy.toString(),
+      'CreatedBy': createdBy.toString(),
+      'ArtworkId': artworkId.toString(),
     };
   }
 }

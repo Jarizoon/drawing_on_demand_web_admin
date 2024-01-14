@@ -3,6 +3,7 @@
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
+import 'package:drawing_on_demand_web_admin/screens/widgets/account_review_list.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/artwork_list.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/certificate_list.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
@@ -230,6 +231,22 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                         )
                                                       ], color: kWhite, borderRadius: BorderRadius.circular(10)),
                                                       child: OrderList(account: acc),
+                                                    )),
+                                                    Visibility(
+                                                    visible: acc.accountRoles!.where((ar) => ar.role!.name == "Staff" || ar.role!.name == "Admin").isEmpty,
+                                                    child: Container(
+                                                      height: 200,
+                                                      padding: const EdgeInsets.all(10),
+                                                      margin: const EdgeInsets.only(top: 20),
+                                                      decoration: BoxDecoration(boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey.shade500,
+                                                          offset: const Offset(4, 4),
+                                                          blurRadius: 15,
+                                                          spreadRadius: 1,
+                                                        )
+                                                      ], color: kWhite, borderRadius: BorderRadius.circular(10)),
+                                                      child: AccountReviewList(account: acc),
                                                     ))
                                               ]),
                                             ),
@@ -252,7 +269,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
 
   Future<Account?> getData() async {
     try {
-      return await AccountApi().getOne(widget.id!, 'certificates,accountRoles(expand=role),artworks(expand=arts,category),requirements,orders');
+      return await AccountApi().getOne(widget.id!, 'certificates,accountRoles(expand=role),artworks(expand=arts,category),requirements,orders,accountReviewAccounts(expand=createdByNavigation)');
     } catch (e) {
       Fluttertoast.showToast(msg: 'Get artworks failed');
     }

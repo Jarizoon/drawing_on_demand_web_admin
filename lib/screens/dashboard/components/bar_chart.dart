@@ -9,17 +9,17 @@ class SimpleBarChart extends StatelessWidget {
   const SimpleBarChart(this.seriesList, {super.key, this.animate = false});
 
   /// Creates a [BarChart] with sample data and no transition.
-  factory SimpleBarChart.withSampleData() {
+  factory SimpleBarChart.withSampleData(List<int> list) {
     return SimpleBarChart(
-      _createSampleData(),
+      _createSampleData(list),
       // Disable animations for image tests.
       animate: false,
     );
   }
 
-  factory SimpleBarChart.withSecondleData() {
+  factory SimpleBarChart.withSecondleData(List<int> list) {
     return SimpleBarChart(
-      _createSecondleData(),
+      _createSecondleData(list),
       // Disable animations for image tests.
       animate: false,
     );
@@ -34,12 +34,12 @@ class SimpleBarChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+  static List<charts.Series<OrdinalSales, String>> _createSampleData(List<int> list) {
     final data = [
-      OrdinalSales('Sep 2023', 25),
-      OrdinalSales('Oct 2023', 79),
-      OrdinalSales('Nov 2023', 123),
-      OrdinalSales('Dec 2023', 236),
+      OrdinalSales('4 months ago', list[3]),
+      OrdinalSales('3 months ago', list[2]),
+      OrdinalSales('2 months ago', list[1]),
+      OrdinalSales('1 month ago', list[0]),
     ];
 
     return [
@@ -54,12 +54,12 @@ class SimpleBarChart extends StatelessWidget {
   }
 }
 
-List<charts.Series<OrdinalSales, String>> _createSecondleData() {
+List<charts.Series<OrdinalSales, String>> _createSecondleData(List<int> list) {
   final data = [
-    OrdinalSales('Sep 2023', 14),
-    OrdinalSales('Oct 2023', 36),
-    OrdinalSales('Nov 2023', 23),
-    OrdinalSales('Dec 2023', 53),
+    OrdinalSales('4 months ago', list[3]),
+    OrdinalSales('3 months ago', list[2]),
+    OrdinalSales('2 months ago', list[1]),
+    OrdinalSales('1 month ago', list[0]),
   ];
 
   return [
@@ -80,3 +80,5 @@ class OrdinalSales {
 
   OrdinalSales(this.year, this.sales);
 }
+
+

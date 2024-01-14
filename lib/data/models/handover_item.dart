@@ -39,7 +39,7 @@ class HandoverItem {
     id = Guid(json['Id']);
     handoverId = json['HandOverId'];
     orderDetailId = Guid(json['OrderDetailId']);
-    handover = json['Handover'] != null ? Handover.fromJson(json['Handover']) : null;
+    handover = json['HandOver'] != null ? Handover.fromJson(json['HandOver']) : null;
     orderDetail = json['OrderDetail'] != null ? OrderDetail.fromJson(json['OrderDetail']) : null;
   }
 

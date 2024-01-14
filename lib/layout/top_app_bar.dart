@@ -55,7 +55,7 @@ class TopAppBar extends StatelessWidget {
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                    child: Text('User name',
+                    child: Text('Admin',
                         style: kTextStyle.copyWith(
                             fontWeight: FontWeight.w400, color: kWhite)),
                   ),

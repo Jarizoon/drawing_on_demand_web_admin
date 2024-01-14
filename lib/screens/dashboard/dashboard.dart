@@ -68,7 +68,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           child: const Column(
                             children: [
                               Text(
-                                "Most pending customers",
+                                "Most spending customers",
                                 style: TextStyle(
                                   color: kWhite,
                                   fontSize: 18,

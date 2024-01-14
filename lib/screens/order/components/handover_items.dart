@@ -1,22 +1,17 @@
-import 'package:drawing_on_demand_web_admin/data/data.dart';
-import 'package:drawing_on_demand_web_admin/data/model/handover_item_model.dart';
-import 'package:drawing_on_demand_web_admin/data/model/handover_model.dart';
-import 'package:drawing_on_demand_web_admin/data/model/oder_detail_model.dart';
+import 'package:drawing_on_demand_web_admin/data/models/handover.dart';
+import 'package:drawing_on_demand_web_admin/data/models/handover_item.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/components/handover_item_info.dart';
 import 'package:flutter/material.dart';
 
 class HandoverItems extends StatelessWidget {
   const HandoverItems({Key? key, required this.handover}) : super(key: key);
-  final HandoverModel handover;
+  final Handover handover;
   @override
   Widget build(BuildContext context) {
-    List<HandoverItemModel> list = [
-      HandoverItemModel(orderDetail: OrderDetailModel(artwork: artworkDemo[0])),
-      HandoverItemModel(orderDetail: OrderDetailModel(artwork: artworkDemo[1]))
-    ];
+    List<HandoverItem>? list = handover.handoverItems;
     int lenght = 0;
-    if (handover.listItems != null) {
-      lenght = handover.listItems!.length;
+    if (list != null) {
+      lenght = list.length;
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,8 +21,7 @@ class HandoverItems extends StatelessWidget {
           child: ListView.builder(
             itemCount: lenght,
             shrinkWrap: true,
-            itemBuilder: (context, index) => HandoverItemInfo(
-                item: list[index]),
+            itemBuilder: (context, index) => HandoverItemInfo(item: list![index]),
           ),
         )
       ],

@@ -10,9 +10,9 @@ class ProposalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? image = emptyImage;
-    // if (proposal!.artworkId != null && proposal!.artworkId.toString() != ""){
-    //   image = proposal!.artwork!.arts!.first.image;
-    // }
+    if (proposal!.artworkId != null && proposal!.artworkId.toString() != ""){
+      image = proposal!.artwork!.arts!.first.image;
+    }
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(6),
@@ -26,7 +26,7 @@ class ProposalInfo extends StatelessWidget {
                   width: 100,
                   height: 100,
                   child: Image(
-                    image: NetworkImage(image),
+                    image: NetworkImage(image!),
                     fit: BoxFit.contain,
                   ))),
           const SizedBox(width: 20),
@@ -38,7 +38,7 @@ class ProposalInfo extends StatelessWidget {
                 children: [
                   Text("Intoduction: ${proposal!.introduction}", style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500)),
                   const SizedBox(height: 5),
-                  // Text("Created by: ${proposal!.createdByNavigation!.name}", style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500)),
+                  Text("Created by: ${proposal!.createdByNavigation!.name}", style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500)),
                 ],
               )),
           const SizedBox(width: 20),

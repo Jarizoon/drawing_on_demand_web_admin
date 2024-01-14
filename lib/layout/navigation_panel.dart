@@ -94,6 +94,18 @@ class _NavigationPanelState extends State<NavigationPanel> {
             title: 'Account',
           ),
         ),
+        const Divider(
+          color: Colors.white70,
+        ),
+        Visibility(
+          visible: true,
+          child: DrawerListTile(
+            press: () {
+              context.goNamed(ManagementRoute.name);
+            },
+            title: 'Management',
+          ),
+        ),
       ]),
     );
   }
@@ -118,9 +130,7 @@ class DrawerListTile extends StatelessWidget {
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: const TextStyle(
-            color: Color.fromARGB(180, 255, 255, 255),
-            fontWeight: FontWeight.w600),
+        style: const TextStyle(color: Color.fromARGB(180, 255, 255, 255), fontWeight: FontWeight.w600),
       ),
     );
   }

@@ -22,30 +22,28 @@ class _ArtworkReviewsPage extends State<ArtworkReviewsPage> {
     super.initState();
     artwork = getData();
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-              future: artwork,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return PaginatedDataTable(
-      dataRowMaxHeight: 70,
-      columnSpacing: 10,
-      rowsPerPage: 5,
-      columns: const [
-      DataColumn(
-          label: Text("Comments",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
-    ], source: ArtworkCommentsData(list: snapshot.data!.artworkReviews));
-                }
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: kPrimaryColor,
-                  ),
-                );
-                }
-                );
-    
+        future: artwork,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return PaginatedDataTable(
+                dataRowMaxHeight: 70,
+                columnSpacing: 10,
+                rowsPerPage: 5,
+                columns: const [
+                  DataColumn(label: Text("Comments", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700))),
+                ],
+                source: ArtworkCommentsData(list: snapshot.data!.artworkReviews));
+          }
+          return const Center(
+            child: CircularProgressIndicator(
+              color: kPrimaryColor,
+            ),
+          );
+        });
   }
 
   Future<Artwork?> getData() async {
@@ -59,7 +57,6 @@ class _ArtworkReviewsPage extends State<ArtworkReviewsPage> {
     }
     return null;
   }
-
 }
 
 class ArtworkCommentsData extends DataTableSource {
@@ -72,7 +69,7 @@ class ArtworkCommentsData extends DataTableSource {
     }
     final review = list![index];
     double star = 0;
-    if(review.star != null || review.star != 0){
+    if (review.star != null || review.star != 0) {
       star = review.star!.toDouble();
     }
 
@@ -80,13 +77,13 @@ class ArtworkCommentsData extends DataTableSource {
 
     List<Widget> stars = [];
     stars.add(const Text("Rate: "));
-    for(int i = 0; i < star; i++ ){
+    for (int i = 0; i < star; i++) {
       var sta = const Icon(Icons.star, color: Colors.amber, size: 20);
       stars.add(sta);
       var box = const SizedBox(width: 5);
       stars.add(box);
     }
-    for(int i = 0; i < 5 - star; i++ ){
+    for (int i = 0; i < 5 - star; i++) {
       var sta = const Icon(Icons.star, color: Colors.grey, size: 20);
       stars.add(sta);
       var box = const SizedBox(width: 5);
@@ -98,14 +95,28 @@ class ArtworkCommentsData extends DataTableSource {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(width: 200, child: Text("${review.createdByNavigation!.name}", style: const TextStyle(fontSize: 20),)),
+            Container(
+                width: 200,
+                child: Text(
+                  "${review.createdByNavigation!.name}",
+                  style: const TextStyle(fontSize: 20),
+                )),
             const SizedBox(width: 20),
-            Container(width: 200, child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.start, children: stars),),
+            Container(
+              width: 200,
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.start, children: stars),
+            ),
             const SizedBox(width: 20),
             Container(width: 200, child: Text(f.format(review.createdDate!).toString()))
           ]),
           const SizedBox(height: 10),
-          Container(width: 1200, child: Text("Comment: ${review.comment}", maxLines: 1, overflow: TextOverflow.ellipsis,))
+          Container(
+              width: 1200,
+              child: Text(
+                "Comment: ${review.comment}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ))
         ],
       ))
     ]);

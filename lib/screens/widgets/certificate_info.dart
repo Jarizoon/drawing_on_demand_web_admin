@@ -20,17 +20,21 @@ class CertificateInfo extends StatelessWidget {
       padding: const EdgeInsets.all(6),
       child: Row(
         children: [
-          Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration( border: Border.all(width: 1.0, color: blackColor)),
-              width: 100,
-              height: 100,
-              child: Image(
-                image: NetworkImage(image!),
-                fit: BoxFit.contain,
-              )),
+          Expanded(
+              flex: 1,
+              child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(border: Border.all(width: 1.0, color: blackColor)),
+                  width: 100,
+                  height: 100,
+                  child: Image(
+                    image: NetworkImage(image!),
+                    fit: BoxFit.contain,
+                  ))),
           const SizedBox(width: 20),
-          Column(
+          Expanded(
+            flex: 9,
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(cer!.name!, style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500)),
@@ -39,7 +43,7 @@ class CertificateInfo extends StatelessWidget {
               const SizedBox(height: 5),
               Text(cer!.description!, style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500)),
             ],
-          )
+          ))
         ],
       ),
     );

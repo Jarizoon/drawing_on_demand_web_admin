@@ -35,20 +35,7 @@ class Handover {
   Order? order;
   List<HandoverItem>? handoverItems;
 
-  Handover({
-    this.id,
-    this.orderId,
-    this.name,
-    this.phone,
-    this.shipmentPrice,
-    this.pickupAddress,
-    this.receiveAddress,
-    this.status,
-    this.estimatedDeliveryDate,
-    this.handOverDate,
-    this.order,
-    this.handoverItems
-  });
+  Handover({this.id, this.orderId, this.name, this.phone, this.shipmentPrice, this.pickupAddress, this.receiveAddress, this.status, this.estimatedDeliveryDate, this.handOverDate, this.order, this.handoverItems});
 
   Handover.fromJson(Map<String, dynamic> json) {
     id = Guid(json['Id']);
@@ -62,9 +49,9 @@ class Handover {
     estimatedDeliveryDate = DateTime.parse(json['EstimatedDeliveryDate']);
     handOverDate = DateTime.parse(json['HandOverDate']);
     order = json['Order'] != null ? Order.fromJson(json['Order']) : null;
-    handoverItems = json['HandoverItems'] != null
+    handoverItems = json['HandOverItems'] != null
         ? List<HandoverItem>.from(
-            json['HandoverItems'].map(
+            json['HandOverItems'].map(
               (x) => HandoverItem.fromJson(x),
             ),
           )

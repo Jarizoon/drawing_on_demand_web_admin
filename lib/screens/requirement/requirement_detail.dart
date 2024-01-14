@@ -1,6 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace
 import 'package:drawing_on_demand_web_admin/data/apis/requirement_api.dart';
-import 'package:drawing_on_demand_web_admin/data/models/proposal.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/requirement/components/proposal_list.dart';
@@ -104,7 +103,7 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
                                                               Container(
-                                                                width: 200,
+                                                                width: 300,
                                                                 child: Text("Budget: ${snapshot.data!.budget}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                               ),
                                                               const SizedBox(width: 20),
@@ -115,7 +114,7 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                           Row(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              Container(width: 200, child: Text("Pieces: ${snapshot.data!.pieces}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+                                                              Container(width: 300, child: Text("Pieces: ${snapshot.data!.pieces}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
                                                               const SizedBox(width: 20),
                                                                Text("Size: $size", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                             ],
@@ -124,7 +123,7 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                           Row(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              Container(width: 200, child: Text("Surface: ${snapshot.data!.surface!.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+                                                              Container(width: 300, child: Text("Surface: ${snapshot.data!.surface!.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
                                                               const SizedBox(width: 20),
                                                               Text("Material: ${snapshot.data!.material!.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                             ],
@@ -133,7 +132,7 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                           Row(
                                                             crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              Container(width: 220, child: Text("Status: ${snapshot.data!.status}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
+                                                              Container(width: 320, child: Text("Status: ${snapshot.data!.status}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
                                                               const Text("Create By: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                               Text("${snapshot.data!.createdByNavigation!.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                             ],
@@ -157,8 +156,8 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                   blurRadius: 15,
                                                   spreadRadius: 1,
                                                 )
-                                              ], color: kPrimaryColor, borderRadius: BorderRadius.circular(10)),
-                                              // child: ProposalList(requirement: snapshot.data),
+                                              ], color: kWhite, borderRadius: BorderRadius.circular(10)),
+                                              child: ProposalList(requirement: snapshot.data),
                                             ),
                                           ],
                                         ),
@@ -179,9 +178,9 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
 
   Future<Requirement?> getData() async {
     try {
-      return await RequirementApi().getOne(widget.id!, 'category,createdByNavigation,material,surface,sizes');
+      return await RequirementApi().getOne(widget.id!, 'category,createdByNavigation,material,surface,sizes,proposals(expand=createdByNavigation,artwork(expand=arts))');
     } catch (e) {
-      Fluttertoast.showToast(msg: 'Get requirement failed');
+      Fluttertoast.showToast(msg: 'Get requirements failed');
     }
     return null;
   }

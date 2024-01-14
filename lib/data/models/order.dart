@@ -60,9 +60,9 @@ class Order {
           )
         : null;
     orderedByNavigation = json['OrderedByNavigation'] != null ? Account.fromJson(json['OrderedByNavigation']) : null;
-    handovers = json['Handovers'] != null
+    handovers = json['HandOvers'] != null
         ? List<Handover>.from(
-            json['Handovers'].map(
+            json['HandOvers'].map(
               (x) => Handover.fromJson(x),
             ),
           )
