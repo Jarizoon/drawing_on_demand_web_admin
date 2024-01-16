@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     const SizedBox(width: 12),
                     Visibility(
-                      visible: MediaQuery.of(context).size.width >= 850,
+                      visible: MediaQuery.of(context).size.width >= 950,
                       child: Expanded(
                         flex: 2,
                         child: Container(

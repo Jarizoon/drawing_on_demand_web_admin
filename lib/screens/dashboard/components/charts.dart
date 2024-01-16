@@ -11,72 +11,70 @@ class Charts extends StatelessWidget {
   const Charts({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: FutureBuilder(
-                    future: getUserFollowMonth(),
-                    builder: ((context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text("User increasement", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: blackColor)),
-                            Container(
-                              height: 350,
-                              child: SimpleBarChart.withSampleData(snapshot.data!),
-                            ),
-                          ],
-                        );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: FutureBuilder(
+                  future: getUserFollowMonth(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Text("User increasement", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: blackColor)),
+                          Container(
+                            height: 350,
+                            child: SimpleBarChart.withSampleData(snapshot.data!),
+                          ),
+                        ],
                       );
-                    }))),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 2,
-            child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: FutureBuilder(
-                    future: getOrderFollowMonth(),
-                    builder: ((context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text("Order increasement", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: blackColor)),
-                            Container(
-                              height: 350,
-                              child: SimpleBarChart.withSecondleData(snapshot.data!),
-                            ),
-                          ],
-                        );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ),
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      ),
+                    );
+                  }))),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          flex: 2,
+          child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: FutureBuilder(
+                  future: getOrderFollowMonth(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Text("Order increasement", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: blackColor)),
+                          Container(
+                            height: 350,
+                            child: SimpleBarChart.withSecondleData(snapshot.data!),
+                          ),
+                        ],
                       );
-                    }))),
-          ),
-        ],
-      ),
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      ),
+                    );
+                  }))),
+        ),
+      ],
     );
   }
 }

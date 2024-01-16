@@ -27,6 +27,7 @@ dependencies:
   go_router: ^12.1.3
   shared_preferences: ^2.2.2
   url_strategy: ^0.2.0
+  validators: ^3.0.0
 
 dev_dependencies:
   flutter_test:

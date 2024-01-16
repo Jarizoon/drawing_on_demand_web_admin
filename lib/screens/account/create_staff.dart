@@ -1,10 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
+import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:validators/validators.dart';
 
 class CreateStaffPage extends StatefulWidget {
   const CreateStaffPage({Key? key}) : super(key: key);
@@ -13,6 +17,16 @@ class CreateStaffPage extends StatefulWidget {
 }
 
 class _CreateStaffPageState extends State<CreateStaffPage> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
+  bool hidePassword = true;
+
   late bool imageAvailable = false;
   late Uint8List imageFile;
   String gender = "Female";
@@ -50,144 +64,190 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 5),
-                              TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Email',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter email',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              TextFormField(
-                                keyboardType: TextInputType.name,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Fullname',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter fullname',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              TextFormField(
-                                keyboardType: TextInputType.phone,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Phone',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter phone number',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              Container(
-                                padding: const EdgeInsets.only(left: 10),
-                                height: 50,
-                                child: Row(
-                                  children: [
-                                    const Text("Choose gender:", style: TextStyle(fontSize: 16, color: Colors.black)),
-                                    const SizedBox(width: 20),
-                                    Radio(
-                                        value: "Female",
-                                        groupValue: gender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            gender = value!;
-                                          });
-                                        }),
-                                    const Text("Female", style: TextStyle(fontSize: 12, color: Colors.black)),
-                                    const SizedBox(width: 30),
-                                    Radio(
-                                        value: "Male",
-                                        groupValue: gender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            gender = value!;
-                                          });
-                                        }),
-                                    const Text("Male", style: TextStyle(fontSize: 12, color: Colors.black)),
-                                    const SizedBox(width: 30),
-                                    Radio(
-                                        value: "Other",
-                                        groupValue: gender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            gender = value!;
-                                          });
-                                        }),
-                                    const Text("Other", style: TextStyle(fontSize: 12, color: Colors.black)),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              TextFormField(
-                                keyboardType: TextInputType.text,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Address',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your address',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              TextFormField(
-                                keyboardType: TextInputType.text,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Bio',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your introduction',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              TextFormField(
-                                keyboardType: TextInputType.visiblePassword,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Password',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your password',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              ),
-                              const SizedBox(height: 18.0),
-                              TextFormField(
-                                keyboardType: TextInputType.visiblePassword,
-                                cursorColor: kNeutralColor,
-                                decoration: kInputDecoration.copyWith(
-                                  labelText: 'Confirm password',
-                                  labelStyle: kTextStyle.copyWith(color: kNeutralColor),
-                                  hintText: 'Enter your password again',
-                                  hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
-                                  focusColor: kNeutralColor,
-                                  border: const OutlineInputBorder(),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                            flex: 2,
+                            child: Form(
+                                key: _formKey,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 5),
+                                      TextFormField(
+                                        keyboardType: TextInputType.emailAddress,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Email',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter email',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: emailController,
+                                        validator: (value) {
+                                          if (!isEmail(value!)) {
+                                            return 'Please enter a valid email address';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      TextFormField(
+                                        keyboardType: TextInputType.name,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Fullname',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter fullname',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: fullnameController,
+                                        validator: (value) {
+                                          if (!isFullname(value!)) {
+                                            return 'Please enter a valid fullname';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      TextFormField(
+                                        keyboardType: TextInputType.phone,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Phone',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter phone number',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: phoneController,
+                                        validator: (value) {
+                                          if (!isPhone(value!)) {
+                                            return 'Please enter a valid phone number';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        height: 50,
+                                        child: Row(
+                                          children: [
+                                            const Text("Choose gender:", style: TextStyle(fontSize: 16, color: Colors.black)),
+                                            const SizedBox(width: 20),
+                                            Radio(
+                                                value: "Female",
+                                                groupValue: gender,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    gender = value!;
+                                                  });
+                                                }),
+                                            const Text("Female", style: TextStyle(fontSize: 12, color: Colors.black)),
+                                            const SizedBox(width: 30),
+                                            Radio(
+                                                value: "Male",
+                                                groupValue: gender,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    gender = value!;
+                                                  });
+                                                }),
+                                            const Text("Male", style: TextStyle(fontSize: 12, color: Colors.black)),
+                                            const SizedBox(width: 30),
+                                            Radio(
+                                                value: "Other",
+                                                groupValue: gender,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    gender = value!;
+                                                  });
+                                                }),
+                                            const Text("Other", style: TextStyle(fontSize: 12, color: Colors.black)),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Address',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter your address',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: addressController,
+                                        validator: (value) {
+                                          if (!isAddress(value!)) {
+                                            return 'Please enter a address';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Bio',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter your introduction',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: bioController,
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      TextFormField(
+                                        keyboardType: TextInputType.visiblePassword,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Password',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter your password',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: passwordController,
+                                        validator: (value) {
+                                          if (!isValidPassword(value!)) {
+                                            return 'Please enter a valid password';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      const SizedBox(height: 18.0),
+                                      TextFormField(
+                                        keyboardType: TextInputType.visiblePassword,
+                                        cursorColor: kNeutralColor,
+                                        decoration: kInputDecoration.copyWith(
+                                          labelText: 'Confirm password',
+                                          labelStyle: kTextStyle.copyWith(color: kNeutralColor),
+                                          hintText: 'Enter your password again',
+                                          hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
+                                          focusColor: kNeutralColor,
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                        controller: confirmPasswordController,
+                                        validator: (value) {
+                                          if (value!.isEmpty || value != passwordController.text.trim()) {
+                                            return 'Please enter a confirm password be similar to password';
+                                          }
+                                          return null;
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ))),
                         Visibility(
                           visible: MediaQuery.of(context).size.width >= 850,
                           child: Expanded(
@@ -207,7 +267,12 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                     borderRadius: BorderRadius.circular(120),
                                     color: kWhite,
                                   ),
-                                  child: imageAvailable ? Image.memory(imageFile) : const Image(image: NetworkImage(emptyImage), fit: BoxFit.contain,),
+                                  child: imageAvailable
+                                      ? Image.memory(imageFile)
+                                      : const Image(
+                                          image: NetworkImage(emptyImage),
+                                          fit: BoxFit.contain,
+                                        ),
                                 ),
                                 InkWell(
                                   onTap: () async {
@@ -226,7 +291,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 ),
                                 const SizedBox(height: 100),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    createStaff();
+                                  },
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(vertical: 15),
                                     padding: const EdgeInsets.all(10),
@@ -248,5 +315,13 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
         ),
       ),
     );
+  }
+
+  createStaff() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    } else {
+      context.goNamed(AccountRoute.name);
+    }
   }
 }

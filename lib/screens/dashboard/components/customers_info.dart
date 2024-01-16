@@ -26,10 +26,7 @@ class CustomersInfo extends StatelessWidget {
                 image: NetworkImage(imageSrc!),
                 fit: BoxFit.contain,
               )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: Text(info.name!, style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500)),
-          ),
+          Text(info.name!, style: const TextStyle(color: blackColor, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis,),
         ],
       ),
     );

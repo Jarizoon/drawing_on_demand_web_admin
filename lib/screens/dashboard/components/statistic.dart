@@ -6,8 +6,7 @@ class Statistic extends StatelessWidget {
   final StatisticModel sta;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
+    return Row(
         children: [
           Expanded(
             flex: 3,
@@ -56,7 +55,6 @@ class Statistic extends StatelessWidget {
             ),
           ),
         ],
-      ),
     );
   }
 }

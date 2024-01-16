@@ -28,39 +28,26 @@ class AppLayout extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Container(
-                              width: 40,
-                              child: Center(
-                                child: IconButton(
-                                  onPressed: () {
-                                    Scaffold.of(context).openDrawer();
-                                  },
-                                  icon: Image.asset(menuIcon),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                width: 40,
+                                child: Center(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Scaffold.of(context).openDrawer();
+                                    },
+                                    icon: Image.asset(menuIcon),
+                                  ),
                                 ),
                               ),
                             ),
-                            const TopAppBar(),
+                            const Expanded(
+                              flex: 9,
+                              child: TopAppBar(),
+                            )
                           ],
-                        )
-                        // child: Row(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: [
-                        //     Container(
-                        //       width: 40,
-                        //       child: Center(
-                        //         child: IconButton(
-                        //           onPressed: () {
-                        //             Scaffold.of(context).openDrawer();
-                        //           },
-                        //           icon: Image.asset(menuIcon),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     const TopAppBar(),
-                        //   ],
-                        // ),
-                        ),
+                        )),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child: content,
@@ -76,12 +63,13 @@ class AppLayout extends StatelessWidget {
           const Expanded(flex: 1, child: NavigationPanel()),
           Expanded(
               flex: 5,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [Container(height: 75, color: secondaryColor, child: const TopAppBar()), Container(child: content)],
-                ),
-              )),
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [Container(height: 75, color: secondaryColor, child: const TopAppBar()), Container(padding: const EdgeInsets.only(top: 5), child: content)],
+                    ),
+                  ))),
         ],
       );
     }

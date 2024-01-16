@@ -1,12 +1,13 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
-import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
+import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:validators/validators.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -106,132 +107,114 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Container(
-                    height: height * 0.4,
-                    width: width * 0.4,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Text(
-                        'Email',
-                        style: ralewayStyle.copyWith(
-                          fontSize: 18.0,
-                          color: kNeutralColor,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 5.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: kWhite,
-                        ),
-                        child: TextFormField(
-                          style: ralewayStyle.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: kNeutralColor,
-                            fontSize: 18.0,
-                          ),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(top: 16.0),
-                            prefixIcon: IconButton(onPressed: () {}, icon: Image.asset(emailIcon)),
-                            hintText: 'Enter Email',
-                            hintStyle: ralewayStyle.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: kNeutralColor.withOpacity(0.3),
+                      height: height * 0.4,
+                      width: width * 0.4,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
+                          Text(
+                            'Email',
+                            style: ralewayStyle.copyWith(
                               fontSize: 18.0,
+                              color: kNeutralColor,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                          controller: emailController,
-                          validator: (value) {
-                            if (!isValidEmail(value, isRequired: true)) {
-                              return 'Please enter a valid email address';
-                            }
-
-                            return null;
-                          },
-                          autofillHints: const [AutofillHints.username],
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Text(
-                        'Password',
-                        style: ralewayStyle.copyWith(
-                          fontSize: 18.0,
-                          color: kNeutralColor,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 5.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: kWhite,
-                        ),
-                        child: TextFormField(
-                          style: ralewayStyle.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: kNeutralColor,
-                            fontSize: 18.0,
-                          ),
-                          obscureText: hidePassword,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(top: 16.0),
-                            prefixIcon: IconButton(onPressed: () {}, icon: Image.asset(lockIcon)),
-                            hintText: 'Enter Password',
-                            hintStyle: ralewayStyle.copyWith(
+                          const SizedBox(height: 5.0),
+                          TextFormField(
+                            style: ralewayStyle.copyWith(
                               fontWeight: FontWeight.w400,
-                              color: kNeutralColor.withOpacity(0.3),
+                              color: kNeutralColor,
                               fontSize: 18.0,
                             ),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  hidePassword = !hidePassword;
-                                });
+                            showCursor: true,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: const EdgeInsets.only(top: 16.0),
+                                prefixIcon: const Icon(Icons.email_outlined, color: black),
+                                hintText: 'Enter Email',
+                                hintStyle: ralewayStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: kNeutralColor.withOpacity(0.3),
+                                  fontSize: 18.0,
+                                ),
+                                focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: black, width: 1), borderRadius: BorderRadius.circular(10))),
+                            controller: emailController,
+                            validator: (value) {
+                              if (!isEmail(value!)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                            autofillHints: const [AutofillHints.username],
+                          ),
+                          const SizedBox(height: 10.0),
+                          Text(
+                            'Password',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 18.0,
+                              color: kNeutralColor,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          TextFormField(
+                            style: ralewayStyle.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: kNeutralColor,
+                              fontSize: 18.0,
+                            ),
+                            obscureText: hidePassword,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.only(top: 16.0),
+                              prefixIcon: const Icon(Icons.lock, color: black),
+                              hintText: 'Enter Password',
+                              hintStyle: ralewayStyle.copyWith(
+                                fontWeight: FontWeight.w400,
+                                color: kNeutralColor.withOpacity(0.3),
+                                fontSize: 18.0,
+                              ),
+                              focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: black, width: 1), borderRadius: BorderRadius.circular(10)),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    hidePassword = !hidePassword;
+                                  });
+                                },
+                                icon: Icon(
+                                  hidePassword ? Icons.visibility_off : Icons.visibility,
+                                  color: kLightNeutralColor,
+                                ),
+                              ),
+                            ),
+                            controller: passwordController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your password';
+                              }
+                              return null;
+                            },
+                            autofillHints: const [AutofillHints.password],
+                          ),
+                          const SizedBox(height: 10.0),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => openAlertDialogSendOTP(),
+                                );
                               },
-                              icon: Icon(
-                                hidePassword ? Icons.visibility_off : Icons.visibility,
-                                color: kLightNeutralColor,
+                              child: Text(
+                                'Forgot Password?',
+                                style: kTextStyle.copyWith(color: kLightNeutralColor),
+                                textAlign: TextAlign.end,
                               ),
                             ),
                           ),
-                          controller: passwordController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your password';
-                            }
-
-                            return null;
-                          },
-                          autofillHints: const [AutofillHints.password],
-                          onChanged: (value) {
-                            _formKey.currentState!.validate();
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => openAlertDialogSendOTP(context),
-                            );
-                          },
-                          child: Text(
-                            'Forgot Password?',
-                            style: kTextStyle.copyWith(color: kLightNeutralColor),
-                            textAlign: TextAlign.end,
-                          ),
-                        ),
-                      ),
-                    ]),
-                  ),
+                        ]),
+                      )),
                   Container(
                     height: height * 0.1,
                     width: width * 0.25,
@@ -239,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => login(context),
+                          onTap: () => login(),
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: EdgeInsets.symmetric(horizontal: width * 0.022, vertical: width * 0.015),
@@ -269,40 +252,71 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  login(BuildContext context) async {
+  login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     try {
-      // var account = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'", expand: 'accountRoles(expand=role))');
-      context.goNamed(DashboardRoute.name);
+      var accounts = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'", expand: 'accountRoles(expand=role)');
+      var account = accounts.value.first;
+      if (accounts.value.isNotEmpty && account.accountRoles!.where((ar) => ar.role!.name == "Admin" || ar.role!.name == "Staff" && ar.status == "Active").isNotEmpty) {
+        context.goNamed(DashboardRoute.name);
+      } else {
+        Fluttertoast.showToast(msg: 'Invalid email or password');
+      }
     } catch (e) {
       Fluttertoast.showToast(msg: 'Invalid email or password');
     }
   }
 
-  AlertDialog openAlertDialogSendOTP(BuildContext context) {
+  AlertDialog openAlertDialogSendOTP() {
+    final formKey = GlobalKey<FormState>();
+    TextEditingController emailForgotPasswordController = TextEditingController();
     return AlertDialog(
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            showDialog(
-              context: context,
-              builder: (context) => openAlertDialogInputOTP(context),
-            );
-          },
-          child: const Text('Submit'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (!formKey.currentState!.validate()) {
+                return;
+              } else {
+                Navigator.of(context).pop();
+                showDialog(
+                  context: context,
+                  builder: (context) => openAlertDialogInputOTP(),
+                );
+              }
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+        title: Container(
+          padding: const EdgeInsets.all(10),
+          height: 40,
+          color: kPrimaryColor,
+          child: const Center(
+            child: Text('Enter your email and we will send you OTP!!'),
+          ),
         ),
-      ],
-      title: const Text('Enter your email and we will send you OTP!!'),
-      contentPadding: const EdgeInsets.all(20.0),
-      content: const TextField(
-        decoration: InputDecoration(
-          hintText: 'Enter email',
-        ),
-      ),
-    );
+        titlePadding: const EdgeInsets.all(0),
+        contentPadding: const EdgeInsets.all(20.0),
+        content: Form(
+          key: formKey,
+          child: TextFormField(
+            decoration: const InputDecoration(
+              hintText: 'Enter email',
+            ),
+            controller: emailForgotPasswordController,
+            validator: (value) {
+              if (!isEmail(value!)) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
+          ),
+        ));
   }
 
-  AlertDialog openAlertDialogInputOTP(BuildContext context) {
+  AlertDialog openAlertDialogInputOTP() {
     return AlertDialog(
       actions: [
         TextButton(
@@ -312,7 +326,14 @@ class _LoginPageState extends State<LoginPage> {
           child: const Text('Submit'),
         ),
       ],
-      title: const Text('Please input OTP!!'),
+      title: Container(
+        height: 40,
+        color: kPrimaryColor,
+        child: const Center(
+          child: Text('Please input OTP!!'),
+        ),
+      ),
+      titlePadding: const EdgeInsets.all(0),
       contentPadding: const EdgeInsets.all(20.0),
       content: Form(
           child: Row(

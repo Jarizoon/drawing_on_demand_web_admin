@@ -1,10 +1,12 @@
 // ignore_for_file: sized_box_for_whitespace
-
+import 'dart:typed_data';
+import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -20,7 +22,14 @@ class ProfileUserPage extends StatefulWidget {
 }
 
 class _ProfileUserPageState extends State<ProfileUserPage> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
   late Future<Account?> account;
+  late bool imageAvailable = false;
+  late Uint8List newImage;
   @override
   void initState() {
     super.initState();
@@ -42,7 +51,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     if (snapshot.data!.avatar != null && snapshot.data!.avatar != "") {
                       image = snapshot.data!.avatar.toString();
                     }
-
                     final f = DateFormat('yyyy-MM-dd  hh:mm');
                     return SingleChildScrollView(
                       child: Column(
@@ -71,94 +79,131 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              width: 1200,
+                                              width: 1150,
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Expanded(
                                                       flex: 1,
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: [
-                                                          Container(
-                                                              padding: const EdgeInsets.all(5),
-                                                              width: 200,
-                                                              height: 200,
-                                                              child: Image(
-                                                                image: NetworkImage(image),
-                                                                fit: BoxFit.contain,
-                                                              )),
-                                                          Center(
-                                                            child: TextButton(
-                                                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
-                                                              child: const Text("Update Avatar", style: TextStyle(color: kWhite, fontSize: 20)),
-                                                              onPressed: () {},
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )),
+                                                      child: Container(
+                                                          width: 200,
+                                                          height: 200,
+                                                          padding: const EdgeInsets.all(10),
+                                                          margin: const EdgeInsets.all(10),
+                                                          decoration: BoxDecoration(boxShadow: [
+                                                            BoxShadow(
+                                                              color: Colors.grey.shade500,
+                                                              offset: const Offset(4, 4),
+                                                              blurRadius: 15,
+                                                              spreadRadius: 1,
+                                                            )
+                                                          ], color: kWhite, borderRadius: BorderRadius.circular(10)),
+                                                          child: InkWell(
+                                                              onTap: () async {
+                                                                final file = await ImagePickerWeb.getImageAsBytes();
+                                                                setState(() {
+                                                                  newImage = file!;
+                                                                  imageAvailable = true;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets.all(5),
+                                                                child: imageAvailable
+                                                                    ? Image.memory(newImage)
+                                                                    : Image(
+                                                                        image: NetworkImage(image),
+                                                                        fit: BoxFit.contain,
+                                                                      ),
+                                                              )))),
                                                   const SizedBox(width: 20),
                                                   Expanded(
                                                     flex: 5,
                                                     child: Container(
-                                                      width: 1180,
-                                                      padding: const EdgeInsets.all(10),
-                                                      margin: const EdgeInsets.all(10),
-                                                      decoration: BoxDecoration(boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey.shade500,
-                                                          offset: const Offset(4, 4),
-                                                          blurRadius: 15,
-                                                          spreadRadius: 1,
-                                                        )
-                                                      ], color: kWhite, borderRadius: BorderRadius.circular(10)),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text("Email: ${snapshot.data!.email}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                                                          const SizedBox(height: 20),
-                                                          Text("Role: ${snapshot.data!.accountRoles!.first.role!.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                                                          const SizedBox(height: 20),
-                                                          Text("Status: ${snapshot.data!.status}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                                                          const SizedBox(height: 20),
-                                                          Text("Created Date: ${f.format(snapshot.data!.createdDate!)}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                                                          const SizedBox(height: 20),
-                                                          const Text("Gender:", style: TextStyle(color: blackColor)),
-                                                          const SizedBox(height: 20),
-                                                          const Text("Name:", style: TextStyle(color: blackColor)),
-                                                          const SizedBox(height: 5),
-                                                          TextFormField(
-                                                            decoration: InputDecoration(hintText: "${snapshot.data!.name}", hintStyle: const TextStyle(color: blackColor)),
-                                                          ),
-                                                          const SizedBox(height: 20),
-                                                          const Text("Address:", style: TextStyle(color: blackColor)),
-                                                          const SizedBox(height: 5),
-                                                          TextFormField(
-                                                            decoration: InputDecoration(hintText: "${snapshot.data!.address}", hintStyle: const TextStyle(color: blackColor)),
-                                                          ),
-                                                          const SizedBox(height: 20),
-                                                          const Text("Phone:", style: TextStyle(color: blackColor)),
-                                                          const SizedBox(height: 5),
-                                                          TextFormField(
-                                                            decoration: InputDecoration(hintText: "${snapshot.data!.phone}", hintStyle: const TextStyle(color: blackColor)),
-                                                          ),
-                                                          const SizedBox(height: 20),
-                                                          const Text("Bio:", style: TextStyle(color: blackColor)),
-                                                          const SizedBox(height: 5),
-                                                          TextFormField(
-                                                            decoration: InputDecoration(hintText: "${snapshot.data!.bio}", hintStyle: const TextStyle(color: blackColor)),
-                                                          ),
-                                                          const SizedBox(height: 20),
-                                                          Center(
-                                                            child: TextButton(
-                                                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
-                                                              child: const Text("Update Proflie", style: TextStyle(color: kWhite, fontSize: 20)),
-                                                              onPressed: () {},
-                                                            ),
+                                                        width: 1150,
+                                                        padding: const EdgeInsets.all(10),
+                                                        margin: const EdgeInsets.all(10),
+                                                        decoration: BoxDecoration(boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.grey.shade500,
+                                                            offset: const Offset(4, 4),
+                                                            blurRadius: 15,
+                                                            spreadRadius: 1,
                                                           )
-                                                        ],
-                                                      ),
-                                                    ),
+                                                        ], color: kWhite, borderRadius: BorderRadius.circular(10)),
+                                                        child: Form(
+                                                            key: _formKey,
+                                                            child: SingleChildScrollView(
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Text("Email: ${snapshot.data!.email}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                  const SizedBox(height: 20),
+                                                                  Text("Role: ${snapshot.data!.accountRoles!.first.role!.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                  const SizedBox(height: 20),
+                                                                  Text("Status: ${snapshot.data!.status}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                  const SizedBox(height: 20),
+                                                                  Text("Created Date: ${f.format(snapshot.data!.createdDate!)}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                  const SizedBox(height: 20),
+                                                                  Text("Gender: ${snapshot.data!.gender}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                  const SizedBox(height: 20),
+                                                                  TextFormField(
+                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.name}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Fullname', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    controller: fullnameController,
+                                                                    validator: (value) {
+                                                                      if (value!.isNotEmpty) {
+                                                                        if (!isFullname(value)) {
+                                                                          return 'Please enter a valid fullname';
+                                                                        }
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  TextFormField(
+                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.address}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Address', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    controller: addressController,
+                                                                    validator: (value) {
+                                                                      if (value!.isNotEmpty) {
+                                                                        if (!isAddress(value)) {
+                                                                          return 'Please enter a address';
+                                                                        }
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  TextFormField(
+                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.phone}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Phone', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    controller: phoneController,
+                                                                    validator: (value) {
+                                                                      if (value!.isNotEmpty) {
+                                                                        if (!isPhone(value)) {
+                                                                          return 'Please enter a valid phone number';
+                                                                        }
+                                                                      }
+                                                                      return null;
+                                                                    },
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  TextFormField(
+                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.bio}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Bio', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    controller: bioController,
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  Center(
+                                                                    child: TextButton(
+                                                                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                                                                      child: const Text("Update Proflie", style: TextStyle(color: kWhite, fontSize: 20)),
+                                                                      onPressed: () async {
+                                                                        await update();
+                                                                        ProfileUserPage.refresh();
+                                                                      },
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ))),
                                                   ),
                                                 ],
                                               ),
@@ -189,17 +234,17 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     return null;
   }
 
-  Future<void> update(String accountId, String status) async {
-    try {
-      return await AccountApi().patchOne(accountId, {'Status': status});
-    } catch (error) {
-      Fluttertoast.showToast(msg: 'Update artwork status failed');
-    }
-  }
-
   void refresh() {
     setState(() {
       account = getData();
     });
+  }
+
+  update() {
+    if (!_formKey.currentState!.validate()) {
+      Fluttertoast.showToast(msg: 'Update failed');
+    } else {
+      Fluttertoast.showToast(msg: 'Update successfuly');
+    }
   }
 }

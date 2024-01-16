@@ -1,17 +1,19 @@
-/// Checks if string is email.
-bool isValidEmail(
+
+import 'package:nb_utils/nb_utils.dart';
+
+/// Checks if string consist only Vietnamese Text. (With whitespace accepted)
+bool isFullname(
   String? inputString, {
   bool isRequired = false,
 }) {
-  bool isInputStringValid = false;
+  bool isInputStringValid = true;
 
   if (!isRequired && (inputString == null ? true : inputString.isEmpty)) {
-    isInputStringValid = true;
+    isInputStringValid = false;
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    const pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    const pattern = r'^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\ ]+$';
 
     final regExp = RegExp(pattern);
 
@@ -20,20 +22,19 @@ bool isValidEmail(
 
   return isInputStringValid;
 }
-
-/// Checks if string consist only Alphabet. (With whitespace accepted)
-bool isText(
+/// Checks if string consist only Vietnamese Text and number. (With whitespace accepted)
+bool isAddress(
   String? inputString, {
   bool isRequired = false,
 }) {
-  bool isInputStringValid = false;
+  bool isInputStringValid = true;
 
   if (!isRequired && (inputString == null ? true : inputString.isEmpty)) {
-    isInputStringValid = true;
+    isInputStringValid = false;
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    const pattern = r'^[A-Za-z\s]+$';
+    const pattern = r'^[a-z0-9A-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\ ]+$';
 
     final regExp = RegExp(pattern);
 
@@ -48,10 +49,10 @@ bool isPhone(
   String? inputString, {
   bool isRequired = false,
 }) {
-  bool isInputStringValid = false;
+  bool isInputStringValid = true;
 
   if (!isRequired && (inputString == null ? true : inputString.isEmpty)) {
-    isInputStringValid = true;
+    isInputStringValid = false;
   }
 
   if (inputString != null && inputString.isNotEmpty) {
@@ -60,6 +61,52 @@ bool isPhone(
     final regExp = RegExp(pattern);
 
     isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+bool is1to10(
+  String? inputString, {
+  bool isRequired = false,
+}) {
+  bool isInputStringValid = true;
+
+  if (!isRequired && (inputString == null ? true : inputString.isEmpty)) {
+    isInputStringValid = false;
+  }
+
+  if (inputString != null && inputString.isNotEmpty) {
+    const pattern = r'^[1-10]{1}$';
+
+    final regExp = RegExp(pattern);
+
+    isInputStringValid = regExp.hasMatch(inputString);
+  }
+
+  return isInputStringValid;
+}
+
+bool is1to100percent(
+  String? inputString, {
+  bool isRequired = false,
+}) {
+  bool isInputStringValid = true;
+
+  if (!isRequired && (inputString == null ? true : inputString.isEmpty)) {
+    isInputStringValid = false;
+  }
+
+  if (inputString != null && inputString.isNotEmpty) {
+    try{
+      double percent = inputString.toDouble();
+      if(percent >= 0.01 && percent <= 1){
+        return isInputStringValid = true;
+      }
+      isInputStringValid = false;
+    }catch(e){
+      return isInputStringValid = false;
+    }
   }
 
   return isInputStringValid;
@@ -76,10 +123,10 @@ bool isValidPassword(
   String? inputString, {
   bool isRequired = false,
 }) {
-  bool isInputStringValid = false;
+  bool isInputStringValid = true;
 
   if (!isRequired && (inputString == null ? true : inputString.isEmpty)) {
-    isInputStringValid = true;
+    isInputStringValid = false;
   }
 
   if (inputString != null && inputString.isNotEmpty) {

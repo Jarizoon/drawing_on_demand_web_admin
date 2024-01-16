@@ -14,103 +14,99 @@ class Statistics extends StatelessWidget {
   const Statistics({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Container(
+    return Row(
+      children: [
+        Expanded(
+          flex: 4,
+          child: Container(
               decoration: BoxDecoration(
                 color: kWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: FutureBuilder(
-                    future: getUserNumber(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        int number = snapshot.data!.value.length;
-                        return Statistic(sta: StatisticModel(name: "Users", number: number, imageSrc: requirementIcon));
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ),
-                      );
-                    })
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 4,
-            child: Container(
-              decoration: BoxDecoration( 
-                color: kWhite,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: FutureBuilder(
-                    future: getOrderNumber(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        int number = snapshot.data!.value.length;
-                        return Statistic(sta: StatisticModel(name: "Orders", number: number, imageSrc: requirementIcon));
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ),
-                      );
-                    })
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 6,
-            child: Container(
+                  future: getUserNumber(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      int number = snapshot.data!.value.length;
+                      return Statistic(sta: StatisticModel(name: "Users", number: number, imageSrc: userIcon));
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      ),
+                    );
+                  })),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          flex: 4,
+          child: Container(
               decoration: BoxDecoration(
                 color: kWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: FutureBuilder(
-                    future: getProfitNumber(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        double profit = snapshot.data!;
-                        return Statistic(sta: StatisticModel(name: "Profit", number: profit.toInt(), imageSrc: requirementIcon));
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ),
-                      );
-                    })
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            flex: 6,
-            child: Container(
-                decoration: BoxDecoration(
-                  color: kWhite,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: FutureBuilder(
-                    future: getRequirementNumber(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Statistic(sta: StatisticModel(name: "Requirements", number: snapshot.data!.value.length, imageSrc: requirementIcon));
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kPrimaryColor,
-                        ),
-                      );
-                    })),
-          ),
-        ],
-      ),
+                  future: getOrderNumber(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      int number = snapshot.data!.value.length;
+                      return Statistic(sta: StatisticModel(name: "Orders", number: number, imageSrc: orderIcon));
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      ),
+                    );
+                  })),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          flex: 6,
+          child: Container(
+              decoration: BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: FutureBuilder(
+                  future: getProfitNumber(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      double profit = snapshot.data!;
+                      return Statistic(sta: StatisticModel(name: "Profit", number: profit.toInt(), imageSrc: profitIcon));
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      ),
+                    );
+                  })),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          flex: 6,
+          child: Container(
+              decoration: BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: FutureBuilder(
+                  future: getRequirementNumber(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Statistic(sta: StatisticModel(name: "Requirements", number: snapshot.data!.value.length, imageSrc: requirementIcon));
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: kPrimaryColor,
+                      ),
+                    );
+                  })),
+        ),
+      ],
     );
   }
 }
+
 Future<Accounts?> getUserNumber() async {
   try {
     return await AccountApi().gets(0);
