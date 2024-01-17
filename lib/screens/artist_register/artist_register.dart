@@ -37,7 +37,7 @@ class _ArtistRegisterPageState extends State<ArtistRegisterPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     List<Account> list = snapshot.data!.value
-                    .where((account) => account.accountRoles!.first.role!.name == "Artist" && account.accountRoles!.first.status == "Pending")
+                    .where((account) => account.accountRoles!.where((ar) => ar.status == "Pending" && ar.role!.name == "Artist").isNotEmpty)
                     .toList();
                     return SingleChildScrollView(
                       child: Column(

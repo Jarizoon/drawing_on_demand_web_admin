@@ -17,17 +17,16 @@ class CertificateList extends StatelessWidget {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         const Text("Certificates:", style: TextStyle(fontSize: 20, fontWeight:FontWeight.w600)),
+        const Text("Certificates:", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
         Container(
           margin: const EdgeInsets.all(20),
           child: ListView.builder(
             itemCount: lenght,
             shrinkWrap: true,
-            itemBuilder: (context, index) =>
-                CertificateInfo(cer: list![index], imageSize: 50),
+            itemBuilder: (context, index) => CertificateInfo(cer: list![index], imageSize: 50),
           ),
         )
-      ], 
+      ],
     ));
   }
 }

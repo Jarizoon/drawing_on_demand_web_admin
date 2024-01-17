@@ -1,9 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
+import 'package:drawing_on_demand_web_admin/data/apis/account_role_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
+import 'package:drawing_on_demand_web_admin/screens/artist_register/artist_register.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/certificate_list.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ArtistRegisterDetailPage extends StatefulWidget {
@@ -74,19 +79,17 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
                                         Text("Phone: ${snapshot.data!.phone}", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
                                         Text("Address: ${snapshot.data!.address}", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
                                         Container(
-                                          height: 400,
+                                          height: MediaQuery.of(context).size.width >= 520 ? 350 : 300,
                                           padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.shade500,
-                                                  offset: const Offset(4, 4),
-                                                  blurRadius: 15,
-                                                  spreadRadius: 1,
-                                                )
-                                              ],
-                                              color: kWhite,
-                                              borderRadius: BorderRadius.circular(10)),
+                                          margin: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade500,
+                                              offset: const Offset(4, 4),
+                                              blurRadius: 15,
+                                              spreadRadius: 1,
+                                            )
+                                          ], color: kWhite, borderRadius: BorderRadius.circular(10)),
                                           child: CertificateList(account: snapshot.data),
                                         )
                                       ],
@@ -113,7 +116,10 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  accept(snapshot.data!.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").first.id.toString(), "Active");
+                                                  deleteAr(snapshot.data!.accountRoles!.where((ar) => ar.role!.name == "Customer" && ar.status == "Active").first.id.toString());
+                                                },
                                                 child: Container(
                                                   margin: const EdgeInsets.symmetric(vertical: 15),
                                                   padding: const EdgeInsets.all(10),
@@ -123,7 +129,9 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
                                               ),
                                               const SizedBox(width: 15),
                                               InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  deleteAr(snapshot.data!.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").first.id.toString());
+                                                },
                                                 child: Container(
                                                   margin: const EdgeInsets.symmetric(vertical: 15),
                                                   padding: const EdgeInsets.all(10),
@@ -159,11 +167,30 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
     try {
       return await AccountApi().getOne(
         widget.id!,
-        'accountRoles, certificates',
+        'accountRoles(expand=role), certificates',
       );
     } catch (error) {
       Fluttertoast.showToast(msg: 'Get account failed');
     }
     return null;
+  }
+
+  accept(String arId, String status) async {
+    try {
+      await AccountRoleApi().patchOne(arId, {'Status': status});
+      await AccountRoleApi().patchOne(arId, {'LastModifiedDate': DateTime.now()});
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Accept Artist Register failed');
+    }
+  }
+
+  deleteAr(String arId) async {
+    try {
+      await AccountRoleApi().deleteOne(arId);
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Reject Artist Register failed');
+    }
+    ArtistRegisterPage.refresh();
+    GoRouter.of(context).pop();
   }
 }

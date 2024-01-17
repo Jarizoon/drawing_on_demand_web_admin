@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
 
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/core/utils/progress_diaglog_utils.dart';

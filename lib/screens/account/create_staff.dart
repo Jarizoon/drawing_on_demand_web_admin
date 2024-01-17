@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
 
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
