@@ -29,7 +29,7 @@ class CustomerRoute {
 }
 
 class CreateStaffRoute {
-  static const String tag = '/create_staff';
+  static const String tag = 'create_staff';
   static const String name = 'Create Staff';
 }
 

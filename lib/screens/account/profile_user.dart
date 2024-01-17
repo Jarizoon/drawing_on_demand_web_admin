@@ -47,6 +47,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                 future: account,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    String fullname = snapshot.data!.name!;
+                    String address = snapshot.data!.address!;
+                    String phone = snapshot.data!.phone!;
+                    String bio = snapshot.data!.bio!;
                     String image = emptyImage;
                     if (snapshot.data!.avatar != null && snapshot.data!.avatar != "") {
                       image = snapshot.data!.avatar.toString();
@@ -86,36 +90,31 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                 children: [
                                                   Expanded(
                                                       flex: 1,
-                                                      child: Container(
-                                                          width: 200,
-                                                          height: 200,
-                                                          padding: const EdgeInsets.all(10),
-                                                          margin: const EdgeInsets.all(10),
-                                                          decoration: BoxDecoration(boxShadow: [
-                                                            BoxShadow(
-                                                              color: Colors.grey.shade500,
-                                                              offset: const Offset(4, 4),
-                                                              blurRadius: 15,
-                                                              spreadRadius: 1,
-                                                            )
-                                                          ], color: kWhite, borderRadius: BorderRadius.circular(10)),
-                                                          child: InkWell(
-                                                              onTap: () async {
-                                                                final file = await ImagePickerWeb.getImageAsBytes();
-                                                                setState(() {
-                                                                  newImage = file!;
-                                                                  imageAvailable = true;
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                padding: const EdgeInsets.all(5),
-                                                                child: imageAvailable
-                                                                    ? Image.memory(newImage)
-                                                                    : Image(
-                                                                        image: NetworkImage(image),
-                                                                        fit: BoxFit.contain,
-                                                                      ),
-                                                              )))),
+                                                      child: Center(
+                                                        child: InkWell(
+                                                            onTap: () async {
+                                                              final file = await ImagePickerWeb.getImageAsBytes();
+                                                              setState(() {
+                                                                newImage = file!;
+                                                                imageAvailable = true;
+                                                              });
+                                                            },
+                                                            child: Stack(
+                                                              children: [
+                                                                Container(
+                                                                  height: 200,
+                                                                  width: 200,
+                                                                  child: imageAvailable
+                                                                      ? Image.memory(newImage)
+                                                                      : Image(
+                                                                          image: NetworkImage(image),
+                                                                          fit: BoxFit.contain,
+                                                                        ),
+                                                                ),
+                                                                const Icon(Icons.add_a_photo),
+                                                              ],
+                                                            )),
+                                                      )),
                                                   const SizedBox(width: 20),
                                                   Expanded(
                                                     flex: 5,
@@ -148,33 +147,35 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                                   Text("Gender: ${snapshot.data!.gender}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                                   const SizedBox(height: 20),
                                                                   TextFormField(
-                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.name}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Fullname', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    decoration: InputDecoration(hintText: fullname, hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Fullname', floatingLabelBehavior: FloatingLabelBehavior.always),
                                                                     controller: fullnameController,
                                                                     validator: (value) {
                                                                       if (value!.isNotEmpty) {
                                                                         if (!isFullname(value)) {
                                                                           return 'Please enter a valid fullname';
                                                                         }
+                                                                        fullname = fullnameController.text;
                                                                       }
                                                                       return null;
                                                                     },
                                                                   ),
                                                                   const SizedBox(height: 20),
                                                                   TextFormField(
-                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.address}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Address', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    decoration: InputDecoration(hintText: address, hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Address', floatingLabelBehavior: FloatingLabelBehavior.always),
                                                                     controller: addressController,
                                                                     validator: (value) {
                                                                       if (value!.isNotEmpty) {
                                                                         if (!isAddress(value)) {
                                                                           return 'Please enter a address';
                                                                         }
+                                                                        address = addressController.text;
                                                                       }
                                                                       return null;
                                                                     },
                                                                   ),
                                                                   const SizedBox(height: 20),
                                                                   TextFormField(
-                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.phone}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Phone', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    decoration: InputDecoration(hintText: phone, hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Phone', floatingLabelBehavior: FloatingLabelBehavior.always),
                                                                     controller: phoneController,
                                                                     validator: (value) {
                                                                       if (value!.isNotEmpty) {
@@ -182,13 +183,20 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                                           return 'Please enter a valid phone number';
                                                                         }
                                                                       }
+                                                                      phone = phoneController.text;
                                                                       return null;
                                                                     },
                                                                   ),
                                                                   const SizedBox(height: 20),
                                                                   TextFormField(
-                                                                    decoration: InputDecoration(hintText: "${snapshot.data!.bio}", hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Bio', floatingLabelBehavior: FloatingLabelBehavior.always),
+                                                                    decoration: InputDecoration(hintText: bio, hintStyle: const TextStyle(color: blackColor), border: const OutlineInputBorder(), labelText: 'Bio', floatingLabelBehavior: FloatingLabelBehavior.always),
                                                                     controller: bioController,
+                                                                    validator: (value) {
+                                                                      if (value!.isNotEmpty) {
+                                                                        bio = bioController.text;
+                                                                      }
+                                                                      return null;
+                                                                    },
                                                                   ),
                                                                   const SizedBox(height: 20),
                                                                   Center(
@@ -196,7 +204,12 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                                       style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                                                                       child: const Text("Update Proflie", style: TextStyle(color: kWhite, fontSize: 20)),
                                                                       onPressed: () async {
-                                                                        await update();
+                                                                        if (!_formKey.currentState!.validate()) {
+                                                                          Fluttertoast.showToast(msg: 'Update failed');
+                                                                        } else {
+                                                                          await updateProfile(snapshot.data!.id.toString(), fullname, address, phone, bio);
+                                                                        }
+                                                                        clearTextFormField();
                                                                         ProfileUserPage.refresh();
                                                                       },
                                                                     ),
@@ -229,7 +242,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     try {
       return await AccountApi().getOne(widget.id!, 'accountRoles(expand=role)');
     } catch (error) {
-      Fluttertoast.showToast(msg: 'Get account failed');
+      Fluttertoast.showToast(msg: 'Get profile failed');
     }
     return null;
   }
@@ -240,11 +253,21 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     });
   }
 
-  update() {
-    if (!_formKey.currentState!.validate()) {
-      Fluttertoast.showToast(msg: 'Update failed');
-    } else {
-      Fluttertoast.showToast(msg: 'Update successfuly');
+  void clearTextFormField() {
+    fullnameController.clear();
+    addressController.clear();
+    phoneController.clear();
+    bioController.clear();
+  }
+
+  Future<void> updateProfile(String accountId, String fullname, String address, String phone, String bio) async {
+    try {
+      await AccountApi().patchOne(accountId, {'Name': fullname});
+      await AccountApi().patchOne(accountId, {'Address': address});
+      await AccountApi().patchOne(accountId, {'Phone': phone});
+      await AccountApi().patchOne(accountId, {'Bio': bio});
+    } catch (error) {
+      Fluttertoast.showToast(msg: 'Update profile failed');
     }
   }
 }

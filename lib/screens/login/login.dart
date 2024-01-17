@@ -1,8 +1,10 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
+import 'package:drawing_on_demand_web_admin/core/utils/progress_diaglog_utils.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -257,6 +259,11 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     try {
+      ProgressDialogUtils.showProgress(context);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
       var accounts = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'", expand: 'accountRoles(expand=role)');
       var account = accounts.value.first;
       if (accounts.value.isNotEmpty && account.accountRoles!.where((ar) => ar.role!.name == "Admin" || ar.role!.name == "Staff" && ar.status == "Active").isNotEmpty) {

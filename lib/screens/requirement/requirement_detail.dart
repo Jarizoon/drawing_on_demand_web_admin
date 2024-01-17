@@ -1,4 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace
+import 'package:drawing_on_demand_web_admin/data/apis/proposal_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/requirement_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
@@ -37,14 +38,19 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                 future: req,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    String status = snapshot.data!.status!;
+                    String headStatus = "Private";
+                    if(status.contains("Public")){
+                      headStatus = "Public";
+                    }
                     String image = emptyImage;
                     if (snapshot.data!.image != null && snapshot.data!.image != "") {
                       image = snapshot.data!.image.toString();
                     }
                     String size = "None";
                     if (snapshot.data!.sizes!.isNotEmpty) {
-                    size = "${snapshot.data!.sizes!.first.width} x ${snapshot.data!.sizes!.first.height}";
-                  }
+                      size = "${snapshot.data!.sizes!.first.width} x ${snapshot.data!.sizes!.first.length}";
+                    }
                     return SingleChildScrollView(
                       child: Column(
                         children: [
@@ -89,6 +95,31 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                                 image: NetworkImage(image),
                                                                 fit: BoxFit.contain,
                                                               )),
+                                                          Visibility(
+                                                              visible: !status.contains("Deactive"),
+                                                              child: Center(
+                                                                child: TextButton(
+                                                                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
+                                                                  child: const Text("Deactivate", style: TextStyle(color: kWhite)),
+                                                                  onPressed: () async {
+                                                                    await updateStatus(snapshot.data!.id.toString(), "$headStatus|Deactive");
+                                                                    await updateProposalsStatus(snapshot.data!, "Reject");
+                                                                    RequirementDetailPage.refresh();
+                                                                  },
+                                                                ),
+                                                              )),
+                                                          Visibility(
+                                                              visible: status.contains("Deactive"),
+                                                              child: Center(
+                                                                child: TextButton(
+                                                                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
+                                                                  child: const Text("Activate", style: TextStyle(color: kWhite)),
+                                                                  onPressed: () async {
+                                                                    await updateStatus(snapshot.data!.id.toString(), headStatus);
+                                                                    RequirementDetailPage.refresh();
+                                                                  },
+                                                                ),
+                                                              ))
                                                         ],
                                                       )),
                                                   const SizedBox(width: 20),
@@ -116,7 +147,7 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
                                                             children: [
                                                               Container(width: 300, child: Text("Pieces: ${snapshot.data!.pieces}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
                                                               const SizedBox(width: 20),
-                                                               Text("Size: $size", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                                                              Text("Size: $size", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                                                             ],
                                                           ),
                                                           const SizedBox(height: 10),
@@ -189,5 +220,25 @@ class _RequirementDetailPage extends State<RequirementDetailPage> {
     setState(() {
       req = getData();
     });
+  }
+
+  Future<void> updateStatus(String requirementId, String status) async {
+    try {
+      return await RequirementApi().patchOne(requirementId, {'Status': status});
+    } catch (error) {
+      Fluttertoast.showToast(msg: 'Update requirement status failed');
+    }
+  }
+
+  Future<void> updateProposalsStatus(Requirement requirement, String status) async {
+    try {
+      if (requirement.proposals != null) {
+        for (var i = 0; i < requirement.proposals!.length; i++) {
+          await ProposalApi().patchOne(requirement.proposals![i].id.toString(), {'Status': status});
+        }
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Update proposals status failed');
+    }
   }
 }

@@ -132,6 +132,8 @@ class TopAppBar extends StatelessWidget {
                                           ),
                                         )));
                             break;
+                          case 'Profile':
+                            break;
                           case 'Log Out':
                             context.goNamed(LoginRoute.name);
                             break;

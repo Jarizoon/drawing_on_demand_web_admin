@@ -1,10 +1,15 @@
 import 'dart:typed_data';
 
-import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
+import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
+import 'package:drawing_on_demand_web_admin/data/apis/account_role_api.dart';
+import 'package:drawing_on_demand_web_admin/data/models/account.dart';
+import 'package:drawing_on_demand_web_admin/data/models/account_role.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
+import 'package:drawing_on_demand_web_admin/screens/account/account.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_guid/flutter_guid.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -209,6 +214,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       TextFormField(
                                         keyboardType: TextInputType.visiblePassword,
                                         cursorColor: kNeutralColor,
+                                        obscureText: hidePassword,
                                         decoration: kInputDecoration.copyWith(
                                           labelText: 'Password',
                                           labelStyle: kTextStyle.copyWith(color: kNeutralColor),
@@ -216,6 +222,17 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                           hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                           focusColor: kNeutralColor,
                                           border: const OutlineInputBorder(),
+                                          suffixIcon: IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                hidePassword = !hidePassword;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              hidePassword ? Icons.visibility_off : Icons.visibility,
+                                              color: kLightNeutralColor,
+                                            ),
+                                          ),
                                         ),
                                         controller: passwordController,
                                         validator: (value) {
@@ -229,6 +246,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       TextFormField(
                                         keyboardType: TextInputType.visiblePassword,
                                         cursorColor: kNeutralColor,
+                                        obscureText: hidePassword,
                                         decoration: kInputDecoration.copyWith(
                                           labelText: 'Confirm password',
                                           labelStyle: kTextStyle.copyWith(color: kNeutralColor),
@@ -236,6 +254,17 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                           hintStyle: kTextStyle.copyWith(color: kLightNeutralColor),
                                           focusColor: kNeutralColor,
                                           border: const OutlineInputBorder(),
+                                          suffixIcon: IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                hidePassword = !hidePassword;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              hidePassword ? Icons.visibility_off : Icons.visibility,
+                                              color: kLightNeutralColor,
+                                            ),
+                                          ),
                                         ),
                                         controller: confirmPasswordController,
                                         validator: (value) {
@@ -292,7 +321,22 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 const SizedBox(height: 100),
                                 InkWell(
                                   onTap: () {
-                                    createStaff();
+                                    Guid accountId = Guid.newGuid;
+                                    createStaff(
+                                        Account(
+                                            id: accountId,
+                                            email: emailController.text,
+                                            name: fullnameController.text,
+                                            phone: phoneController.text,
+                                            address: addressController.text,
+                                            bio: bioController.text,
+                                            status: 'Active',
+                                            gender: gender,
+                                            createdDate: DateTime.now(),
+                                            lastModifiedDate: DateTime.now(),
+                                            availableConnect: 0,
+                                            avatar: 'https://firebasestorage.googleapis.com/v0/b/drawing-on-demand.appspot.com/o/images%2Fdrawing_on_demand.jpg?alt=media&token=c1801df1-f2d7-485d-8715-9e7aed83c3cf'),
+                                        AccountRole(id: Guid.newGuid, roleId: Guid('cc6e98e9-b8ec-46bc-9b37-0bd3c35b41d7'), accountId: accountId, addedDate: DateTime.now(), status: 'Active'));
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(vertical: 15),
@@ -317,11 +361,22 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
     );
   }
 
-  createStaff() {
+  createStaff(Account account, AccountRole ar) async {
     if (!_formKey.currentState!.validate()) {
       return;
-    } else {
-      context.goNamed(AccountRoute.name);
+    }
+    try {
+      var accounts = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'");
+      if (accounts.value.isNotEmpty) {
+        Fluttertoast.showToast(msg: 'Existed Email');
+        return;
+      }
+      await AccountApi().postOne(account);
+      await AccountRoleApi().postOne(ar);
+      AccountPage.refresh();
+      GoRouter.of(context).pop();
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Create Staff failed');
     }
   }
 }

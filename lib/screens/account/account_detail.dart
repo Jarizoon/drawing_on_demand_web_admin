@@ -95,23 +95,25 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                                 fit: BoxFit.contain,
                                                               )),
                                                           Visibility(
-                                                              visible: status != "Not Available",
+                                                              visible: status != "Deactive",
                                                               child: Center(
                                                                 child: TextButton(
                                                                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
                                                                   child: const Text("Deactivate", style: TextStyle(color: kWhite)),
                                                                   onPressed: () async {
+                                                                    await updateStatus(snapshot.data!.id.toString(), "Deactive");
                                                                     AccountDetailPage.refresh();
                                                                   },
                                                                 ),
                                                               )),
                                                           Visibility(
-                                                              visible: status == "Not Available",
+                                                              visible: status == "Deactive",
                                                               child: Center(
                                                                 child: TextButton(
                                                                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                                                                   child: const Text("Activate", style: TextStyle(color: kWhite)),
                                                                   onPressed: () async {
+                                                                    await updateStatus(snapshot.data!.id.toString(), "Active");
                                                                     AccountDetailPage.refresh();
                                                                   },
                                                                 ),
@@ -125,12 +127,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Row(
-                                                            children: [
-                                                              Expanded(flex: 1, child: Text("Name: ${acc.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))),
-                                                              const SizedBox(width: 20),
-                                                              Expanded(flex: 3, child: Text("Email: ${acc.email}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)))
-                                                              
-                                                            ],
+                                                            children: [Expanded(flex: 1, child: Text("Name: ${acc.name}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500))), const SizedBox(width: 20), Expanded(flex: 3, child: Text("Email: ${acc.email}", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)))],
                                                           ),
                                                           const SizedBox(height: 10),
                                                           Row(
@@ -232,7 +229,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                       ], color: kWhite, borderRadius: BorderRadius.circular(10)),
                                                       child: OrderList(account: acc),
                                                     )),
-                                                    Visibility(
+                                                Visibility(
                                                     visible: acc.accountRoles!.where((ar) => ar.role!.name == "Staff" || ar.role!.name == "Admin").isEmpty,
                                                     child: Container(
                                                       height: 200,
@@ -280,5 +277,13 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
     setState(() {
       account = getData();
     });
+  }
+
+  Future<void> updateStatus(String accountId, String status) async {
+    try {
+      return await AccountApi().patchOne(accountId, {'Status': status});
+    } catch (error) {
+      Fluttertoast.showToast(msg: 'Update artwork status failed');
+    }
   }
 }

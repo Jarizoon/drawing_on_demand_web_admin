@@ -124,7 +124,6 @@ class Account {
       'CreatedDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(createdDate!),
       'LastModifiedDate': lastModifiedDate != null ? DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(lastModifiedDate!) : null,
       'Status': status,
-      'RankId': rankId.toString(),
     };
   }
 }

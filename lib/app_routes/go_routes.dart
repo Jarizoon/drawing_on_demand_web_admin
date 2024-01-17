@@ -53,12 +53,19 @@ class AppRoutes {
             },
             routes: [
               GoRoute(
+                path: CreateStaffRoute.tag,
+                name: CreateStaffRoute.name,
+                builder: (context, state) {
+                  return const CreateStaffPage();
+                },
+              ),
+              GoRoute(
                 path: AccountDetailRoute.tag,
                 name: AccountDetailRoute.name,
                 builder: (context, state) {
                   return AccountDetailPage(id: state.pathParameters['account_id']);
                 },
-              )
+              ),
             ]),
         GoRoute(
             path: ProfileUserRouter.tag,
@@ -78,13 +85,6 @@ class AppRoutes {
           name: CustomerRoute.name,
           builder: (context, state) {
             return const CustomerPage();
-          },
-        ),
-        GoRoute(
-          path: CreateStaffRoute.tag,
-          name: CreateStaffRoute.name,
-          builder: (context, state) {
-            return const CreateStaffPage();
           },
         ),
         GoRoute(
@@ -143,7 +143,7 @@ class AppRoutes {
                     return RequirementDetailPage(id: state.pathParameters['requirement_id']);
                   })
             ]),
-            GoRoute(
+        GoRoute(
           path: ManagementRoute.tag,
           name: ManagementRoute.name,
           builder: (context, state) {

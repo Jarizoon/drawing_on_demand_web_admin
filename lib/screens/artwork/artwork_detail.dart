@@ -261,7 +261,7 @@ class _ArtworkDetailPageState extends State<ArtworkDetailPage> {
     } catch (error) {
       Fluttertoast.showToast(msg: 'Update artwork status failed');
     }
-  }
+  } 
   void refresh() {
     setState(() {
       artwork = getData();

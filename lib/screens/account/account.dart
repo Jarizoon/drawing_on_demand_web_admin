@@ -13,6 +13,9 @@ class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
   @override
   State<AccountPage> createState() => _AccountPageState();
+  static void refresh() {
+    state.refresh();
+  }
 }
 
 class _AccountPageState extends State<AccountPage> {
@@ -230,6 +233,12 @@ class _AccountPageState extends State<AccountPage> {
         )),
       ),
     );
+  }
+
+  void refresh() {
+    setState(() {
+      accounts = getData();
+    });
   }
 }
 
