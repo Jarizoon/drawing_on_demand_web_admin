@@ -4,7 +4,6 @@ import 'package:drawing_on_demand_web_admin/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
-import 'package:go_router/go_router.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 
@@ -28,10 +27,17 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 // This widget is the root of your application.
+  static void refreshRoutes(BuildContext context) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+
+    if (state != null) {
+      state.setRoutes();
+    }
+  }
 }
 
 class _MyAppState extends State<MyApp> {
-  GoRouter routes = AppRoutes.routes();
+  GlobalKey key = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -40,16 +46,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      key: key,
       debugShowCheckedModeBanner: false,
       title: 'Drawing on Demand Management',
       theme: ThemeData(primaryColor: kPrimaryColor),
-      routerConfig: routes,
+      routerConfig: AppRoutes.routes(),
     );
   }
 
   void setRoutes() {
     setState(() {
-      routes = AppRoutes.routes();
+      key = GlobalKey();
     });
   }
 }

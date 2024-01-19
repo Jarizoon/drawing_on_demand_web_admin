@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:drawing_on_demand_web_admin/data/apis/order_api.dart';
+import 'package:drawing_on_demand_web_admin/data/models/discount.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/order/components/handovers.dart';
@@ -37,6 +38,9 @@ class _OrderDetailPageState extends State<OrderDetailPage> {
                   future: order,
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data!.status != "Cart") {
+                      if(snapshot.data!.discount == null){
+                        snapshot.data!.discount = Discount(discountPercent: 0);
+                      }
                       return SingleChildScrollView(
                         child: Column(
                           children: [

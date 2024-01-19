@@ -22,7 +22,7 @@ class Handovers {
 }
 
 class Handover {
-  Guid? id;
+  String? id;
   Guid? orderId;
   String? name;
   String? phone;
@@ -70,8 +70,6 @@ class Handover {
       'Status': status,
       'EstimatedDeliveryDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(estimatedDeliveryDate!),
       'HandOverDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(handOverDate!),
-      'Order': order,
-      'HandoverItems': handoverItems
     };
   }
 }

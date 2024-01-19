@@ -4,6 +4,7 @@ import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
 import 'package:drawing_on_demand_web_admin/core/utils/pre_utils.dart';
 import 'package:drawing_on_demand_web_admin/core/utils/progress_diaglog_utils.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
+import 'package:drawing_on_demand_web_admin/main.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -266,6 +267,7 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      ProgressDialogUtils.hideProgress(context);
       var accounts = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'", expand: 'accountRoles(expand=role)');
       var account = accounts.value.first;
       if (accounts.value.isNotEmpty && account.accountRoles!.where((ar) => ar.role!.name == "Admin" || ar.role!.name == "Staff" && ar.status == "Active").isNotEmpty) {
@@ -279,10 +281,12 @@ class _LoginPageState extends State<LoginPage> {
         var token = await FirebaseAuth.instance.currentUser!.getIdToken();
 
         await PrefUtils().setToken(token!);
-
+        MyApp.refreshRoutes(context);
         // Navigator
-        ProgressDialogUtils.hideProgress(context);
-        context.goNamed(DashboardRoute.name);
+
+        Future.delayed(const Duration(seconds: 1), () {
+          context.goNamed(DashboardRoute.name);
+        });
       } else {
         ProgressDialogUtils.hideProgress(context);
         Fluttertoast.showToast(msg: 'Invalid email or password');
@@ -303,29 +307,23 @@ class _LoginPageState extends State<LoginPage> {
               if (!formKey.currentState!.validate()) {
                 return;
               } else {
-                var accounts = await AccountApi().gets(0, filter: "email eq '${emailForgotPasswordController.text.trim()}'");
-                if (accounts.value.isNotEmpty) {
-                  myauth.setConfig(
-                            appEmail: "dond@gmail.com",
-                            appName: "Email OTP",
-                            userEmail: emailController.text,
-                            otpLength: 4,
-                            otpType: OTPType.digitsOnly
-                          );
-                  bool isSend = await myauth.sendOTP();
-                  if ( isSend == true) {
-                    Fluttertoast.showToast(msg: 'OTP was sent');
-                    Navigator.of(context).pop();
-                    showDialog(
-                      context: context,
-                      builder: (context) => openAlertDialogInputOTP(),
-                    );
-                  }else {
-                    Fluttertoast.showToast(msg: 'Send OTP failed');
-                  }
-                }else{
-                  Fluttertoast.showToast(msg: 'Incorrect Email');
-                }
+                // var accounts = await AccountApi().gets(0, filter: "email eq '${emailForgotPasswordController.text.trim()}'");
+                // if (accounts.value.isNotEmpty) {
+                //   myauth.setConfig(appEmail: "dond@gmail.com", appName: "Email OTP", userEmail: emailController.text, otpLength: 4, otpType: OTPType.digitsOnly);
+                //   bool isSend = await myauth.sendOTP();
+                //   if (isSend == true) {
+                //     Fluttertoast.showToast(msg: 'OTP was sent');
+                Navigator.of(context).pop();
+                showDialog(
+                  context: context,
+                  builder: (context) => openAlertDialogInputOTP(),
+                );
+                // } else {
+                //   Fluttertoast.showToast(msg: 'Send OTP failed');
+                // }
+                // } else {
+                //   Fluttertoast.showToast(msg: 'Incorrect Email');
+                // }
               }
             },
             child: const Text('Submit'),
@@ -367,11 +365,12 @@ class _LoginPageState extends State<LoginPage> {
       actions: [
         TextButton(
           onPressed: () async {
-            if (await myauth.verifyOTP(otp: otp1Controller.text + otp2Controller.text + otp3Controller.text + otp4Controller.text) == true) {
-              Navigator.of(context).pop();
-            } else {
-              Fluttertoast.showToast(msg: 'Invalid OTP');
-            }
+            // if (await myauth.verifyOTP(otp: otp1Controller.text + otp2Controller.text + otp3Controller.text + otp4Controller.text) == true) {
+            //   Navigator.of(context).pop();
+            // } else {
+            //   Fluttertoast.showToast(msg: 'Invalid OTP');
+            // }
+            Navigator.of(context).pop();
           },
           child: const Text('Submit'),
         ),
