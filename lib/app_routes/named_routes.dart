@@ -14,7 +14,7 @@ class AccountRoute {
 }
 
 class AccountDetailRoute {
-  static const String tag = ':account_id';
+  static const String tag = '/account_detail/:account_id';
   static const String name = 'Account Detail';
 }
 

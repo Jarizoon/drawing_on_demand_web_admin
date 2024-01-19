@@ -1,4 +1,5 @@
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
+import 'package:drawing_on_demand_web_admin/core/utils/pre_utils.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/account.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/account_detail.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/artist.dart';
@@ -32,25 +33,27 @@ class AppRoutes {
       initialLocation: LoginRoute.tag,
       routes: [
         GoRoute(
-          path: LoginRoute.tag,
-          name: LoginRoute.name,
-          builder: (context, state) {
-            return const LoginPage();
-          },
-        ),
+            path: LoginRoute.tag,
+            name: LoginRoute.name,
+            builder: (context, state) {
+              return const LoginPage();
+            }),
         GoRoute(
           path: DashboardRoute.tag,
           name: DashboardRoute.name,
           builder: (context, state) {
             return const DashboardPage();
           },
+          redirect: (context, state) => _unAuthened(),
         ),
+        if (PrefUtils().getRole() == 'Admin')
         GoRoute(
             path: AccountRoute.tag,
             name: AccountRoute.name,
             builder: (context, state) {
               return const AccountPage();
             },
+            redirect: (context, state) => _unAuthened(),
             routes: [
               GoRoute(
                 path: CreateStaffRoute.tag,
@@ -59,26 +62,30 @@ class AppRoutes {
                   return const CreateStaffPage();
                 },
               ),
-              GoRoute(
-                path: AccountDetailRoute.tag,
-                name: AccountDetailRoute.name,
-                builder: (context, state) {
-                  return AccountDetailPage(id: state.pathParameters['account_id']);
-                },
-              ),
             ]),
         GoRoute(
-            path: ProfileUserRouter.tag,
-            name: ProfileUserRouter.name,
-            builder: (context, state) {
-              return ProfileUserPage(id: state.pathParameters['user_id']);
-            }),
+          path: AccountDetailRoute.tag,
+          name: AccountDetailRoute.name,
+          builder: (context, state) {
+            return AccountDetailPage(id: state.pathParameters['account_id']);
+          },
+          redirect: (context, state) => _unAuthened(),
+        ),
+        GoRoute(
+          path: ProfileUserRouter.tag,
+          name: ProfileUserRouter.name,
+          builder: (context, state) {
+            return ProfileUserPage(id: state.pathParameters['user_id']);
+          },
+          redirect: (context, state) => _unAuthened(),
+        ),
         GoRoute(
           path: ArtistRoute.tag,
           name: ArtistRoute.name,
           builder: (context, state) {
             return const ArtistPage();
           },
+          redirect: (context, state) => _unAuthened(),
         ),
         GoRoute(
           path: CustomerRoute.tag,
@@ -86,13 +93,16 @@ class AppRoutes {
           builder: (context, state) {
             return const CustomerPage();
           },
+          redirect: (context, state) => _unAuthened(),
         ),
+        if (PrefUtils().getRole() == 'Admin')
         GoRoute(
             path: ArtistRegisterRoute.tag,
             name: ArtistRegisterRoute.name,
             builder: (context, state) {
               return const ArtistRegisterPage();
             },
+            redirect: (context, state) => _unAuthened(),
             routes: [
               GoRoute(
                   path: ArtistRegisterDetailRoute.tag,
@@ -107,6 +117,7 @@ class AppRoutes {
             builder: (context, state) {
               return const ArtworkPage();
             },
+            redirect: (context, state) => _unAuthened(),
             routes: [
               GoRoute(
                   path: ArtworkDetailRoute.tag,
@@ -121,6 +132,7 @@ class AppRoutes {
             builder: (context, state) {
               return const OrderPage();
             },
+            redirect: (context, state) => _unAuthened(),
             routes: [
               GoRoute(
                   path: OrderDetailRoute.tag,
@@ -135,6 +147,7 @@ class AppRoutes {
             builder: (context, state) {
               return const RequirementPage();
             },
+            redirect: (context, state) => _unAuthened(),
             routes: [
               GoRoute(
                   path: RequirementDetailRoute.tag,
@@ -143,17 +156,23 @@ class AppRoutes {
                     return RequirementDetailPage(id: state.pathParameters['requirement_id']);
                   })
             ]),
-        GoRoute(
-          path: ManagementRoute.tag,
-          name: ManagementRoute.name,
-          builder: (context, state) {
-            return const ManagementPage();
-          },
-        ),
+        if (PrefUtils().getRole() == 'Admin')
+          GoRoute(
+            path: ManagementRoute.tag,
+            name: ManagementRoute.name,
+            builder: (context, state) {
+              return const ManagementPage();
+            },
+            redirect: (context, state) => _unAuthened(),
+          ),
       ],
       onException: (context, state, router) {
         router.go(LoginRoute.tag);
       },
     );
+  }
+
+  static String? _unAuthened() {
+    return PrefUtils().getToken() != '{}' ? null : LoginRoute.tag;
   }
 }

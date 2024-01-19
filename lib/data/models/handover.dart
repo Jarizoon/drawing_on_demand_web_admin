@@ -38,7 +38,7 @@ class Handover {
   Handover({this.id, this.orderId, this.name, this.phone, this.shipmentPrice, this.pickupAddress, this.receiveAddress, this.status, this.estimatedDeliveryDate, this.handOverDate, this.order, this.handoverItems});
 
   Handover.fromJson(Map<String, dynamic> json) {
-    id = Guid(json['Id']);
+    id = json['Id'];
     orderId = Guid(json['OrderId']);
     name = json['Name'];
     phone = json['Phone'];
@@ -60,7 +60,7 @@ class Handover {
 
   Map<String, dynamic> toJson() {
     return {
-      'Id': id.toString(),
+      'Id': id,
       'orderId': orderId.toString(),
       'Name': name,
       'phone': phone,

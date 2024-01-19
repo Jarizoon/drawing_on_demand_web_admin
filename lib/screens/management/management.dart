@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, use_build_context_synchronously
 
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/category_api.dart';
@@ -12,6 +12,7 @@ import 'package:drawing_on_demand_web_admin/data/models/surface.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_guid/flutter_guid.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:validators/validators.dart';
@@ -22,6 +23,9 @@ class ManagementPage extends StatefulWidget {
 
   @override
   State<ManagementPage> createState() => _ManagementPageState();
+  static void refresh() {
+    state.refresh();
+  }
 }
 
 class _ManagementPageState extends State<ManagementPage> {
@@ -262,7 +266,7 @@ class _ManagementPageState extends State<ManagementPage> {
                                 }),
                           ))),
                   Visibility(
-                    visible: MediaQuery.of(context).size.width >= 1385,
+                    // visible: MediaQuery.of(context).size.width >= 1385,
                     child: Expanded(
                         flex: 3,
                         child: Container(
@@ -518,10 +522,12 @@ AlertDialog createCategory(BuildContext context) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await createCategoryAPI(Category(id: Guid.newGuid, name: nameController.text, description: descriptionController.text));
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -620,10 +626,12 @@ AlertDialog updateCategory(BuildContext context, Category category) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await updateCategoryAPI(category.id.toString(), descriptionController.text);
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -674,10 +682,12 @@ AlertDialog createMaterial(BuildContext context) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await createMaterialAPI(material.Material(id: Guid.newGuid, name: nameController.text, description: descriptionController.text));
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -776,10 +786,12 @@ AlertDialog updateMaterial(BuildContext context, material.Material material) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await updateMaterialAPI(material.id.toString(), descriptionController.text);
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -830,10 +842,12 @@ AlertDialog createSurface(BuildContext context) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await createSurfaceAPI(Surface(id: Guid.newGuid, name: nameController.text, description: descriptionController.text));
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -932,10 +946,12 @@ AlertDialog updateSurface(BuildContext context, Surface surface) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await updateSurfaceAPI(surface.id.toString(), descriptionController.text);
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -988,10 +1004,12 @@ AlertDialog createDiscount(BuildContext context) {
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!formKey.currentState!.validate()) {
               return;
             } else {
+              await createDiscountAPI(Discount(id: Guid.newGuid, number: int.parse(numberController.text), discountPercent: double.parse(discountPercentController.text), startDate: DateTime.parse(startDateController.text), endDate: DateTime.parse(endDateController.text), status: 'Active'));
+              ManagementPage.refresh();
               Navigator.of(context).pop();
             }
           },
@@ -1042,7 +1060,7 @@ AlertDialog createDiscount(BuildContext context) {
                 ),
                 controller: startDateController,
                 validator: (value) {
-                  if(!isAfter(value!)){
+                  if (!isAfter(value!)) {
                     return 'Please input valid date and after today';
                   }
                   return null;
@@ -1054,7 +1072,7 @@ AlertDialog createDiscount(BuildContext context) {
                 ),
                 controller: endDateController,
                 validator: (value) {
-                  if(!isAfter(value!, startDateController.text)){
+                  if (!isAfter(value!, startDateController.text)) {
                     return 'Please input valid date and after start day';
                   }
                   return null;
@@ -1106,11 +1124,26 @@ AlertDialog discountDetails(BuildContext context, Discount discount) {
 }
 
 AlertDialog updateDiscount(BuildContext context, Discount discount) {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController discountPercentController = TextEditingController();
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController endDateController = TextEditingController();
+  int number = discount.number!;
+  double per = discount.discountPercent!;
+  DateTime start = discount.startDate!;
+  DateTime end = discount.endDate!;
   return AlertDialog(
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
+          onPressed: () async {
+            if (!formKey.currentState!.validate()) {
+              return;
+            } else {
+              await updateDiscountAPI(discount.id.toString(), number, per, start, end);
+              ManagementPage.refresh();
+              Navigator.of(context).pop();
+            }
           },
           child: const Text('Submit'),
         ),
@@ -1130,24 +1163,138 @@ AlertDialog updateDiscount(BuildContext context, Discount discount) {
       ),
       titlePadding: const EdgeInsets.all(0),
       contentPadding: const EdgeInsets.all(20.0),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: "Discount Percent ${discount.discountPercent! * 100}%",
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: DateFormat("yyyy-MM-dd").format(discount.startDate!),
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: DateFormat("yyyy-MM-dd").format(discount.endDate!),
-            ),
-          ),
-        ],
-      ));
+      content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Number: $number",
+                ),
+                controller: numberController,
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    if (!is1to10(value)) {
+                      return 'Please input a number from 1 to 10';
+                    }
+                    number = int.parse(numberController.text);
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Discount Percent: ${per * 100}%",
+                  ),
+                  controller: discountPercentController,
+                  validator: (value) {
+                    if (value!.isNotEmpty) {
+                      if (!is1to100percent(value)) {
+                        return 'Please input discount percent form 0.01 to 1';
+                      }
+                      per = double.parse(discountPercentController.text);
+                    }
+                    return null;
+                  }),
+              TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Start Date: ${DateFormat('yyyy-MM-dd').format(start)}',
+                  ),
+                  controller: startDateController,
+                  validator: (value) {
+                    if (value!.isNotEmpty) {
+                      if (!isAfter(value)) {
+                        return 'Please input valid date and after today';
+                      }
+                      start = DateTime.parse(startDateController.text);
+                    }
+                    return null;
+                  }),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'End Date: ${DateFormat('yyyy-MM-dd').format(end)}',
+                ),
+                controller: endDateController,
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    if (!isAfter(value, start)) {
+                      return 'Please input valid date and after start day';
+                    }
+                    end = DateTime.parse(endDateController.text);
+                  }
+                  return null;
+                },
+              ),
+            ],
+          )));
+}
+
+createMaterialAPI(material.Material material) async {
+  try {
+    await MaterialApi().postOne(material);
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Create failed');
+  }
+}
+
+createSurfaceAPI(Surface surface) async {
+  try {
+    await SurfaceApi().postOne(surface);
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Create failed');
+  }
+}
+
+createCategoryAPI(Category category) async {
+  try {
+    await CategoryApi().postOne(category);
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Create failed');
+  }
+}
+
+createDiscountAPI(Discount discount) async {
+  try {
+    await DiscountApi().postOne(discount);
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Create failed');
+  }
+}
+
+updateCategoryAPI(String id, String description) async {
+  try {
+    await CategoryApi().patchOne(id, {'Description': description});
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Update failed');
+  }
+}
+
+updateMaterialAPI(String id, String description) async {
+  try {
+    await MaterialApi().patchOne(id, {'Description': description});
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Update failed');
+  }
+}
+
+updateSurfaceAPI(String id, String description) async {
+  try {
+    await SurfaceApi().patchOne(id, {'Description': description});
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Update failed');
+  }
+}
+
+updateDiscountAPI(String id, int number, double percent, DateTime startDate, DateTime endDate) async {
+  try {
+    await DiscountApi().patchOne(id, {
+      'Number': number, 
+      'DiscountPercent': percent, 
+      'StartDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(startDate), 
+      'EndDate': DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(endDate)
+      });
+  } catch (e) {
+    Fluttertoast.showToast(msg: 'Update failed');
+  }
 }

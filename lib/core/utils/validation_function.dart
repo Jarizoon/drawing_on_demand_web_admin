@@ -77,7 +77,7 @@ bool is1to10(
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    const pattern = r'^[1-10]{1}$';
+    const pattern = r'^[1-9]{1}$';
 
     final regExp = RegExp(pattern);
 

@@ -47,7 +47,9 @@ class _OrderPageState extends State<OrderPage> {
               future: orders,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<Order> list = snapshot.data!.value.where((order) => order.orderDate!.compareTo(fromToFilter!) == 1 && order.orderDate!.compareTo(toToFilter!) == -1).toList();
+                  List<Order> list = snapshot.data!.value
+                  .where((order) => order.status != "Cart")
+                  .where((order) => order.orderDate!.compareTo(fromToFilter!) == 1 && order.orderDate!.compareTo(toToFilter!) == -1).toList();
                   return SingleChildScrollView(
                     padding: const EdgeInsets.all(12),
                     child: Column(

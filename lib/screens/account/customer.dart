@@ -38,8 +38,8 @@ class _CustomerPageState extends State<CustomerPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Account> list = snapshot.data!.value
+                  .where((account) => account.accountRoles!.where((ar) => ar.role!.name == "Staff" || ar.role!.name == "Admin" || ar.role!.name == "Artist" && ar.status != "Pending").isEmpty)
                   .where((account) => account.name!.contains(search.toString()) || account.email!.contains(search.toString()))
-                  .where((account) => account.accountRoles!.where((ar) => ar.role!.name == "Artist").isEmpty || account.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").isNotEmpty)
                   .where((account) => account.status!.contains(statusToFilter.toString()))
                   .toList();
               return SingleChildScrollView(

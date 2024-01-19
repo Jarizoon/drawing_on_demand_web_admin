@@ -87,13 +87,14 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
                                                           Container(
-                                                              padding: const EdgeInsets.all(5),
-                                                              width: 200,
-                                                              height: 200,
-                                                              child: Image(
-                                                                image: NetworkImage(image),
-                                                                fit: BoxFit.contain,
-                                                              )),
+                                                            padding: const EdgeInsets.all(5),
+                                                            width: 200,
+                                                            height: 200,
+                                                            child: CircleAvatar(
+                                                              backgroundImage: NetworkImage(image),
+                                                              backgroundColor: kWhite,
+                                                            ),
+                                                          ),
                                                           Visibility(
                                                               visible: status != "Deactive",
                                                               child: Center(
@@ -198,7 +199,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                       child: ArtworkList(account: acc),
                                                     )),
                                                 Visibility(
-                                                    visible: acc.accountRoles!.where((ar) => ar.role!.name == "Artist").isEmpty || acc.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").isNotEmpty,
+                                                    visible: acc.accountRoles!.where((ar) => ar.role!.name == "Staff" || ar.role!.name == "Admin" || ar.role!.name == "Artist" && ar.status != "Pending").isEmpty,
                                                     child: Container(
                                                       height: 200,
                                                       padding: const EdgeInsets.all(10),
@@ -214,7 +215,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                                                       child: RequirementList(account: acc),
                                                     )),
                                                 Visibility(
-                                                    visible: acc.accountRoles!.where((ar) => ar.role!.name == "Artist").isEmpty || acc.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").isNotEmpty,
+                                                    visible: acc.accountRoles!.where((ar) => ar.role!.name == "Staff" || ar.role!.name == "Admin" || ar.role!.name == "Artist" && ar.status != "Pending").isEmpty,
                                                     child: Container(
                                                       height: 200,
                                                       padding: const EdgeInsets.all(10),

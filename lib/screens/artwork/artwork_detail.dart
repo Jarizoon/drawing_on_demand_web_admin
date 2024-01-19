@@ -119,25 +119,25 @@ class _ArtworkDetailPageState extends State<ArtworkDetailPage> {
                                                   ),
                                                   const SizedBox(height: 10),
                                                   Visibility(
-                                                      visible: status != "Not Available",
+                                                      visible: !status.contains("Deactive"),
                                                       child: Center(
                                                         child: TextButton(
                                                           style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
                                                           child: const Text("Deactivate", style: TextStyle(color: kWhite)),
                                                           onPressed: () async {
-                                                            await updateStatus(snapshot.data!.id.toString(), "Not Available");
+                                                            await updateStatus(snapshot.data!.id.toString(), "$status|Deactive");
                                                             ArtworkDetailPage.refresh();
                                                           },
                                                         ),
                                                       )),
                                                   Visibility( 
-                                                      visible: status == "Not Available",
+                                                      visible: status.contains("Deactive"),
                                                       child: Center(
                                                         child: TextButton(
                                                           style: ButtonStyle(backgroundColor: MaterialStateProperty.all(kPrimaryColor)),
                                                           child: const Text("Activate", style: TextStyle(color: kWhite)),
                                                           onPressed: () async {
-                                                            await updateStatus(snapshot.data!.id.toString(), "Available");
+                                                            await updateStatus(snapshot.data!.id.toString(), status.replaceAll('|Deactive', ''));
                                                             ArtworkDetailPage.refresh();
                                                           },
                                                         ),

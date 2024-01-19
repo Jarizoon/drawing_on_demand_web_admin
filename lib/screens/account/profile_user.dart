@@ -1,12 +1,12 @@
 // ignore_for_file: sized_box_for_whitespace
-import 'dart:typed_data';
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -28,8 +28,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   late Future<Account?> account;
-  late bool imageAvailable = false;
-  late Uint8List newImage;
   @override
   void initState() {
     super.initState();
@@ -92,28 +90,25 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                       flex: 1,
                                                       child: Center(
                                                         child: InkWell(
-                                                            onTap: () async {
-                                                              final file = await ImagePickerWeb.getImageAsBytes();
-                                                              setState(() {
-                                                                newImage = file!;
-                                                                imageAvailable = true;
-                                                              });
-                                                            },
-                                                            child: Stack(
-                                                              children: [
-                                                                Container(
-                                                                  height: 200,
-                                                                  width: 200,
-                                                                  child: imageAvailable
-                                                                      ? Image.memory(newImage)
-                                                                      : Image(
-                                                                          image: NetworkImage(image),
-                                                                          fit: BoxFit.contain,
-                                                                        ),
-                                                                ),
-                                                                const Icon(Icons.add_a_photo),
-                                                              ],
-                                                            )),
+                                                          onTap: () async {
+                                                            XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                                            image = await uploadImage(pickedFile!);
+                                                            await updateAvatar(snapshot.data!.id.toString(), image);
+                                                            ProfileUserPage.refresh();
+                                                          },
+                                                          child: Stack(
+                                                            children: [
+                                                              Container(
+                                                                height: 200,
+                                                                width: 200,
+                                                                child: CircleAvatar(
+                                                                        backgroundImage: NetworkImage(image), backgroundColor: kWhite,
+                                                                      ),
+                                                              ),
+                                                              const Icon(Icons.add_a_photo),
+                                                            ],
+                                                          ),
+                                                        ),
                                                       )),
                                                   const SizedBox(width: 20),
                                                   Expanded(
@@ -269,5 +264,30 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     } catch (error) {
       Fluttertoast.showToast(msg: 'Update profile failed');
     }
+  }
+
+  Future<void> updateAvatar(String accountId, String image) async {
+    try {
+      await AccountApi().patchOne(accountId, {'Avatar': image});
+    } catch (error) {
+      Fluttertoast.showToast(msg: 'Update avatar failed');
+    }
+  }
+
+  Future<String> uploadImage(XFile image) async {
+    const String folder = 'images/';
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final imageRef = storageRef.child(folder + image.name);
+
+    var data = await image.readAsBytes();
+
+    try {
+      await imageRef.putData(data, SettableMetadata(contentType: image.mimeType));
+    } catch (error) {
+      rethrow;
+    }
+
+    return imageRef.getDownloadURL();
   }
 }

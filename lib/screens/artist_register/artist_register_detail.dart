@@ -105,13 +105,14 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
                                         children: [
                                           const Text("Avatar", style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600)),
                                           Container(
-                                              padding: const EdgeInsets.all(5),
-                                              width: 200,
-                                              height: 200,
-                                              child: Image(
-                                                image: NetworkImage(image),
-                                                fit: BoxFit.contain,
-                                              )),
+                                            padding: const EdgeInsets.all(5),
+                                            width: 200,
+                                            height: 200,
+                                            child: CircleAvatar(
+                                              backgroundImage: NetworkImage(image),
+                                              backgroundColor: kWhite,
+                                            ),
+                                          ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [

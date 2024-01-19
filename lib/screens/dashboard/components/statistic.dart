@@ -1,4 +1,4 @@
-import 'package:drawing_on_demand_web_admin/data/model/statistic_model.dart';
+import 'package:drawing_on_demand_web_admin/data/models/statistic_model.dart';
 import 'package:flutter/material.dart';
 
 class Statistic extends StatelessWidget {

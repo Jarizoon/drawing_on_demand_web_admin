@@ -42,7 +42,9 @@ class _ArtworkPageState extends State<ArtworkPage> {
               future: artworks,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<Artwork> list = snapshot.data!.value.where((artwork) => artwork.title!.contains(search.toString()) || artwork.title!.toLowerCase().contains(search.toString())).where((artwork) => artwork.status!.contains(statusToFilter.toString())).where((artwork) => artwork.category!.name!.contains(categoryToFilter.toString())).toList();
+                  List<Artwork> list = snapshot.data!.value
+                  .where((artwork) => artwork.status != "Proposed")
+                  .where((artwork) => artwork.title!.contains(search.toString()) || artwork.title!.toLowerCase().contains(search.toString())).where((artwork) => artwork.status!.contains(statusToFilter.toString())).where((artwork) => artwork.category!.name!.contains(categoryToFilter.toString())).toList();
                   return SingleChildScrollView(
                     child: Column(
                       children: [

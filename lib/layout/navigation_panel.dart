@@ -1,8 +1,10 @@
 // ignore_for_file: sized_box_for_whitespace
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
+import 'package:drawing_on_demand_web_admin/core/utils/pre_utils.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class NavigationPanel extends StatefulWidget {
   const NavigationPanel({Key? key}) : super(key: key);
@@ -76,17 +78,20 @@ class _NavigationPanelState extends State<NavigationPanel> {
         const Divider(
           color: Colors.white70,
         ),
-        DrawerListTile(
-          press: () {
-            context.goNamed(ArtistRegisterRoute.name);
-          },
-          title: 'Artist Register',
+        Visibility(
+          visible: PrefUtils().getRole() == 'Admin',
+          child: DrawerListTile(
+            press: () {
+              context.goNamed(ArtistRegisterRoute.name);
+            },
+            title: 'Artist Register',
+          ),
         ),
         const Divider(
           color: Colors.white70,
-        ),
+        ).visible(PrefUtils().getRole() == 'Admin'),
         Visibility(
-          visible: true,
+          visible: PrefUtils().getRole() == 'Admin',
           child: DrawerListTile(
             press: () {
               context.goNamed(AccountRoute.name);
@@ -96,9 +101,9 @@ class _NavigationPanelState extends State<NavigationPanel> {
         ),
         const Divider(
           color: Colors.white70,
-        ),
+        ).visible(PrefUtils().getRole() == 'Admin'),
         Visibility(
-          visible: true,
+          visible: PrefUtils().getRole() == 'Admin',
           child: DrawerListTile(
             press: () {
               context.goNamed(ManagementRoute.name);

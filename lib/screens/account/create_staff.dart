@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:typed_data';
-
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_role_api.dart';
@@ -10,10 +7,12 @@ import 'package:drawing_on_demand_web_admin/data/models/account_role.dart';
 import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/account/account.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:validators/validators.dart';
 
@@ -33,9 +32,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   bool hidePassword = true;
-
+  String image = emptyImage;
   late bool imageAvailable = false;
-  late Uint8List imageFile;
+  XFile? pickedFile;
+
   String gender = "Female";
   @override
   Widget build(BuildContext context) {
@@ -298,18 +298,16 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                     borderRadius: BorderRadius.circular(120),
                                     color: kWhite,
                                   ),
-                                  child: imageAvailable
-                                      ? Image.memory(imageFile)
-                                      : const Image(
-                                          image: NetworkImage(emptyImage),
-                                          fit: BoxFit.contain,
-                                        ),
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(image),
+                                    backgroundColor: kWhite,
+                                  ),
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    final image = await ImagePickerWeb.getImageAsBytes();
+                                    pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
                                     setState(() {
-                                      imageFile = image!;
+                                      image = pickedFile!.path.toString();
                                       imageAvailable = true;
                                     });
                                   },
@@ -322,22 +320,17 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                 ),
                                 const SizedBox(height: 100),
                                 InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    if (pickedFile != null) {
+                                      image = await uploadImage(pickedFile!);
+                                    } else {
+                                      image = 'https://firebasestorage.googleapis.com/v0/b/drawing-on-demand.appspot.com/o/images%2Fdrawing_on_demand.jpg?alt=media&token=c1801df1-f2d7-485d-8715-9e7aed83c3cf';
+                                    }
                                     Guid accountId = Guid.newGuid;
-                                    createStaff(
-                                        Account(
-                                            id: accountId,
-                                            email: emailController.text,
-                                            name: fullnameController.text,
-                                            phone: phoneController.text,
-                                            address: addressController.text,
-                                            bio: bioController.text,
-                                            status: 'Active',
-                                            gender: gender,
-                                            createdDate: DateTime.now(),
-                                            lastModifiedDate: DateTime.now(),
-                                            availableConnect: 0,
-                                            avatar: 'https://firebasestorage.googleapis.com/v0/b/drawing-on-demand.appspot.com/o/images%2Fdrawing_on_demand.jpg?alt=media&token=c1801df1-f2d7-485d-8715-9e7aed83c3cf'),
+                                    createStaff(Account(id: accountId, email: emailController.text, name: fullnameController.text, phone: phoneController.text, address: addressController.text, bio: bioController.text, status: 'Active', gender: gender, createdDate: DateTime.now(), lastModifiedDate: DateTime.now(), availableConnect: 0, avatar: image),
                                         AccountRole(id: Guid.newGuid, roleId: Guid('cc6e98e9-b8ec-46bc-9b37-0bd3c35b41d7'), accountId: accountId, addedDate: DateTime.now(), status: 'Active'));
                                   },
                                   child: Container(
@@ -364,9 +357,6 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
   }
 
   createStaff(Account account, AccountRole ar) async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
     try {
       var accounts = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'");
       if (accounts.value.isNotEmpty) {
@@ -375,10 +365,28 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
       }
       await AccountApi().postOne(account);
       await AccountRoleApi().postOne(ar);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
       AccountPage.refresh();
       GoRouter.of(context).pop();
     } catch (e) {
       Fluttertoast.showToast(msg: 'Create Staff failed');
     }
+  }
+
+  Future<String> uploadImage(XFile image) async {
+    const String folder = 'images/';
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final imageRef = storageRef.child(folder + image.name);
+
+    var data = await image.readAsBytes();
+
+    try {
+      await imageRef.putData(data, SettableMetadata(contentType: image.mimeType));
+    } catch (error) {
+      rethrow;
+    }
+
+    return imageRef.getDownloadURL();
   }
 }

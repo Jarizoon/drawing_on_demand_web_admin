@@ -1,7 +1,7 @@
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/order_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/requirement_api.dart';
-import 'package:drawing_on_demand_web_admin/data/model/statistic_model.dart';
+import 'package:drawing_on_demand_web_admin/data/models/statistic_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order.dart';
 import 'package:drawing_on_demand_web_admin/data/models/requirement.dart';

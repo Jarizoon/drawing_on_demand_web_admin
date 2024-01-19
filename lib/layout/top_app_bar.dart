@@ -1,9 +1,13 @@
 // ignore_for_file: sized_box_for_whitespace
+import 'dart:convert';
 import 'package:drawing_on_demand_web_admin/app_routes/named_routes.dart';
+import 'package:drawing_on_demand_web_admin/core/utils/pre_utils.dart';
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class TopAppBar extends StatelessWidget {
   const TopAppBar({Key? key}) : super(key: key);
@@ -35,16 +39,18 @@ class TopAppBar extends StatelessWidget {
                   height: 35,
                   width: 35,
                   decoration: const BoxDecoration(color: kWhite, borderRadius: BorderRadius.all(Radius.circular(40.0))),
-                  child: const Center(
-                    child: Image(image: AssetImage(profileIcon)),
-                  ),
+                  child: Center(
+                      child: CircleAvatar(
+                    radius: 64,
+                    backgroundImage: NetworkImage(jsonDecode(PrefUtils().getAccount())['Avatar']),
+                  )),
                 ),
                 const SizedBox(width: 10.0),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey), borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                    child: Text('Admin', style: kTextStyle.copyWith(fontWeight: FontWeight.w400, color: kWhite)),
+                    child: Text(PrefUtils().getRole(), style: kTextStyle.copyWith(fontWeight: FontWeight.w400, color: kWhite)),
                   ),
                 ),
                 Center(
@@ -56,7 +62,7 @@ class TopAppBar extends StatelessWidget {
                         size: 30,
                         color: kWhite,
                       ),
-                      items: const [DropdownMenuItem(value: 'Change Password', child: Text('Change Password')), DropdownMenuItem(value: 'Log Out', child: Text('Log Out'))],
+                      items: const [DropdownMenuItem(value: 'Change Password', child: Text('Change Password')), DropdownMenuItem(value: 'Profile', child: Text('Profile')), DropdownMenuItem(value: 'Log Out', child: Text('Log Out'))],
                       onChanged: (value) {
                         switch (value) {
                           case 'Change Password':
@@ -73,6 +79,7 @@ class TopAppBar extends StatelessWidget {
                                                 if (!formKey.currentState!.validate()) {
                                                   return;
                                                 } else {
+                                                  changePassword(passwordController.text, newPasswordController.text);
                                                   Navigator.of(context).pop();
                                                 }
                                               },
@@ -93,6 +100,7 @@ class TopAppBar extends StatelessWidget {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               TextFormField(
+                                                obscureText: true,
                                                 decoration: const InputDecoration(
                                                   hintText: "Enter your password",
                                                 ),
@@ -105,6 +113,7 @@ class TopAppBar extends StatelessWidget {
                                                 },
                                               ),
                                               TextFormField(
+                                                obscureText: true,
                                                 decoration: const InputDecoration(
                                                   hintText: "Enter new password",
                                                 ),
@@ -117,6 +126,7 @@ class TopAppBar extends StatelessWidget {
                                                 },
                                               ),
                                               TextFormField(
+                                                obscureText: true,
                                                 decoration: const InputDecoration(
                                                   hintText: "Enter confirm new password",
                                                 ),
@@ -133,9 +143,11 @@ class TopAppBar extends StatelessWidget {
                                         )));
                             break;
                           case 'Profile':
+                            String accountId = jsonDecode(PrefUtils().getAccount())['Id'].toString();
+                            context.goNamed(ProfileUserRouter.name, pathParameters: {'user_id': accountId});
                             break;
                           case 'Log Out':
-                            context.goNamed(LoginRoute.name);
+                            onLogout(context);
                             break;
                         }
                       },
@@ -148,5 +160,39 @@ class TopAppBar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onLogout(BuildContext context) async {
+    logout(context);
+  }
+
+  Future<void> logout(BuildContext context) async {
+    try {
+      // Sign out
+      await FirebaseAuth.instance.signOut();
+
+      // Clear pref data
+      await PrefUtils().clearPreferencesData();
+
+      // Navigate to login
+      Future.delayed(const Duration(milliseconds: 500), () {
+        // MyApp.refreshRoutes(context);
+        context.goNamed(LoginRoute.name);
+      });
+    } catch (error) {
+      Fluttertoast.showToast(msg: error.toString());
+    }
+  }
+
+  changePassword(String oldPassword, String newPassword) async {
+    try {
+      var cred = EmailAuthProvider.credential(email: jsonDecode(PrefUtils().getAccount())['Email'].toString(), password: oldPassword);
+      await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(cred).then((value) {
+        FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
+      });
+      Fluttertoast.showToast(msg: 'Change password successful');
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Change password failed');
+    }
   }
 }
