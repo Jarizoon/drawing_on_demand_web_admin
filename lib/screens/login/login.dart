@@ -284,9 +284,11 @@ class _LoginPageState extends State<LoginPage> {
         ProgressDialogUtils.hideProgress(context);
         context.goNamed(DashboardRoute.name);
       } else {
+        ProgressDialogUtils.hideProgress(context);
         Fluttertoast.showToast(msg: 'Invalid email or password');
       }
     } catch (e) {
+      ProgressDialogUtils.hideProgress(context);
       Fluttertoast.showToast(msg: 'Invalid email or password');
     }
   }
@@ -304,7 +306,7 @@ class _LoginPageState extends State<LoginPage> {
                 var accounts = await AccountApi().gets(0, filter: "email eq '${emailForgotPasswordController.text.trim()}'");
                 if (accounts.value.isNotEmpty) {
                   myauth.setConfig(
-                            appEmail: "me@rohitchouhan.com",
+                            appEmail: "dond@gmail.com",
                             appName: "Email OTP",
                             userEmail: emailController.text,
                             otpLength: 4,
@@ -330,7 +332,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
         title: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(5),
           height: 40,
           color: kPrimaryColor,
           child: const Center(

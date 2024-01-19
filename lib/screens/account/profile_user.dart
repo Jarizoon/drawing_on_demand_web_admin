@@ -257,10 +257,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
 
   Future<void> updateProfile(String accountId, String fullname, String address, String phone, String bio) async {
     try {
-      await AccountApi().patchOne(accountId, {'Name': fullname});
-      await AccountApi().patchOne(accountId, {'Address': address});
-      await AccountApi().patchOne(accountId, {'Phone': phone});
-      await AccountApi().patchOne(accountId, {'Bio': bio});
+      await AccountApi().patchOne(accountId, {'Name': fullname, 'Address': address, 'Phone': phone, 'Bio': bio});
     } catch (error) {
       Fluttertoast.showToast(msg: 'Update profile failed');
     }

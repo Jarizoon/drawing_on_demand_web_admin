@@ -23,7 +23,6 @@ class PrefUtils {
     await _sharedPreferences!.remove('token');
     await _sharedPreferences!.remove('role');
     await _sharedPreferences!.remove('rank');
-    await _sharedPreferences!.remove('cartId');
   }
 
   Future<bool> setThemeData(String value) {

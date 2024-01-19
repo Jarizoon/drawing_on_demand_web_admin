@@ -163,7 +163,7 @@ class TopAppBar extends StatelessWidget {
   }
 
   void onLogout(BuildContext context) async {
-    logout(context);
+    await logout(context);
   }
 
   Future<void> logout(BuildContext context) async {
