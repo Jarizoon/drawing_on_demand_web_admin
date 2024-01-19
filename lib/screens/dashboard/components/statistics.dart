@@ -1,6 +1,7 @@
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/order_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/requirement_api.dart';
+import 'package:drawing_on_demand_web_admin/data/models/discount.dart';
 import 'package:drawing_on_demand_web_admin/data/models/statistic_model.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
 import 'package:drawing_on_demand_web_admin/data/models/order.dart';
@@ -72,7 +73,7 @@ class Statistics extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       double profit = snapshot.data!;
-                      return Statistic(sta: StatisticModel(name: "Profit", number: profit.toInt(), imageSrc: profitIcon));
+                      return Statistic(sta: StatisticModel(name: "Income", number: profit.toInt(), imageSrc: profitIcon));
                     }
                     return const Center(
                       child: CircularProgressIndicator(
@@ -136,10 +137,13 @@ Future<Requirements?> getRequirementNumber() async {
 
 Future<double?> getProfitNumber() async {
   try {
-    var orders = await OrderApi().gets(0);
+    var orders = await OrderApi().gets(0, expand: 'discount');
     double profit = 0;
     for (var i = 0; i < orders.value.length; i++) {
-      profit = profit + orders.value[i].total!.toDouble();
+      if (orders.value[i].discount == null) {
+        orders.value[i].discount = Discount(discountPercent: 0);
+      }
+      profit = profit + orders.value[i].total! - orders.value[i].total! * orders.value[i].discount!.discountPercent!.toDouble();
     }
     return profit;
   } catch (e) {

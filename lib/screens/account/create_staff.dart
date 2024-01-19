@@ -31,6 +31,13 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController bioController = TextEditingController();
+  FocusNode one = FocusNode();
+  FocusNode two = FocusNode();
+  FocusNode three = FocusNode();
+  FocusNode four = FocusNode();
+  FocusNode five = FocusNode();
+  FocusNode six = FocusNode();
+  FocusNode seven = FocusNode();
   bool hidePassword = true;
   String image = emptyImage;
   late bool imageAvailable = false;
@@ -80,6 +87,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                     children: [
                                       const SizedBox(height: 5),
                                       TextFormField(
+                                        focusNode: one,
+                                        onFieldSubmitted: (value) {
+                                          FocusScope.of(context).requestFocus(two);
+                                        },
                                         keyboardType: TextInputType.emailAddress,
                                         cursorColor: kNeutralColor,
                                         decoration: kInputDecoration.copyWith(
@@ -100,6 +111,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       ),
                                       const SizedBox(height: 18.0),
                                       TextFormField(
+                                        focusNode: two,
+                                        onFieldSubmitted: (value) {
+                                          FocusScope.of(context).requestFocus(three);
+                                        },
                                         keyboardType: TextInputType.name,
                                         cursorColor: kNeutralColor,
                                         decoration: kInputDecoration.copyWith(
@@ -120,6 +135,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       ),
                                       const SizedBox(height: 18.0),
                                       TextFormField(
+                                        focusNode: three,
+                                        onFieldSubmitted: (value) {
+                                          FocusScope.of(context).requestFocus(four);
+                                        },
                                         keyboardType: TextInputType.phone,
                                         cursorColor: kNeutralColor,
                                         decoration: kInputDecoration.copyWith(
@@ -180,6 +199,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       ),
                                       const SizedBox(height: 18.0),
                                       TextFormField(
+                                        focusNode: four,
+                                        onFieldSubmitted: (value) {
+                                          FocusScope.of(context).requestFocus(five);
+                                        },
                                         keyboardType: TextInputType.text,
                                         cursorColor: kNeutralColor,
                                         decoration: kInputDecoration.copyWith(
@@ -200,6 +223,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       ),
                                       const SizedBox(height: 18.0),
                                       TextFormField(
+                                        focusNode: five,
+                                        onFieldSubmitted: (value) {
+                                          FocusScope.of(context).requestFocus(six);
+                                        },
                                         keyboardType: TextInputType.text,
                                         cursorColor: kNeutralColor,
                                         decoration: kInputDecoration.copyWith(
@@ -214,6 +241,10 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       ),
                                       const SizedBox(height: 18.0),
                                       TextFormField(
+                                        focusNode: six,
+                                        onFieldSubmitted: (value) {
+                                          FocusScope.of(context).requestFocus(seven);
+                                        },
                                         keyboardType: TextInputType.visiblePassword,
                                         cursorColor: kNeutralColor,
                                         obscureText: hidePassword,
@@ -246,6 +277,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                       ),
                                       const SizedBox(height: 18.0),
                                       TextFormField(
+                                        focusNode: seven,
                                         keyboardType: TextInputType.visiblePassword,
                                         cursorColor: kNeutralColor,
                                         obscureText: hidePassword,

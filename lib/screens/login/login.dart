@@ -25,6 +25,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  FocusNode one = FocusNode();
+  FocusNode two = FocusNode();
+  FocusNode three = FocusNode();
   bool hidePassword = true;
   EmailOTP myauth = EmailOTP();
   @override
@@ -132,6 +135,10 @@ class _LoginPageState extends State<LoginPage> {
                               color: kNeutralColor,
                               fontSize: 18.0,
                             ),
+                            focusNode: one,
+                            onFieldSubmitted: (value) {
+                              FocusScope.of(context).requestFocus(two);
+                            },
                             showCursor: true,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -168,6 +175,10 @@ class _LoginPageState extends State<LoginPage> {
                               color: kNeutralColor,
                               fontSize: 18.0,
                             ),
+                            focusNode: two,
+                            onFieldSubmitted: (value) {
+                              FocusScope.of(context).requestFocus(three);
+                            },
                             obscureText: hidePassword,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -227,6 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
+                          focusNode: three,
                           onTap: () => login(),
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
@@ -283,12 +295,12 @@ class _LoginPageState extends State<LoginPage> {
         await PrefUtils().setToken(token!);
         MyApp.refreshRoutes(context);
         // Navigator
+        ProgressDialogUtils.hideProgress(context);
 
         Future.delayed(const Duration(seconds: 1), () {
           context.goNamed(DashboardRoute.name);
         });
       } else {
-        ProgressDialogUtils.hideProgress(context);
         Fluttertoast.showToast(msg: 'Invalid email or password');
       }
     } catch (e) {

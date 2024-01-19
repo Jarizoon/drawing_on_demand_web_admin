@@ -67,25 +67,25 @@ class _AccountPageState extends State<AccountPage> {
                                 flex: MediaQuery.of(context).size.width >= 1100 ? 2 : 1,
                               )),
                           Visibility(
-                            visible: MediaQuery.of(context).size.width >= 850,
-                            child: InkWell(
-                              onTap: () => context.goNamed(CreateStaffRoute.name),
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(vertical: 15),
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
-                                child: Row(
-                                  children: [
-                                    const Text("Create Staff", style: TextStyle(fontSize: 16)),
-                                    const SizedBox(width: 4),
-                                    Container(
-                                      child: const Icon(Icons.add),
-                                    )
-                                  ],
+                              visible: MediaQuery.of(context).size.width >= 850,
+                              child: Center(
+                                child: InkWell(
+                                  onTap: () => context.goNamed(CreateStaffRoute.name),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(color: kWhite, borderRadius: BorderRadius.circular(30)),
+                                    child: Row(
+                                      children: [
+                                        const Text("Create Staff", style: TextStyle(fontSize: 18)),
+                                        const SizedBox(width: 4),
+                                        Container(
+                                          child: const Icon(Icons.add),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
+                              )),
                           const SizedBox(width: 8),
                           Container(
                             width: 160,

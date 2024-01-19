@@ -1,4 +1,3 @@
-
 import 'package:nb_utils/nb_utils.dart';
 
 /// Checks if string consist only Vietnamese Text. (With whitespace accepted)
@@ -22,6 +21,7 @@ bool isFullname(
 
   return isInputStringValid;
 }
+
 /// Checks if string consist only Vietnamese Text and number. (With whitespace accepted)
 bool isAddress(
   String? inputString, {
@@ -77,11 +77,11 @@ bool is1to10(
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    const pattern = r'^[1-9]{1}$';
-
-    final regExp = RegExp(pattern);
-
-    isInputStringValid = regExp.hasMatch(inputString);
+    int percent = inputString.toInt();
+    if (percent >= 1 && percent <= 10) {
+      return isInputStringValid = true;
+    }
+    isInputStringValid = false;
   }
 
   return isInputStringValid;
@@ -98,13 +98,13 @@ bool is1to100percent(
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    try{
+    try {
       double percent = inputString.toDouble();
-      if(percent >= 0.01 && percent <= 1){
+      if (percent >= 0.01 && percent <= 1) {
         return isInputStringValid = true;
       }
       isInputStringValid = false;
-    }catch(e){
+    } catch (e) {
       return isInputStringValid = false;
     }
   }
@@ -130,8 +130,7 @@ bool isValidPassword(
   }
 
   if (inputString != null && inputString.isNotEmpty) {
-    const pattern =
-        r'^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,25}$';
+    const pattern = r'^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,25}$';
 
     final regExp = RegExp(pattern);
 
