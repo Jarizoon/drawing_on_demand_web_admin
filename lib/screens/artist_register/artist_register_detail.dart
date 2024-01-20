@@ -179,12 +179,11 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
   accept(String arId, String status) async {
     try {
       await AccountRoleApi().patchOne(arId, {'Status': status});
-      await AccountRoleApi().patchOne(arId, {'LastModifiedDate': DateTime.now()});
-      ArtistRegisterPage.refresh();
-      GoRouter.of(context).pop();
     } catch (e) {
       Fluttertoast.showToast(msg: 'Accept Artist Register failed');
     }
+    ArtistRegisterPage.refresh();
+    GoRouter.of(context).pop();
   }
 
   deleteAr(String arId) async {

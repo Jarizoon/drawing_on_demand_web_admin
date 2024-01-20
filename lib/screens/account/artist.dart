@@ -38,7 +38,7 @@ class _ArtistPageState extends State<ArtistPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Account> list = snapshot.data!.value
-                  .where((account) => account.accountRoles!.first.role!.name == "Artist" && account.accountRoles!.first.status == "Active")
+                  .where((account) => account.accountRoles!.any((ar) => ar.role!.name == "Artist" && ar.status == "Active"))
                   .where((account) => account.name!.contains(search.toString()) || account.email!.contains(search.toString()))
                   .where((account) => account.status!.contains(statusToFilter.toString()))
                   .where((account) => account.rank!.name!.contains(rankToFilter.toString()))

@@ -39,7 +39,11 @@ class _AccountPageState extends State<AccountPage> {
           future: accounts,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<Account> list = snapshot.data!.value.where((account) => account.name!.contains(search.toString()) || account.email!.contains(search.toString())).where((account) => account.accountRoles!.first.role!.name!.contains(roleToFilter.toString())).where((account) => account.status!.contains(statusToFilter.toString())).toList();
+              List<Account> list = snapshot.data!.value
+              .where((account) => account.name!.contains(search.toString()) || account.email!.contains(search.toString()))
+              .where((account) => account.accountRoles!.first.role!.name!.contains(roleToFilter!))
+              .where((account) => account.status!.contains(statusToFilter.toString()))
+              .toList();
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
