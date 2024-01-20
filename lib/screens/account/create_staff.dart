@@ -1,4 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:typed_data';
+
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_role_api.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_guid/flutter_guid.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:validators/validators.dart';
 
@@ -40,8 +43,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
   FocusNode seven = FocusNode();
   bool hidePassword = true;
   String image = emptyImage;
-  late bool imageAvailable = false;
-  XFile? pickedFile;
+  Uint8List? imageInBytes;
 
   String gender = "Female";
   @override
@@ -330,17 +332,17 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                     borderRadius: BorderRadius.circular(120),
                                     color: kWhite,
                                   ),
-                                  child: CircleAvatar(
-                                    backgroundImage: NetworkImage(image),
-                                    backgroundColor: kWhite,
-                                  ),
+                                  child: imageInBytes == null
+                                      ? CircleAvatar(
+                                          backgroundImage: NetworkImage(image),
+                                          backgroundColor: kWhite,
+                                        )
+                                      : Image.memory(imageInBytes!),
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                    imageInBytes = await ImagePickerWeb.getImageAsBytes();
                                     setState(() {
-                                      image = pickedFile!.path.toString();
-                                      imageAvailable = true;
                                     });
                                   },
                                   child: Container(
@@ -356,8 +358,9 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
                                     if (!_formKey.currentState!.validate()) {
                                       return;
                                     }
-                                    if (pickedFile != null) {
-                                      image = await uploadImage(pickedFile!);
+                                    if (imageInBytes != null) {
+                                      // image = await uploadImage(pickedFile!);
+                                      image = await uploadFile(imageInBytes!);
                                     } else {
                                       image = 'https://firebasestorage.googleapis.com/v0/b/drawing-on-demand.appspot.com/o/images%2Fdrawing_on_demand.jpg?alt=media&token=c1801df1-f2d7-485d-8715-9e7aed83c3cf';
                                     }
@@ -420,5 +423,28 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
     }
 
     return imageRef.getDownloadURL();
+  }
+
+  Future<String> uploadFile(Uint8List imageInBytes) async {
+    String imageUrl = '';
+    try {
+      UploadTask uploadTask;
+
+      Reference ref = FirebaseStorage.instance
+          .ref()
+          .child('images/' + Guid.newGuid.toString());
+
+      final metadata =
+          SettableMetadata(contentType: 'image/png');
+
+      //uploadTask = ref.putFile(File(file.path));
+      uploadTask = ref.putData(imageInBytes, metadata);
+
+      await uploadTask.whenComplete(() => null);
+      imageUrl = await ref.getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+    return imageUrl;
   }
 }

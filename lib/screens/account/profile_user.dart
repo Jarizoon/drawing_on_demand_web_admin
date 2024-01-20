@@ -1,4 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
+import 'dart:typed_data';
+
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
 import 'package:drawing_on_demand_web_admin/data/apis/account_api.dart';
 import 'package:drawing_on_demand_web_admin/data/models/account.dart';
@@ -6,7 +8,9 @@ import 'package:drawing_on_demand_web_admin/layout/app_layout.dart';
 import 'package:drawing_on_demand_web_admin/screens/widgets/constant.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_guid/flutter_guid.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -28,6 +32,8 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   late Future<Account?> account;
+  String image = emptyImage;
+  Uint8List? imageInBytes;
   @override
   void initState() {
     super.initState();
@@ -49,7 +55,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     String address = snapshot.data!.address!;
                     String phone = snapshot.data!.phone!;
                     String bio = snapshot.data!.bio!;
-                    String image = emptyImage;
                     if (snapshot.data!.avatar != null && snapshot.data!.avatar != "") {
                       image = snapshot.data!.avatar.toString();
                     }
@@ -91,8 +96,8 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                       child: Center(
                                                         child: InkWell(
                                                           onTap: () async {
-                                                            XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-                                                            image = await uploadImage(pickedFile!);
+                                                            imageInBytes = await ImagePickerWeb.getImageAsBytes();
+                                                            image = await uploadFile(imageInBytes!);
                                                             await updateAvatar(snapshot.data!.id.toString(), image);
                                                             ProfileUserPage.refresh();
                                                           },
@@ -101,9 +106,12 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                                               Container(
                                                                 height: 200,
                                                                 width: 200,
-                                                                child: CircleAvatar(
-                                                                        backgroundImage: NetworkImage(image), backgroundColor: kWhite,
-                                                                      ),
+                                                                child: imageInBytes == null
+                                                                    ? CircleAvatar(
+                                                                        backgroundImage: NetworkImage(image),
+                                                                        backgroundColor: kWhite,
+                                                                      )
+                                                                    : Image.memory(imageInBytes!),
                                                               ),
                                                               const Icon(Icons.add_a_photo),
                                                             ],
@@ -286,5 +294,25 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     }
 
     return imageRef.getDownloadURL();
+  }
+
+  Future<String> uploadFile(Uint8List imageInBytes) async {
+    String imageUrl = '';
+    try {
+      UploadTask uploadTask;
+
+      Reference ref = FirebaseStorage.instance.ref().child('images/' + Guid.newGuid.toString());
+
+      final metadata = SettableMetadata(contentType: 'image/png');
+
+      //uploadTask = ref.putFile(File(file.path));
+      uploadTask = ref.putData(imageInBytes, metadata);
+
+      await uploadTask.whenComplete(() => null);
+      imageUrl = await ref.getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+    return imageUrl;
   }
 }
