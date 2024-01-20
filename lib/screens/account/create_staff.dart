@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_interpolation_to_compose_strings
 import 'dart:typed_data';
 
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
@@ -443,7 +443,7 @@ class _CreateStaffPageState extends State<CreateStaffPage> {
       await uploadTask.whenComplete(() => null);
       imageUrl = await ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      Fluttertoast.showToast(msg: e.toString());
     }
     return imageUrl;
   }

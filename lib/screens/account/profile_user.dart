@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, prefer_interpolation_to_compose_strings
 import 'dart:typed_data';
 
 import 'package:drawing_on_demand_web_admin/core/utils/validation_function.dart';
@@ -311,7 +311,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       await uploadTask.whenComplete(() => null);
       imageUrl = await ref.getDownloadURL();
     } catch (e) {
-      print(e);
+      Fluttertoast.showToast(msg: e.toString());
     }
     return imageUrl;
   }

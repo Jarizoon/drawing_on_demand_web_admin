@@ -50,7 +50,7 @@ class Statistics extends StatelessWidget {
                   future: getOrderNumber(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      int number = snapshot.data!.value.length;
+                      int number = snapshot.data!.value.where((order) => order.status != "Cart").length;
                       return Statistic(sta: StatisticModel(name: "Orders", number: number, imageSrc: orderIcon));
                     }
                     return const Center(
@@ -138,12 +138,13 @@ Future<Requirements?> getRequirementNumber() async {
 Future<double?> getProfitNumber() async {
   try {
     var orders = await OrderApi().gets(0, expand: 'discount');
+    var list = orders.value.where((order) => order.status != "Cart").toList();
     double profit = 0;
-    for (var i = 0; i < orders.value.length; i++) {
-      if (orders.value[i].discount == null) {
-        orders.value[i].discount = Discount(discountPercent: 0);
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].discount == null) {
+        list[i].discount = Discount(discountPercent: 0);
       }
-      profit = profit + orders.value[i].total! - orders.value[i].total! * orders.value[i].discount!.discountPercent!.toDouble();
+      profit = profit + list[i].total! - list[i].total! * list[i].discount!.discountPercent!.toDouble();
     }
     return profit;
   } catch (e) {

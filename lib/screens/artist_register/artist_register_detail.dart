@@ -119,7 +119,7 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
                                               InkWell(
                                                 onTap: () {
                                                   accept(snapshot.data!.accountRoles!.where((ar) => ar.role!.name == "Artist" && ar.status == "Pending").first.id.toString(), "Active");
-                                                  deleteAr(snapshot.data!.accountRoles!.where((ar) => ar.role!.name == "Customer" && ar.status == "Active").first.id.toString());
+                                                  // deleteAr(snapshot.data!.accountRoles!.where((ar) => ar.role!.name == "Customer" && ar.status == "Active").first.id.toString());
                                                 },
                                                 child: Container(
                                                   margin: const EdgeInsets.symmetric(vertical: 15),
@@ -180,6 +180,8 @@ class _ArtistRegisterDetailPageState extends State<ArtistRegisterDetailPage> {
     try {
       await AccountRoleApi().patchOne(arId, {'Status': status});
       await AccountRoleApi().patchOne(arId, {'LastModifiedDate': DateTime.now()});
+      ArtistRegisterPage.refresh();
+      GoRouter.of(context).pop();
     } catch (e) {
       Fluttertoast.showToast(msg: 'Accept Artist Register failed');
     }

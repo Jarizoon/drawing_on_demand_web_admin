@@ -83,14 +83,15 @@ Future<List<int>> getUserFollowMonth() async {
   List<int> list = [];
   try {
     var accounts = await AccountApi().gets(0);
-    for (var i = 1; i < 5; i++) {
-      var from = DateTime(DateTime.now().year, DateTime.now().month - i, DateTime.now().day);
-      var to = DateTime(DateTime.now().year, DateTime.now().month - i + 1, DateTime.now().day);
+    for (var i = 0; i < 4; i++) {
+      var to = DateTime.now().subtract(Duration(days: 30*i));
+      var from = DateTime.now().subtract(Duration(days: 30*(i+1)));
       var listAccount = accounts.value.where((account) => account.createdDate!.compareTo(from) == 1 && account.createdDate!.compareTo(to) == -1);
-      list.add(listAccount.length);
+      var count = listAccount.length;
+      list.add(count);
     }
   } catch (e) {
-    Fluttertoast.showToast(msg: 'Get category names failed');
+    Fluttertoast.showToast(msg: 'Get accounts failed');
   }
   return list;
 }
@@ -99,14 +100,17 @@ Future<List<int>> getOrderFollowMonth() async {
   List<int> list = [];
   try {
     var orders = await OrderApi().gets(0);
-    for (var i = 1; i < 5; i++) {
-      var from = DateTime(DateTime.now().year, DateTime.now().month - i, DateTime.now().day);
-      var to = DateTime(DateTime.now().year, DateTime.now().month - i + 1, DateTime.now().day);
-      var listAccount = orders.value.where((order) => order.orderDate!.compareTo(from) == 1 && order.orderDate!.compareTo(to) == -1);
-      list.add(listAccount.length);
+    for (var i = 0; i < 4; i++) {
+      var to = DateTime.now().subtract(Duration(days: 30*i));
+      var from = DateTime.now().subtract(Duration(days: 30*(i+1)));
+      var listOrder = orders.value
+      .where((order) => order.status != "Cart")
+      .where((order) => order.orderDate!.compareTo(from) == 1 && order.orderDate!.compareTo(to) == -1);
+      var count = listOrder.length;
+      list.add(count);
     }
   } catch (e) {
-    Fluttertoast.showToast(msg: 'Get category names failed');
+    Fluttertoast.showToast(msg: 'Get orders failed');
   }
   return list;
 }

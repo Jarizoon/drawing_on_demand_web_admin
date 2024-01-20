@@ -279,7 +279,9 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      ProgressDialogUtils.hideProgress(context);
+      // Save token
+      var token = await FirebaseAuth.instance.currentUser!.getIdToken();
+      await PrefUtils().setToken(token!);
       var accounts = await AccountApi().gets(0, filter: "email eq '${emailController.text.trim()}'", expand: 'accountRoles(expand=role)');
       var account = accounts.value.first;
       if (accounts.value.isNotEmpty && account.accountRoles!.where((ar) => ar.role!.name == "Admin" || ar.role!.name == "Staff" && ar.status == "Active").isNotEmpty) {
@@ -289,10 +291,6 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           await PrefUtils().setRole('Staff');
         }
-        // Save token
-        var token = await FirebaseAuth.instance.currentUser!.getIdToken();
-
-        await PrefUtils().setToken(token!);
         MyApp.refreshRoutes(context);
         // Navigator
         ProgressDialogUtils.hideProgress(context);
